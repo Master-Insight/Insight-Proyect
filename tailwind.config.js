@@ -1,4 +1,4 @@
-import { tailwindColors } from './config/tailwind';
+import { tailwindExtend } from './config/tailwind.js';
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -7,8 +7,9 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: tailwindColors,
+    extend: tailwindExtend,
   },
-  plugins: [],
+  plugins: [
+  ],
 }
 

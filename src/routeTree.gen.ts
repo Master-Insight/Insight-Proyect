@@ -101,19 +101,19 @@ export const routeTree = rootRoute
 {
   "routes": {
     "__root__": {
-      "filePath": "__root.tsx",
+      "filePath": "__root.jsx",
       "children": [
         "/_public"
       ]
     },
     "/_public": {
-      "filePath": "_public.tsx",
+      "filePath": "_public.jsx",
       "children": [
         "/_public/"
       ]
     },
     "/_public/": {
-      "filePath": "_public/index.tsx",
+      "filePath": "_public/index.jsx",
       "parent": "/_public"
     }
   }
