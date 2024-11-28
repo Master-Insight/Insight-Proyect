@@ -3,7 +3,6 @@ import SocialLinkLI from '../Social/SocialLinkLI';
 
 
 const Footer01 = ({ config }) => {
-  console.log(config);
   const year = new Date().getFullYear() || 2024;
 
   return (
