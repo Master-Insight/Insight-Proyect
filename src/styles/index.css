@@ -10,3 +10,9 @@
   justify-content: space-between;
   align-items: center;
 }
+
+@layer base {
+  html {
+    font-family: "Roboto", system-ui, sans-serif;
+  }
+}
