@@ -13,6 +13,7 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as PublicImport } from './routes/_public'
 import { Route as PublicIndexImport } from './routes/_public/index'
+import { Route as PublicLoginImport } from './routes/_public/login'
 
 // Create/Update Routes
 
@@ -27,6 +28,12 @@ const PublicIndexRoute = PublicIndexImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const PublicLoginRoute = PublicLoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => PublicRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -37,6 +44,13 @@ declare module '@tanstack/react-router' {
       fullPath: ''
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
+    }
+    '/_public/login': {
+      id: '/_public/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof PublicLoginImport
+      parentRoute: typeof PublicImport
     }
     '/_public/': {
       id: '/_public/'
@@ -51,10 +65,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface PublicRouteChildren {
+  PublicLoginRoute: typeof PublicLoginRoute
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicLoginRoute: PublicLoginRoute,
   PublicIndexRoute: PublicIndexRoute,
 }
 
@@ -63,25 +79,28 @@ const PublicRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof PublicRouteWithChildren
+  '/login': typeof PublicLoginRoute
   '/': typeof PublicIndexRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof PublicLoginRoute
   '/': typeof PublicIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_public': typeof PublicRouteWithChildren
+  '/_public/login': typeof PublicLoginRoute
   '/_public/': typeof PublicIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/'
+  fullPaths: '' | '/login' | '/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_public' | '/_public/'
+  to: '/login' | '/'
+  id: '__root__' | '/_public' | '/_public/login' | '/_public/'
   fileRoutesById: FileRoutesById
 }
 
@@ -109,8 +128,13 @@ export const routeTree = rootRoute
     "/_public": {
       "filePath": "_public.jsx",
       "children": [
+        "/_public/login",
         "/_public/"
       ]
+    },
+    "/_public/login": {
+      "filePath": "_public/login.jsx",
+      "parent": "/_public"
     },
     "/_public/": {
       "filePath": "_public/index.jsx",
