@@ -1,6 +1,6 @@
 import React from 'react'
-import SocialLinkLI from '../Social/SocialLinkLI';
-
+import SocialLinkLI from '../ui/Social/SocialLinkLI';
+import PropTypes from 'prop-types';
 
 const Footer01 = ({ config }) => {
   const year = new Date().getFullYear() || 2024;
@@ -9,7 +9,7 @@ const Footer01 = ({ config }) => {
     <footer className="bg-gray-100 w-full">
       <div className="mx-auto px-4 pb-6 pt-16 sm:px-6 lg:px-8 lg:pt-24">
         {/* Upper */}
-        <div class="flex flex-col gap-8 lg:flex-row lg:justify-between">
+        <div className="flex flex-col gap-8 md:flex-row md:justify-between">
           {/* Logo */}
           <div>
             {/* Logo */}
@@ -30,7 +30,7 @@ const Footer01 = ({ config }) => {
           </div>
 
           {/* Map */}
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 md:grid-cols-3 lg:col-span-2">
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3 lg:col-span-2">
             {/* Navegacion 1 */}
             <div className="text-center sm:text-left">
               <p className="text-lg font-medium text-gray-900">Navegación</p>
@@ -172,5 +172,19 @@ const Footer01 = ({ config }) => {
 
   )
 }
+
+Footer01.propTypes = {
+  config: PropTypes.shape({
+    images: PropTypes.string,
+    info: PropTypes.string,
+    social: PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string,
+        href: PropTypes.string,
+        icon: PropTypes.string,
+      })
+    ),
+  }),
+};
 
 export default Footer01

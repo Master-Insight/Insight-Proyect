@@ -1,18 +1,20 @@
-import * as React from 'react'
 import { createFileRoute, Outlet } from '@tanstack/react-router'
-import Footer01 from '../ui/Layout/Footer01'
+import Footer01 from '../Layout/Footer01'
 import company from '../../config/company'
+import NavBar from '../Layout/navbar/Navbar'
+import config from '../../config/layout'
 
 export const Route = createFileRoute('/_public')({
   component: RouteComponent,
 })
 
 function RouteComponent() {
+  const navLinks = config.navbar.default
+  // console.log("Layout: ", navLinks);
+
   return (
     <>
-      <header>
-        <p>header</p>
-      </header>
+      <NavBar navLinks={navLinks} />
       <Outlet />
       <Footer01 config={company} />
     </>
