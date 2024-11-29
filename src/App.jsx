@@ -4,6 +4,7 @@ import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Spinner from './ui/loading/Spinner'
+import Error404 from './Layout/Error404'
 
 const queryClient = new QueryClient()
 function App() {
@@ -16,6 +17,7 @@ function App() {
         },
         defaultPreload: 'intent',
         defaultPreloadStaleTime: 0,
+        defaultNotFoundComponent: () => Error404,
       }),
     []
   )

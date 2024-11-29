@@ -175,8 +175,17 @@ const Footer01 = ({ config }) => {
 
 Footer01.propTypes = {
   config: PropTypes.shape({
-    images: PropTypes.string,
-    info: PropTypes.string,
+    images: PropTypes.shape({
+      logo: PropTypes.arrayOf(
+        PropTypes.string,
+      ),
+    }),
+    info: PropTypes.shape({
+      name: PropTypes.string,
+      description: PropTypes.string,
+      address: PropTypes.string,
+      whatsapp: PropTypes.string,
+    }),
     social: PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string,
