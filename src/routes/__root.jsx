@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import { Outlet, createRootRouteWithContext } from '@tanstack/react-router'
 import Error404 from '../Layout/Error404'
 
-export const Route = createRootRoute({
+export const Route = createRootRouteWithContext()({
   component: RootComponent,
   notFoundComponent: Error404,
 })

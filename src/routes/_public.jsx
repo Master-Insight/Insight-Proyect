@@ -5,6 +5,9 @@ import NavBar from '../Layout/navbar/Navbar'
 import config from '../../config/layout'
 
 export const Route = createFileRoute('/_public')({
+  loader: ({ context }) => {
+    console.log(context.user)
+  },
   component: RouteComponent,
 })
 
