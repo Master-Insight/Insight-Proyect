@@ -6,7 +6,7 @@ import config from '../../config/layout'
 
 export const Route = createFileRoute('/_public')({
   loader: ({ context }) => {
-    console.log(context.user)
+    console.log("Public: ", context.currentUser)
   },
   component: RouteComponent,
 })

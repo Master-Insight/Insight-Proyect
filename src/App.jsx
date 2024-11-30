@@ -1,39 +1,61 @@
 import { useEffect, useMemo, useState } from 'react'
+
 import { routeTree } from './routeTree.gen'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import Spinner from './ui/loading/Spinner'
 import Error404 from './Layout/Error404'
-import { useAppStore } from './store/useAppStore'
+
+import useAuthStore from './store/useAuthStore'
+import myAxios from './api/axiosInstance'
 
 const queryClient = new QueryClient()
 
 function App() {
-  const [user, setUser] = useState({ name: 'public' })
-  const { isTokenExpired, clearToken } = useAppStore()
+  // const [currentUser, setCurrentUser] = useState({ name: 'public' })
+  const { accessToken, clearAccessToken } = useAuthStore(); // Accedemos al token
+  const [currentUser, setCurrentUser] = useState(null); // Estado para el usuario
 
+  // Efecto para obtener el usuario actual al iniciar la app o cambiar el token
   useEffect(() => {
-    if (isTokenExpired()) {
-      setUser(null)
-      clearToken()
-    }
-  }, [isTokenExpired, clearToken])
+    const fetchCurrentUser = async () => {
+      if (!accessToken) {
+        console.log('No hay token, usuario no autenticado');
+        setCurrentUser({ name: 'public' });
+        return;
+      }
+
+      try {
+        console.log('Obteniendo usuario con el token:', accessToken);
+        const response = await myAxios.get('/v1/users/current');
+        console.log('Usuario autenticado:', response.data);
+        setCurrentUser(response.data);
+      } catch (error) {
+        console.error('Error al obtener el usuario:', error);
+        clearAccessToken();
+        setCurrentUser({ name: 'public' });
+      }
+    };
+
+    fetchCurrentUser();
+  }, [accessToken, clearAccessToken]);
 
   const router = useMemo(
     () =>
       createRouter({
         routeTree,
         context: {
-          user: user,
-          setUser: setUser,
+          currentUser,
+          setCurrentUser,
           queryClient,
         },
         defaultPreload: 'intent',
         defaultPreloadStaleTime: 0,
         defaultNotFoundComponent: () => Error404,
       }),
-    []
+    [currentUser]
   )
 
   if (!router) {
