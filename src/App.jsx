@@ -8,7 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import Spinner from './ui/loading/Spinner'
 import Error404 from './Layout/Error404'
 
-import useFetchCurrentUser from './hooks/useFetchCurrentUser'
+import useFetchCurrentUser from './modules/auth/hooks/useFetchCurrentUser'
 
 const queryClient = new QueryClient()
 

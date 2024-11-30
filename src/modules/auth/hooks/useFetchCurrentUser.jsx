@@ -1,8 +1,8 @@
 // src/hooks/useFetchCurrentUser.js
 import { useEffect, useState } from 'react';
-import myAxios from '../api/axiosInstance'; // Ajusta el path si es necesario
-import config from '../../config/layout'; // Ajusta el path si es necesario
-import useAuthStore from '../store/useAuthStore'; // Ajusta el path si es necesario
+import myAxios from '../../../api/axiosInstance'; // Ajusta el path si es necesario
+import config from '../../../../config/layout'; // Ajusta el path si es necesario
+import useAuthStore from '../../../store/useAuthStore'; // Ajusta el path si es necesario
 
 const useFetchCurrentUser = () => {
   const { accessToken, clearAccessToken } = useAuthStore(); // Acceso al token desde el store

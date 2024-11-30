@@ -4,7 +4,7 @@ import { formOptions, useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { useNavigate } from '@tanstack/react-router';
-import useAuthApi from './useAuthApi';
+import useAuthApi from './hooks/useAuthApi';
 import Frame from '../../ui/Divs/Frame';
 import AuthLinkedIn from './authLinkedIn';
 
