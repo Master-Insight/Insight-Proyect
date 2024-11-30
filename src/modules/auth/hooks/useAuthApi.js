@@ -5,7 +5,7 @@ import useAuthStore from "../../../store/useAuthStore";
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { setAccessToken } = useAuthStore(); // Para manejar el token
+  const { setAccessToken, clearAccessToken } = useAuthStore(); // Para manejar el token
 
   async function authenticate(option, credentials, navigate) {
     setLoading(true);
@@ -35,12 +35,33 @@ export default function useAuthApi() {
     }
   }
 
+  async function logout(navigate) {
+    setLoading(true);
+    setError(null);
+
+    try {
+      // Limpiar token y usuario
+      clearAccessToken();
+
+      // Navegar al login o página pública
+      navigate({ to: "/login" });
+
+      console.log("Logout successful"); // Notificación de éxito (reemplazar si es necesario)
+    } catch (error) {
+      setError("Failed to logout");
+      console.error("Logout error:", error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   return {
     loading,
     error,
     setError,
     login: (credentials, navigate) => authenticate('login', credentials, navigate),
-    //register: (credentials, navigate) => authenticate('register', credentials, navigate),
+    register: (credentials, navigate) => authenticate('register', credentials, navigate),
+    logout,
   }
 }
 
