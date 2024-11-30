@@ -6,14 +6,18 @@ import Footer01 from '../Layout/Footer01'
 import company from '../../config/company'
 
 export const Route = createFileRoute('/_private')({
-  beforeLoad: ({ currentUser }) => {
+  // TODO Corregir cuando se Hace F5 y estas en Private, debe seguir ne Private
+  beforeLoad: async ({ context }) => {
+    console.log("context: ", context);
+
+    const currentUser = context.currentUser
     if (!currentUser || currentUser.data.given_name === 'public') {
       console.log('Acceso denegado, redirigiendo a /login');
       throw redirect({ to: '/login', });
     }
     console.log('Acceso permitido');
   },
-  loader: ({ context }) => {
+  loader: async ({ context }) => {
     console.log("Privated: ", context.currentUser)
     return context.currentUser
   },

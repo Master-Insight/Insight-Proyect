@@ -15,9 +15,18 @@ import config from '../config/layout'
 const queryClient = new QueryClient()
 
 function App() {
-  // const [currentUser, setCurrentUser] = useState({ data: {given_name: 'public'} })
-  const { accessToken, clearAccessToken } = useAuthStore(); // Accedemos al token
-  const [currentUser, setCurrentUser] = useState(null); // Estado para el usuario
+  // Context User (precarga localstorage) - Evita F5 en publico
+  const [currentUser, setCurrentUser] = useState(() => {
+    const savedUser = localStorage.getItem('currentUser');
+    return savedUser ? JSON.parse(savedUser) : config.publicUser;
+  });
+
+  // Actualizar localStorage al cambiar el usuario actual
+  useEffect(() => {
+    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+  }, [currentUser]);
+
+  const { accessToken, clearAccessToken } = useAuthStore(); // Acceso token
 
   // Efecto para obtener el usuario actual al iniciar la app o cambiar el token
   useEffect(() => {
