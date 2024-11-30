@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createFileRoute } from '@tanstack/react-router'
-import useAuthStore from '../../store/useAuthStore'
+import useAuthStore from '../../modules/auth/store/useAuthStore'
 import myAxios from '../../api/axiosInstance'
 
 export const Route = createFileRoute('/_public/task')({

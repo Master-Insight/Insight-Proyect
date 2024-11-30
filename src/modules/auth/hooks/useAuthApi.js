@@ -1,6 +1,6 @@
 import { useState } from "react"
 import myAxios from "../../../api/axiosInstance";
-import useAuthStore from "../../../store/useAuthStore";
+import useAuthStore from "../store/useAuthStore";
 
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
