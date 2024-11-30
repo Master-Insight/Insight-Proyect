@@ -7,7 +7,7 @@ import company from '../../config/company'
 
 export const Route = createFileRoute('/_private')({
   beforeLoad: ({ currentUser }) => {
-    if (!currentUser || currentUser.name === 'public') {
+    if (!currentUser || currentUser.data.given_name === 'public') {
       console.log('Acceso denegado, redirigiendo a /login');
       throw redirect({ to: '/login', });
     }
@@ -21,6 +21,7 @@ export const Route = createFileRoute('/_private')({
 })
 
 function RouteComponent() {
+
   const data = Route.useLoaderData()
   console.log(data);
 

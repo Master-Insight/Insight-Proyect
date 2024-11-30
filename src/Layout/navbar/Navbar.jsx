@@ -1,6 +1,7 @@
 // import NavUser from "./NavUser";
 import NavMenu from "./NavMenu";
 import PropTypes from 'prop-types';
+import NavUser from "./NavUser";
 
 function NavBar({ type = 'public', navLinks }) {
   // console.log("NavBar: ", navLinks);
@@ -52,7 +53,8 @@ function NavBar({ type = 'public', navLinks }) {
           </div>
 
           {/* Componente del usuario logueado */}
-          {/* <NavUser /> */}
+          <NavUser />
+
         </div>
       </div>
 

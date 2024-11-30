@@ -9,6 +9,12 @@ const config = {
       { name: 'Logout', path: '/logout' },
     ],
   },
+  publicUser: {
+    data: {
+      given_name: 'public', // Este dato se verifica en private
+      full_name: 'Usuario no logueado'
+    }
+  }
 }
 
 export default config
