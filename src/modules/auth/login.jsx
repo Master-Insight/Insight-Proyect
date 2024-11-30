@@ -1,3 +1,5 @@
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react/prop-types */
 import { formOptions, useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -8,7 +10,7 @@ import AuthLinkedIn from './authLinkedIn';
 
 // Definición del esquema de validación usando Zod
 const loginSchema = z.object({
-  email: z.string().email('Debe ser un correo electrónico válido').nonempty('El correo electrónico es obligatorio'),
+  email: z.string().email('Debe ser un correo electrónico válido').min(1, 'El correo electrónico es obligatorio'),
   password: z.string().min(5, 'La contraseña debe tener al menos 5 caracteres'),
 });
 
@@ -21,6 +23,7 @@ const formOpts = formOptions({
   resolver: zodValidator(loginSchema),
 });
 
+// Componente para mostrar información de un campo del formulario
 function FieldInfo({ field }) {
   return (
     <>
@@ -34,15 +37,16 @@ function FieldInfo({ field }) {
   );
 }
 
+// Componente para el formulario de login
 export default function Login() {
-  const navigate = useNavigate({from: '/login'});
-  const {error, setError, login} = useAuthApi()
-  
+  const navigate = useNavigate({ from: '/login' });
+  const { error, setError, login } = useAuthApi()
+
   const form = useForm({
     ...formOpts,
     onSubmit: async ({ value }) => {
-      const {email, password} = value
-      await login({email, password}, navigate);
+      const { email, password } = value
+      await login({ email, password }, navigate);
     },
   });
 
@@ -51,10 +55,10 @@ export default function Login() {
       <div className="w-full max-w-sm p-8 bg-white shadow-md rounded-lg flex flex-col items-center">
         <p className="text-xl font-semibold mb-6 text-gray-700" >{error}</p>
         <button
-            onClick={()=>setError(null)}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            Re intentar
+          onClick={() => setError(null)}
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        >
+          Re intentar
         </button>
       </div>
     </div>)
@@ -117,11 +121,10 @@ export default function Login() {
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className={`${
-                    !canSubmit
-                      ? 'bg-gray-400'
-                      : 'bg-indigo-600 hover:bg-indigo-700'
-                  } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
+                  className={`${!canSubmit
+                    ? 'bg-gray-400'
+                    : 'bg-indigo-600 hover:bg-indigo-700'
+                    } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                 >
                   {isSubmitting ? 'Enviando...' : 'Ingresar'}
                 </button>
@@ -136,7 +139,7 @@ export default function Login() {
             )}
           />
         </form>
-        <AuthLinkedIn/>
+        <AuthLinkedIn />
       </div>
     </Frame>
   );

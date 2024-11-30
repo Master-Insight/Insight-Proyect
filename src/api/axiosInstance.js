@@ -13,10 +13,7 @@ const myAxios = axios.create({
 myAxios.interceptors.request.use((config) => {
   const token = useAuthStore.getState().accessToken;
 
-  if (token) {
-    console.log('Incluyendo token en el header:', token);
-    config.headers.Authorization = `Bearer ${token}`;
-  }
+  if (token) { config.headers.Authorization = `Bearer ${token}`; }
 
   return config;
 }, (error) => {

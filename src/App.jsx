@@ -28,7 +28,7 @@ function App() {
       }
 
       try {
-        console.log('Obteniendo usuario con el token:', accessToken);
+        // console.log('Obteniendo usuario con el token:', accessToken);
         const response = await myAxios.get('/v1/users/current');
         console.log('Usuario autenticado:', response.data);
         setCurrentUser(response.data);

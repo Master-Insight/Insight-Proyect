@@ -1,13 +1,11 @@
 import { useState } from "react"
-//import { useAppStore } from "../../../store/useAppStore";
-import axiosInstance from "../../api/axiosInstance";
+import myAxios from "../../api/axiosInstance";
+import useAuthStore from "../../store/useAuthStore";
 
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  //const { login: signIn, getUser } = useAppStore();
-  function signIn () {}
-  function getUser () {}
+  const { setAccessToken } = useAuthStore(); // Para manejar el token
 
   async function authenticate(option, credentials, navigate) {
     setLoading(true);
@@ -15,14 +13,17 @@ export default function useAuthApi() {
     const url = option === 'login' ? '/v1/auth/login' : '/v1/auth/register';
 
     try {
-      const response = await axiosInstance.post(url, credentials);
+      const response = await myAxios.post(url, credentials);
       const data = response.data;
 
       if (data?.isError) throw new Error(data.message);
 
       const token = data.data.token;
-      await signIn(token);
-      await getUser()
+      setAccessToken(token); // Guardar el token en el store
+
+      // Obtener y establecer el usuario actual
+      getCurrentUser()
+
       navigate({ to: '/profile' });
 
       console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message); // <------------ Reemplazar por Notificacion
@@ -39,6 +40,10 @@ export default function useAuthApi() {
     error,
     setError,
     login: (credentials, navigate) => authenticate('login', credentials, navigate),
-    register: (credentials, navigate) => authenticate('register', credentials, navigate),
+    //register: (credentials, navigate) => authenticate('register', credentials, navigate),
   }
+}
+
+export async function getCurrentUser() {
+  return await myAxios.get("/v1/users/current");
 }
