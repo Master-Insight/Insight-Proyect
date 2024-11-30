@@ -5,14 +5,8 @@ const useAuthStore = create(
   persist(
     (set) => ({
       accessToken: null,
-      setAccessToken: (token) => {
-        console.log('Token almacenado:', token);
-        set({ accessToken: token });
-      },
-      clearAccessToken: () => {
-        console.log('Token eliminado');
-        set({ accessToken: null });
-      },
+      setAccessToken: (token) => set({ accessToken: token }),
+      clearAccessToken: () => set({ accessToken: null }),
     }),
     {
       name: 'auth-storage', // Nombre de la clave en localStorage
