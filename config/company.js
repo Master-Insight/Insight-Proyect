@@ -1,3 +1,5 @@
+// los iconos son de https://icon-sets.iconify.design/
+
 const company = {
   // Información de la empresa
   info: {
