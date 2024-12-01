@@ -5,7 +5,7 @@ const config = {
       { name: 'Login', path: '/login' },
       { name: 'Profile', path: '/profile' },
       { name: 'Proyectos', path: '/projects' },
-      { name: 'Tareas', path: '/task' },
+      //{ name: 'Tareas', path: '/task' },
       { name: 'Logout', path: '/logout' },
     ],
   },

@@ -4,6 +4,7 @@ import config from '../../config/layout'
 import NavBar from '../Layout/navbar/Navbar'
 import Footer01 from '../Layout/Footer01'
 import company from '../../config/company'
+import { alertMessage } from '../ui/messages/alerts'
 
 export const Route = createFileRoute('/_private')({
   // TODO Corregir cuando se Hace F5 y estas en Private, debe seguir ne Private
@@ -12,10 +13,9 @@ export const Route = createFileRoute('/_private')({
 
     const currentUser = context.currentUser
     if (!currentUser || currentUser.data.given_name === 'public') {
-      console.log('Acceso denegado, redirigiendo a /login');
+      alertMessage("Acceso denegado", "error", 2);
       throw redirect({ to: '/login', });
     }
-    console.log('Acceso permitido');
   },
   loader: async ({ context }) => {
     console.log("Privated: ", context.currentUser)
@@ -27,7 +27,6 @@ export const Route = createFileRoute('/_private')({
 function RouteComponent() {
 
   const data = Route.useLoaderData()
-  console.log(data);
 
   const navLinks = config.navbar.default
   // console.log("Layout: ", navLinks);

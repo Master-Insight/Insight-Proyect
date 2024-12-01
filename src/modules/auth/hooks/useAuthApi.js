@@ -1,6 +1,7 @@
 import { useState } from "react"
 import myAxios from "../../../api/axiosInstance";
 import useAuthStore from "../store/useAuthStore";
+import { alertMessage } from "../../../ui/messages/alerts";
 
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
@@ -26,7 +27,8 @@ export default function useAuthApi() {
 
       navigate({ to: '/profile' });
 
-      console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message); // <------------ Reemplazar por Notificacion
+      //console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message);
+      alertMessage(`${option === 'login' ? 'Login' : 'Register'} exitoso`, "success", 2);
 
     } catch (error) {
       setError(error.response?.data?.message || 'Authentication failed');
@@ -46,11 +48,13 @@ export default function useAuthApi() {
       // Navegar al login o página pública
       navigate({ to: "/login" });
 
-      console.log("Logout successful"); // Notificación de éxito (reemplazar si es necesario)
+      //console.log("Logout successful");
+
     } catch (error) {
       setError("Failed to logout");
       console.error("Logout error:", error);
     } finally {
+      alertMessage("Cierre de sesión exitoso", "warning", 2);
       setLoading(false);
     }
   }
