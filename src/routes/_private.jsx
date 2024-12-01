@@ -9,8 +9,6 @@ import { alertMessage } from '../ui/messages/alerts'
 export const Route = createFileRoute('/_private')({
   // TODO Corregir cuando se Hace F5 y estas en Private, debe seguir ne Private
   beforeLoad: async ({ context }) => {
-    console.log("context: ", context);
-
     const currentUser = context.currentUser
     if (!currentUser || currentUser.data.given_name === 'public') {
       alertMessage("Acceso denegado", "error", 2);

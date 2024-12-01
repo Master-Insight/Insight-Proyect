@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { projectsQueryOptions } from '../../../data/DataProjects';
+import { projectsQueryOptions } from '../../../data/Projects.Data';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import CardProject from '../../../modules/projects/Card.Projects';
 import Frame from '../../../ui/Divs/Frame';

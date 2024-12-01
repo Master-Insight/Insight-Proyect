@@ -109,9 +109,6 @@ SectionWFilters.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired, // ID único de cada elemento
-      contributedBy: PropTypes.shape({
-        _id: PropTypes.string.isRequired, // ID del usuario que contribuyó
-      }),
       // Puedes agregar más propiedades aquí según los elementos
     })
   ).isRequired,
