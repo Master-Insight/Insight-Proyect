@@ -1,11 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { projectByIdQueryOptions } from '../../../data/Projects.Data'
-import { tasksQueryOptions } from '../../../data/Tasks.Data'
+import { tasksQueryOptions, useDeleteTaskMutation, usePostTaskMutation } from '../../../data/Tasks.Data'
 import SectionWFilters from '../../../ui/sections/Section.Filter'
 import Frame from '../../../ui/Divs/Frame'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import CardTask from '../../../modules/tasks/Card.Tasks'
-import BackButton from '../../../ui/buttons/BackButton2'
+import { z } from 'zod'
+import { TASK_PRIORITY, TASK_STATUS } from '../../../modules/tasks/mapValues'
 
 export const Route = createFileRoute('/_private/projects/$projectId')({
   loader: async ({ context: { queryClient }, params: { projectId } }) => {
@@ -20,7 +21,7 @@ export const Route = createFileRoute('/_private/projects/$projectId')({
 })
 
 function RouteComponent() {
-  const { currentUser } = Route.useRouteContext()
+  const { currentUser, queryClient } = Route.useRouteContext()
   const projectId = Route.useParams().projectId
 
   const projectQuery = useSuspenseQuery(projectByIdQueryOptions(projectId))
@@ -28,16 +29,97 @@ function RouteComponent() {
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
 
-  console.log("data: ", project);
+  console.log("project: ", project);
   console.log("tasks: ", tasks);
+
+  // Mutaciones QUERY
+  const postMutation = usePostTaskMutation(queryClient);
+  // const updateMutation = useUpdateTaskMutation(queryClient)
+  const deleteMutation = useDeleteTaskMutation(queryClient);
 
   const config = {
     filters: [],
     activeFilter: {},
-    fields: [],
+    fields: [
+      {
+        name: "title",
+        label: "Titulo",
+        icon: "mdi:bookmark-outline",
+        type: "text",
+        validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres"),
+        default: "Aquí va un titulo",
+      },
+      {
+        name: "description",
+        label: "Descripción",
+        icon: "lineicons:clipboard",
+        type: "textarea",
+        validation: z.string(),
+        default: "Contar que hace",
+      },
+      {
+        name: "projectId",
+        label: "Id Proyecto",
+        type: "text",
+        noEditable: true,
+        default: projectId,
+      },
+      {
+        name: "assignedTo",
+        label: "Asignado a",
+        type: "array",
+        itemType: "select",
+        noEditable: true,
+        enum: ["users"],
+        default: []
+      },
+      {
+        name: "status",
+        label: "Estado",
+        icon: "lets-icons:status",
+        type: "select",
+        itemType: "text",
+        enum: TASK_STATUS,
+        default: TASK_STATUS[0],
+      },
+      {
+        name: "teststatus",
+        label: "Estado del Testeo",
+        icon: "lets-icons:status",
+        type: "select",
+        itemType: "text",
+        enum: TASK_STATUS,
+        default: TASK_STATUS[1],
+      },
+      {
+        name: "priority",
+        label: "Prioridad",
+        icon: "ic:round-priority-high",
+        type: "select",
+        itemType: "text",
+        enum: TASK_PRIORITY,
+        default: TASK_PRIORITY[1],
+      },
+    ],
     card: CardTask,
     currentUserId: currentUser._id,
-    actions: {},
+    actions: {
+      postApi: async function (value) {
+        await postMutation.mutateAsync(value);
+      },
+      putApi: async function (predata) {
+        console.log("predata: ", predata);
+        // const id = predata._id;
+        // const data = {};
+        // if (predata.title) data.title = predata.title;
+        // if (predata.description) data.description = predata.description;
+        // if (predata.users) data.users = predata.users.map(user => user._id);
+        // await updateMutation.mutateAsync({ pId: id, data });
+      },
+      delApi: async function (id) {
+        await deleteMutation.mutateAsync(id);
+      },
+    },
   }
 
   return (
