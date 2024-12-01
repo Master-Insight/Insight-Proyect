@@ -13,10 +13,15 @@ import ActionModal from "../modal/ActionModal";
 const SectionWFilters = ({
   title,
   data,
-  isFilterPending,
-  isElementPending,
-  config,
-  filter
+  isFilterPending = false,
+  isElementPending = false,
+  config = {
+    activeFilter: {},
+    filters: [],
+    fields: [],
+    actions: {}
+  },
+  filter = true,
 }) => {
 
   const [filteredData, setFilteredData] = useState(data);
@@ -122,24 +127,10 @@ SectionWFilters.propTypes = {
     ), // Configuración de los filtros
     fields: PropTypes.arrayOf(PropTypes.object), // Campos para el modal
     actions: PropTypes.shape({
-      postApi: PropTypes.func.isRequired, // Función API para agregar un nuevo elemento
+      postApi: PropTypes.func, // Función API para agregar un nuevo elemento
     }),
   }).isRequired,
   filter: PropTypes.bool // muestra o no los filtros
-};
-
-SectionWFilters.defaultProps = {
-  isFilterPending: false,
-  isElementPending: false,
-  config: {
-    activeFilter: {},
-    filters: [],
-    fields: [],
-    actions: {
-      postApi: () => { },
-    },
-  },
-  filter: true
 };
 
 export default SectionWFilters;
