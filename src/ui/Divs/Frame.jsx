@@ -1,16 +1,19 @@
-import BackButton from '../buttons/BackButton'
+
 import PropTypes from 'prop-types';
+import BackButton from '../buttons/BackButton2';
 
 const Frame = ({
-  children, redirect = null, css = 'w-full max-w-4xl',
+  children, back = false, css = 'w-full max-w-4xl',
 }) => {
 
+  css = back ? (css + " pt-18 p-6 mt-1") : (css + " p-6 mt-1")
+
   return (
-    <div className={`relative mt-1 p-6 min-h-screen bg-gray-50 ${css}`} >
-      {redirect && <BackButton to={redirect} />
+    <div className={`relative min-h-screen bg-gray-50 ${css}`} >
+      {back && <BackButton />
       }
       <div className="">
-        <div className={`mx-auto p-8 bg-white shadow-xl min-h-[80vh] rounded-lg overflow-hidden `}>
+        <div className="mx-auto p-8 bg-white shadow-xl min-h-[80vh] rounded-lg overflow-hidden ">
           {children}
         </div>
       </div>
@@ -20,7 +23,7 @@ const Frame = ({
 
 Frame.propTypes = {
   children: PropTypes.node.isRequired, // Los children deben ser elementos válidos de React
-  redirect: PropTypes.string, // Una URL o path como string
+  back: PropTypes.bool, // Un booleano que habilita el botón volver atras
   css: PropTypes.string, // Clases CSS adicionales como string
 };
 

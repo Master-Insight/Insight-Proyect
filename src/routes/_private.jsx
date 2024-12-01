@@ -7,7 +7,6 @@ import company from '../../config/company'
 import { alertMessage } from '../ui/messages/alerts'
 
 export const Route = createFileRoute('/_private')({
-  // TODO Corregir cuando se Hace F5 y estas en Private, debe seguir ne Private
   beforeLoad: async ({ context }) => {
     const currentUser = context.currentUser
     if (!currentUser || currentUser.data.given_name === 'public') {

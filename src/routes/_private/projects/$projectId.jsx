@@ -5,6 +5,7 @@ import SectionWFilters from '../../../ui/sections/Section.Filter'
 import Frame from '../../../ui/Divs/Frame'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import CardTask from '../../../modules/tasks/Card.Tasks'
+import BackButton from '../../../ui/buttons/BackButton2'
 
 export const Route = createFileRoute('/_private/projects/$projectId')({
   loader: async ({ context: { queryClient }, params: { projectId } }) => {
@@ -40,10 +41,9 @@ function RouteComponent() {
   }
 
   return (
-    <Frame css={'w-full mx-5'}>
-      <h2 className='text-3xl font-bold mb-8'>Proyecto: {project.title}</h2>
+    <Frame back={true} css={'w-full mx-5'}>
       <SectionWFilters
-        title={`Tareas`}
+        title={`Proyecto 📔: ${project.title} - Tareas 📄`}
         data={tasks}
         config={config}
         filter={false}

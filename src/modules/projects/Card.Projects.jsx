@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { Link } from '@tanstack/react-router'
+import ActionModal from '../../ui/modal/ActionModal';
 
 const CardProject = ({ item, config }) => {
   return (
@@ -13,10 +14,26 @@ const CardProject = ({ item, config }) => {
         <p className="text-sm text-gray-500">{item.description}</p>
       </div>
 
-      {/* Botónes abrir*/}
-      <Link to={`/projects/${item._id}`} rel="noopener noreferrer" className="text-blue-600 underline">
-        Ver proyecto
-      </Link>
+      {/* Area de Botones*/}
+      <div className="flex space-x-4 mb-4">
+        {/* Botónes abrir*/}
+        <Link to={`/projects/${item._id}`} rel="noopener noreferrer" className="px-4 py-2 bg-primary hover:bg-primary-darker text-white rounded-md transition-all">
+          Ver proyecto
+        </Link>
+
+        {/* Botónes editar*/}
+        <ActionModal
+          title={"Editar"}
+          fields={config.fields}
+          functionApi={config.actions.putApi}
+          defaultValues={item}
+        />
+
+        {/* Botónes eliminar*/}
+        <button onClick={() => config.actions.delApi(item._id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
+          Eliminar
+        </button>
+      </div>
     </div>
   )
 }

@@ -101,7 +101,7 @@ const fields = [
  * Subcomponente para renderizar los campos dinámicos del formulario.
 */
 const DynamicField = ({ field, form, parentName }) => {
-  const { name, label, icon: Icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
+  const { name, label, icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
 
   if (noEditable) { return }
 
@@ -116,7 +116,7 @@ const DynamicField = ({ field, form, parentName }) => {
         return (
           <div className="my-3">
             <label htmlFor={fieldName} className="block mb-2 text-gray-700">
-              {Icon && <Icon className="inline-block mr-2" />}
+              {icon && <Icon icon={icon} className="inline-block mr-2" />}
               <span dangerouslySetInnerHTML={{ __html: label }} />:
             </label>
 
@@ -310,7 +310,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues }) => {
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
+        className="px-4 py-2 bg-primary text-white rounded-md flex items-center hover:bg-primary-darker transition-all">
         {title}
         <Icon icon={icons.plus} className="ml-2" />
       </button>

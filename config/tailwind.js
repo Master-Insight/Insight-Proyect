@@ -70,6 +70,9 @@ export const tailwindExtend = {
     "128": "32rem",
     "136": "34rem",
     "144": "36rem",
+  },
+  padding: {
+    "18": "4.5rem",
   }
 }
 
