@@ -1,14 +1,14 @@
-import { useNavigate } from "@tanstack/react-router";
 import useAuthApi from './hooks/useAuthApi';
 import Frame from "../../ui/Divs/Frame";
+import config from '../../../config/layout';
 
-export function LogOut() {
-  const navigate = useNavigate({ from: '/logout' });
+export function LogOut({navigate}) {
+    // const navigate = useNavigate({ from: '/logout' });
   const { logout } = useAuthApi() //error, setError,
 
   const handleLogout = async () => {
     try {
-      logout();
+      logout(navigate);
 
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
@@ -29,7 +29,7 @@ export function LogOut() {
               Cerrar sesión
             </button>
             <button
-              onClick={() => navigate({ to: '/private' })}
+              onClick={() => navigate({ to: config.path.login })}
               className="text-indigo-600 hover:underline"
             >
               Cancelar

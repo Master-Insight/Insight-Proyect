@@ -24,16 +24,15 @@ export default function useAuthApi() {
       setAccessToken(token); // Guardar el token en el store
       
       // Obtener y establecer el usuario actual
-      getCurrentUser()
+      await getCurrentUser()
       
-      navigate({ to: config.path.login });
-
       //console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message);
       alertMessage(`${option === 'login' ? 'Login' : 'Register'} exitoso`, "success", 2);
-
+      
     } catch (error) {
       setError(error.response?.data?.message || 'Authentication failed');
     } finally {
+      navigate({ to: config.path.login });
       setLoading(false);
     }
   }

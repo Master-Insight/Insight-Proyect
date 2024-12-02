@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, useNavigate } from '@tanstack/react-router'
 import { LogOut } from '../../modules/auth/logout'
 
 export const Route = createFileRoute('/_private/logout')({
@@ -6,5 +6,7 @@ export const Route = createFileRoute('/_private/logout')({
 })
 
 function RouteComponent() {
-  return <LogOut />
+  const navigate = Route.useNavigate({ from: '/logout' });
+
+  return <LogOut navigate={navigate} />
 }

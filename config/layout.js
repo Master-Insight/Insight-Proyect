@@ -3,9 +3,9 @@ const config = {
     default: [
       { name: 'Home', path: '/' },
       { name: 'Login', path: '/login' },
-      { name: 'Profile', path: '/profile' },
+    ],
+    private: [
       { name: 'Proyectos', path: '/projects' },
-      //{ name: 'Tareas', path: '/task' },
       { name: 'Logout', path: '/logout' },
     ],
   },

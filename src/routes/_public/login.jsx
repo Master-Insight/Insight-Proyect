@@ -7,5 +7,6 @@ export const Route = createFileRoute('/_public/login')({
 })
 
 function RouteComponent() {
-  return <Login/>
+  const navigate = Route.useNavigate({ from: '/login' });
+  return <Login navigate={navigate} />
 }

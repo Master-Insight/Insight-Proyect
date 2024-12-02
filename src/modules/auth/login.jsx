@@ -3,7 +3,6 @@
 import { formOptions, useForm } from '@tanstack/react-form';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
-import { useNavigate } from '@tanstack/react-router';
 import useAuthApi from './hooks/useAuthApi';
 import Frame from '../../ui/Divs/Frame';
 import AuthLinkedIn from './authLinkedIn';
@@ -38,8 +37,7 @@ function FieldInfo({ field }) {
 }
 
 // Componente para el formulario de login
-export default function Login() {
-  const navigate = useNavigate({ from: '/login' });
+export default function Login({navigate}) {
   const { error, setError, login } = useAuthApi()
 
   const form = useForm({

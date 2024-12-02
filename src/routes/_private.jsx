@@ -25,7 +25,7 @@ function RouteComponent() {
 
   const data = Route.useLoaderData()
 
-  const navLinks = config.navbar.default
+  const navLinks = config.navbar.private
   // console.log("Layout: ", navLinks);
 
   return (
