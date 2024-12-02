@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_private')({
     const currentUser = context.currentUser
     if (!currentUser || currentUser.data.given_name === 'public') {
       alertMessage("Acceso denegado", "error", 2);
-      throw redirect({ to: '/login', });
+      throw redirect({ to: config.path.private, });
     }
   },
   loader: async ({ context }) => {

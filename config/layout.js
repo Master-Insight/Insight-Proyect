@@ -15,6 +15,10 @@ const config = {
       full_name: 'Usuario no logueado'
     }
   },
+  path: {
+    login: '/projects', // luego de que loguea
+    private: '/login', // cuando intenta entrar a una ruta privada
+  },
 }
 
 export const icons = {

@@ -2,6 +2,7 @@ import { useState } from "react"
 import myAxios from "../../../api/axiosInstance";
 import useAuthStore from "../store/useAuthStore";
 import { alertMessage } from "../../../ui/messages/alerts";
+import config from "../../../../config/layout";
 
 export default function useAuthApi() {
   const [loading, setLoading] = useState(false);
@@ -21,11 +22,11 @@ export default function useAuthApi() {
 
       const token = data.data.token;
       setAccessToken(token); // Guardar el token en el store
-
+      
       // Obtener y establecer el usuario actual
       getCurrentUser()
-
-      navigate({ to: '/profile' });
+      
+      navigate({ to: config.path.login });
 
       //console.log(`${option === 'login' ? 'Login' : 'Register'} successful`, data.message);
       alertMessage(`${option === 'login' ? 'Login' : 'Register'} exitoso`, "success", 2);
@@ -42,13 +43,11 @@ export default function useAuthApi() {
     setError(null);
 
     try {
+      // Navegar al login o página pública
+      navigate({ to: config.path.private });
+
       // Limpiar token y usuario
       clearAccessToken();
-
-      // Navegar al login o página pública
-      navigate({ to: "/login" });
-
-      //console.log("Logout successful");
 
     } catch (error) {
       setError("Failed to logout");
