@@ -14,10 +14,7 @@ export const Route = createFileRoute('/_private')({
       throw redirect({ to: config.path.private, });
     }
   },
-  loader: async ({ context }) => {
-    console.log("Privated: ", context.currentUser)
-    return context.currentUser
-  },
+  loader: async ({ context }) => context.currentUser,
   component: RouteComponent,
 })
 
