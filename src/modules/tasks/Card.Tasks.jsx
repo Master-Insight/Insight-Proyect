@@ -2,12 +2,16 @@ import PropTypes from 'prop-types';
 import { Link } from '@tanstack/react-router'
 import ActionModal from '../../ui/modal/ActionModal';
 import { styles, variant } from '../../../config/layout';
+import { TASK_PRIORITY, TASK_PRIORITY_COLOR, TASK_PRIORITY_ICO, TASK_STATUS, TASK_STATUS_COLOR } from './mapValues';
+import { Icon } from '@iconify/react';
+import { useState } from 'react';
 
 const cStyles = {
   button: " text-xs w-full"
 }
 
 const CardTask = ({ item, config }) => {
+
   const {
     _id,
     title,
@@ -18,11 +22,25 @@ const CardTask = ({ item, config }) => {
     description
   } = item;
 
+  const [data, setData] = useState({
+    status,
+    teststatus,
+    priority
+  })
+
+  console.log(data);
+
+
+  // 
+
+  const statusOptions = TASK_STATUS
+  const priorityOptions = TASK_PRIORITY
+
   // Helper para obtener los nombres de los asignados
   const renderAssignedToButtons = () => {
     if (!assignedTo || assignedTo.length === 0) {
       return (
-        <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-md text-xs">
+        <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-md text-xs ">
           No asignado
         </span>
       );
@@ -38,6 +56,15 @@ const CardTask = ({ item, config }) => {
     ));
   };
 
+  // Función genérica para manejar cambios en cualquier select
+  const handleSelectChange = (e) => {
+    const { name, value } = e.target;
+    setData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
       {/* Header */}
@@ -47,9 +74,77 @@ const CardTask = ({ item, config }) => {
         </div>
         <div className=''>
           <div className='flex text-xs justify-between gap-2'>
-            <p>Prioridad: {priority}</p>
-            <p>Estado: {status}</p>
-            <p>Testeo: {teststatus}</p>
+
+            {/* Prioridad */}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <p>Prioridad:</p>
+                <span className={`${TASK_PRIORITY_COLOR[data.priority]} font-medium flex items-center`}>
+                  <Icon icon={TASK_PRIORITY_ICO[data.priority]} className="mr-1" /> {/* Ícono dinámico */}
+                  {data.priority} {/* Texto dinámico */}
+                </span>
+              </div>
+
+              {/* Select con ícono */}
+              <div className="relative flex items-center">
+                <select
+                  name='priority'
+                  id='priority'
+                  value={data.priority}
+                  onChange={handleSelectChange}
+                  className='w-3'
+                >
+                  {priorityOptions.map((elem) => (<option key={"priority" + elem} value={elem}> {elem} </option>))}
+                </select>
+              </div>
+            </div>
+
+            {/* Estado */}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <p>Estado:</p>
+                <span className={`${TASK_STATUS_COLOR[data.status]} p-1 rounded font-medium flex items-center`}>
+                  {data.status} {/* Texto dinámico */}
+                </span>
+              </div>
+
+              {/* Select con ícono */}
+              <div className="relative flex items-center">
+                <select
+                  name='status'
+                  id='status'
+                  value={data.status}
+                  onChange={handleSelectChange}
+                  className='w-3'
+                >
+                  {statusOptions.map((elem) => (<option key={"status" + elem} value={elem}> {elem} </option>))}
+                </select>
+              </div>
+            </div>
+
+            {/* Testeo */}
+            <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
+                <p>Testeo:</p>
+                <span className={`${TASK_STATUS_COLOR[data.teststatus]} p-1 rounded font-medium flex items-center`}>
+                  {data.teststatus} {/* Texto dinámico */}
+                </span>
+              </div>
+
+              {/* Select con ícono */}
+              <div className="relative flex items-center">
+                <select
+                  name='teststatus'
+                  id='teststatus'
+                  value={data.teststatus}
+                  onChange={handleSelectChange}
+                  className='w-3'
+                >
+                  {statusOptions.map((elem) => (<option key={"teststatus" + elem} value={elem}> {elem} </option>))}
+                </select>
+              </div>
+            </div>
+
           </div>
           <div className="flex flex-wrap items-center gap-2 mt-2">{renderAssignedToButtons()}</div>
         </div>
