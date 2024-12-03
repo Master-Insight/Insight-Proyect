@@ -29,7 +29,7 @@ function RouteComponent() {
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
 
-  console.log("project: ", project);
+  // console.log("project: ", project);
   console.log("tasks: ", tasks);
 
   // Mutaciones QUERY
@@ -55,7 +55,7 @@ function RouteComponent() {
         icon: "lineicons:clipboard",
         type: "textarea",
         validation: z.string(),
-        default: "Contar que hace",
+        default: null,
       },
       {
         name: "projectId",

@@ -1,15 +1,28 @@
 import PropTypes from 'prop-types';
 import { Link } from '@tanstack/react-router'
 import ActionModal from '../../ui/modal/ActionModal';
+import { styles, variant } from '../../../config/layout';
+
+const cStyles = {
+  button: " text-xs w-full"
+}
 
 const CardTask = ({ item, config }) => {
-  const { _id, title, description, assignedTo } = item;
+  const {
+    _id,
+    title,
+    priority,
+    status,
+    teststatus,
+    assignedTo,
+    description
+  } = item;
 
   // Helper para obtener los nombres de los asignados
   const renderAssignedToButtons = () => {
     if (!assignedTo || assignedTo.length === 0) {
       return (
-        <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-md text-sm">
+        <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-md text-xs">
           No asignado
         </span>
       );
@@ -26,23 +39,30 @@ const CardTask = ({ item, config }) => {
   };
 
   return (
-    <div className="p-4 bg-white rounded-lg shadow-md max-w-md mx-auto">
+    <div className="flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
       {/* Header */}
-      <div className="mb-4">
-        <div className="mb-4 flex items-center">
-          <h2 className="text-xl font-semibold text-primary-darker">{title}</h2>
+      <div className="mb-4 w-4/5">
+        <div className="mb-2 flex items-center">
+          <h2 className="text-l font-semibold text-primary-darker">{title}</h2>
         </div>
-        <div className="flex flex-wrap gap-2 mt-2">{renderAssignedToButtons()}</div>
+        <div className=''>
+          <div className='flex text-xs justify-between gap-2'>
+            <p>Prioridad: {priority}</p>
+            <p>Estado: {status}</p>
+            <p>Testeo: {teststatus}</p>
+          </div>
+          <div className="flex flex-wrap items-center gap-2 mt-2">{renderAssignedToButtons()}</div>
+        </div>
         {description && <p className="text-sm text-gray-600 mt-2">{description}</p>}
       </div>
 
       {/* Botones*/}
-      <div className="flex space-x-4 mb-4">
+      <div className="w-28 flex flex-col mb-4  gap-1">
         {/* Botón abrir*/}
         <Link
           to={`/tasks/${item._id}`}
           rel="noopener noreferrer"
-          className="px-4 py-2 bg-primary hover:bg-primary-darker text-white rounded-md transition-all">
+          className={styles.button + variant.primary + cStyles.button}>
           Ver tarea
         </Link>
 
@@ -52,10 +72,13 @@ const CardTask = ({ item, config }) => {
           fields={config.fields}
           functionApi={config.actions.putApi}
           defaultValues={item}
+          cssbutton={styles.button + " " + variant.primary + cStyles.button}
         />
 
         {/* Botón eliminar*/}
-        <button onClick={() => config.actions.delApi(item._id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
+        <button
+          onClick={() => config.actions.delApi(item._id)}
+          className={styles.button + variant.danger + cStyles.button}>
           Eliminar
         </button>
       </div>

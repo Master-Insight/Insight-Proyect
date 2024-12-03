@@ -5,6 +5,7 @@ import { icons } from '../../../config/layout';
 import { Icon } from '@iconify/react';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
+import PropTypes from 'prop-types';
 
 /**
  * CreateModal Componente Boton que abre un modal con opciones para rellenar (titulo, descripcion, etc) y que al "guardar" ejecuta una función
@@ -269,7 +270,24 @@ const DynamicField = ({ field, form, parentName }) => {
   );
 };
 
-const ActionModal = ({ title, fields, functionApi, defaultValues }) => {
+DynamicField.propTypes = {
+  field: PropTypes.shape({
+    name: PropTypes.string.isRequired, // Nombre del campo
+    label: PropTypes.string.isRequired, // Etiqueta del campo
+    icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]), // Icono del campo (puede ser un objeto o una string)
+    type: PropTypes.oneOf(['text', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
+    enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
+    itemType: PropTypes.oneOf(['text', 'select']), // Tipo de ítem dentro de arrays
+    fields: PropTypes.array, // Subcampos para arrays de tipo "fields"
+    default: PropTypes.any, // Valor por defecto del campo
+    validation: PropTypes.any, // Validación (usualmente esquema zod)
+    noEditable: PropTypes.bool, // Indica si el campo no es editable
+  }).isRequired, // Configuración del campo
+  form: PropTypes.object.isRequired, // Instancia del formulario (Tanstack Form)
+  parentName: PropTypes.string, // Nombre completo del campo (incluye prefijo del padre)
+};
+
+const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = null }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -310,9 +328,9 @@ const ActionModal = ({ title, fields, functionApi, defaultValues }) => {
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className="px-4 py-2 bg-primary text-white rounded-md flex items-center hover:bg-primary-darker transition-all">
+        className={cssbutton || "px-4 py-2 bg-primary text-white rounded-md flex items-center hover:bg-primary-darker transition-all"}>
         {title}
-        <Icon icon={icons.plus} className="ml-2" />
+        <Icon icon={icons.plus} className="inline-block ml-2" />
       </button>
 
       {/* Modal con formulario dinámico */}
@@ -360,5 +378,27 @@ const ActionModal = ({ title, fields, functionApi, defaultValues }) => {
     </>
   )
 };
+
+ActionModal.propTypes = {
+  title: PropTypes.string.isRequired, // Título del modal
+  fields: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired, // Nombre del campo
+      label: PropTypes.string.isRequired, // Etiqueta del campo
+      icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]), // Icono del campo (puede ser un objeto o una string)
+      type: PropTypes.oneOf(['text', 'textarea', 'select', 'array', 'fields']), // Tipo de campo
+      enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
+      itemType: PropTypes.oneOf(['text', 'select']), // Tipo de ítem dentro de arrays
+      fields: PropTypes.array, // Subcampos para arrays de tipo "fields"
+      default: PropTypes.any, // Valor por defecto del campo
+      validation: PropTypes.any, // Validación (usualmente esquema zod)
+      noEditable: PropTypes.bool, // Indica si el campo no es editable
+    })
+  ).isRequired, // Array de campos dinámicos
+  functionApi: PropTypes.func.isRequired, // Función que se ejecuta al enviar el formulario
+  defaultValues: PropTypes.object, // Valores iniciales opcionales
+  cssbutton: PropTypes.string, // Clases CSS opcionales para el botón
+};
+
 
 export default ActionModal
