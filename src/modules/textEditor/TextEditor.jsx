@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import './TextEditor.css';
 import { imageHandler } from './imageHandler';
 
 const TextEditor = ({ value, onChange }) => {
@@ -62,7 +61,7 @@ const TextEditor = ({ value, onChange }) => {
     }
   }, [value]);
 
-  return <div className='quill-editor' ref={editorRef} />;
+  return <div className='min-h-64' ref={editorRef} />;
 };
 
 export default TextEditor;

@@ -19,8 +19,10 @@
     "axios": "^1.7.8",
     "dayjs": "^1.11.13",
     "jwt-decode": "^4.0.0",
+    "quill": "^2.0.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-quill": "^2.0.0",
     "sweetalert2": "^11.14.5",
     "zod": "^3.23.8",
     "zustand": "^5.0.1"
