@@ -28,11 +28,6 @@ const CardTask = ({ item, config }) => {
     priority
   })
 
-  console.log(data);
-
-
-  // 
-
   const statusOptions = TASK_STATUS
   const priorityOptions = TASK_PRIORITY
 
@@ -189,8 +184,11 @@ CardTask.propTypes = {
     assignedTo: PropTypes.arrayOf(
       PropTypes.shape({
         full_name: PropTypes.string,
-      })
+      }),
     ),
+    priority: PropTypes.string,
+    status: PropTypes.string,
+    teststatus: PropTypes.string,
   }).isRequired,
   config: PropTypes.shape({
     fields: PropTypes.array.isRequired,

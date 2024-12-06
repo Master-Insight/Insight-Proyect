@@ -120,6 +120,7 @@ function RouteComponent() {
         await deleteMutation.mutateAsync(id);
       },
     },
+    // Extra data
   }
 
   return (
