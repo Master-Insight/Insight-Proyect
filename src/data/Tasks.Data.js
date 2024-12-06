@@ -53,35 +53,35 @@ export const usePostTaskMutation = (queryClient) => {
 };
 //usar asi --> const postMutation = usePostTaskMutation(queryClient);  --> await postMutation.mutateAsync(value);
 
-// // * ---------------- UPDATE Task ----------------
-// // AXIOS
-// export const updateTaskById = async ({ pId, data }) => {
-//   try {
-//     const response = await myAxios.put(`/v1/projects/task/${pId}`, data);
-//     const projects = response.data?.data || null;
-//     return projects;
-//   } catch (error) {
-//     throw new Response('Error al cargar los datos', {
-//       status: 500,
-//       statusText: error.message,
-//     });
-//   }
-// };
+// * ---------------- UPDATE Task ----------------
+// AXIOS
+export const updateTaskById = async ({ pId, data }) => {
+  try {
+    const response = await myAxios.put(`/v1/projects/task/${pId}`, data);
+    const projects = response.data?.data || null;
+    return projects;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};
 
-// // TANSTACK QUERY
-// export const useUpdateTaskMutation = (queryClient) => {
-//   return useMutation({
-//     mutationFn: updateTaskById,
-//     onSuccess: () => {
-//       queryClient.invalidateQueries(['tasks']);
-//       alertMessage('Proyecto actualizado con éxito', 'success', 2);
-//     },
-//     onError: (error) => {
-//       console.error('Error al actualizar la tarea:', error);
-//       alertMessage('Error: ' + error.message, 'error', 2);
-//     },
-//   });
-// };
+// TANSTACK QUERY
+export const useUpdateTaskMutation = (queryClient) => {
+  return useMutation({
+    mutationFn: updateTaskById,
+    onSuccess: () => {
+      queryClient.invalidateQueries(['tasks']);
+      alertMessage('Proyecto actualizado con éxito', 'success', 2);
+    },
+    onError: (error) => {
+      console.error('Error al actualizar la tarea:', error);
+      alertMessage('Error: ' + error.message, 'error', 2);
+    },
+  });
+};
 
 // * ---------------- DELETE Task ----------------
 // AXIOS

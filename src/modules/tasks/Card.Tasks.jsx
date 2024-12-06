@@ -4,7 +4,7 @@ import ActionModal from '../../ui/modal/ActionModal';
 import { styles, variant } from '../../../config/layout';
 import { TASK_PRIORITY, TASK_PRIORITY_COLOR, TASK_PRIORITY_ICO, TASK_STATUS, TASK_STATUS_COLOR } from './mapValues';
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const cStyles = {
   button: " text-xs w-full"
@@ -22,7 +22,9 @@ const CardTask = ({ item, config }) => {
     description
   } = item;
 
+  const [userChanged, setUserChanged] = useState(false);
   const [data, setData] = useState({
+    _id,
     status,
     teststatus,
     priority
@@ -58,7 +60,23 @@ const CardTask = ({ item, config }) => {
       ...prevData,
       [name]: value,
     }));
+    setUserChanged(true);
   };
+
+  // useEffect para invocar putApi solo cuando data cambie y el usuario haya hecho un cambio
+  useEffect(() => {
+    if (userChanged && data) {
+      // Aquí se incluye un debounce para limitar las llamadas.
+      const timeout = setTimeout(() => {
+        console.log("card: ", data);
+        config.actions.putApi(data);
+        setUserChanged(false);
+      }, 300); // Espera 300 ms después del último cambio antes de ejecutar putApi
+
+      return () => clearTimeout(timeout);
+    }
+  }, [data, userChanged, config.actions]);
+
 
   return (
     <div className="flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">

@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router'
 import { projectByIdQueryOptions } from '../../../data/Projects.Data'
-import { tasksQueryOptions, useDeleteTaskMutation, usePostTaskMutation } from '../../../data/Tasks.Data'
+import { tasksQueryOptions, useDeleteTaskMutation, usePostTaskMutation, useUpdateTaskMutation } from '../../../data/Tasks.Data'
 import SectionWFilters from '../../../ui/sections/Section.Filter'
 import Frame from '../../../ui/Divs/Frame'
 import { useSuspenseQuery } from '@tanstack/react-query'
@@ -34,7 +34,7 @@ function RouteComponent() {
 
   // Mutaciones QUERY
   const postMutation = usePostTaskMutation(queryClient);
-  // const updateMutation = useUpdateTaskMutation(queryClient)
+  const updateMutation = useUpdateTaskMutation(queryClient)
   const deleteMutation = useDeleteTaskMutation(queryClient);
 
   const config = {
@@ -108,13 +108,15 @@ function RouteComponent() {
         await postMutation.mutateAsync(value);
       },
       putApi: async function (predata) {
-        console.log("predata: ", predata);
-        // const id = predata._id;
-        // const data = {};
-        // if (predata.title) data.title = predata.title;
-        // if (predata.description) data.description = predata.description;
-        // if (predata.users) data.users = predata.users.map(user => user._id);
-        // await updateMutation.mutateAsync({ pId: id, data });
+        console.log("putApi: ", predata);
+        const data = {};
+        if (predata.title) data.title = predata.title;
+        if (predata.description) data.description = predata.description;
+        if (predata.assignedTo) data.users = predata.users.map(user => user._id);
+        if (predata.status) data.status = predata.status;
+        if (predata.teststatus) data.teststatus = predata.teststatus;
+        if (predata.priority) data.priority = predata.priority;
+        await updateMutation.mutateAsync({ pId: predata._id, data });
       },
       delApi: async function (id) {
         await deleteMutation.mutateAsync(id);
