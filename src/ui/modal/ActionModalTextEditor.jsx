@@ -7,27 +7,40 @@ import { z } from 'zod';
 import DOMPurify from 'dompurify';
 
 /**
- * ActionModalTextEditor es un modal genérico para manejar texto enriquecido con un editor visual.
+ * Componente ActionModalTextEditor
+ * Modal genérico para manejar texto enriquecido con un editor visual.
+ * 
  * Props:
- * - title: Título del modal
- * - field: Configuración del campo { name, label, default, validation }
- * - functionApi: Función a ejecutar al guardar los cambios
+ * - title (string): Título del modal.
+ * - buttonTitle (string, opcional): Texto del botón que abre el modal. Por defecto, "Editar".
+ * - field (object): Configuración del campo con las propiedades:
+ *   - name (string): Nombre del campo.
+ *   - label (string): Etiqueta para el campo.
+ *   - default (string): Valor inicial del campo.
+ *   - validation (Zod schema): Validación del campo.
+ * - functionApi (func): Función asíncrona para guardar los cambios.
+ * - cssbutton (string, opcional): Clases CSS adicionales para el botón.
+ * - children (node, opcional): Contenido personalizado del botón.
  */
 
-const ActionModalTextEditor = ({ title, field, functionApi }) => {
+const ActionModalTextEditor = ({ title, buttonTitle, field, functionApi, cssbutton, children }) => {
+
+  // Estados locales
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(field.default);
   const [error, setError] = useState(null);
 
+  // Función para sanitizar HTML antes de procesarlo
   const sanitizeHtml = (html) => DOMPurify.sanitize(html);
 
+  // Maneja la acción de guardar
   const handleSave = async () => {
     try {
-      const sanitizedValue = sanitizeHtml(value);
-      const parsedValue = field.validation.parse(sanitizedValue);
-      await functionApi(parsedValue);
-      setOpen(false);
-      setError(null);
+      const sanitizedValue = sanitizeHtml(value); // Sanitiza el texto ingresado
+      const parsedValue = field.validation.parse(sanitizedValue); // Valida el texto con Zod
+      await functionApi(parsedValue); // Llama la función proporcionada para guardar
+      setOpen(false); // Cierra el modal
+      setError(null); // Limpia los errores
     } catch (err) {
       if (err instanceof z.ZodError) {
         setError(err.errors[0].message);
@@ -43,12 +56,13 @@ const ActionModalTextEditor = ({ title, field, functionApi }) => {
     <>
       {/* Botón para abrir el modal */}
       <button
-        className={`${variant.primary} ${styles.button}`}
+        className={cssbutton || `${variant.primary} ${styles.button}`}
         onClick={() => setOpen(true)}
       >
-        {field.label}
+        {children || buttonTitle || "Editar"}
       </button>
 
+      {/* Modal para editar el texto */}
       <Modal title={title} isOpen={open} onClose={() => setOpen(false)}>
         <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">
@@ -62,6 +76,7 @@ const ActionModalTextEditor = ({ title, field, functionApi }) => {
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
         </div>
 
+        {/* Botones del modal */}
         <div className="flex justify-end space-x-2">
           <button
             className="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-4 rounded"
@@ -79,6 +94,21 @@ const ActionModalTextEditor = ({ title, field, functionApi }) => {
       </Modal>
     </>
   );
+};
+
+// Validación de PropTypes
+ActionModalTextEditor.propTypes = {
+  title: PropTypes.string.isRequired,
+  buttonTitle: PropTypes.string,
+  field: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    label: PropTypes.string.isRequired,
+    default: PropTypes.string.isRequired,
+    validation: PropTypes.object.isRequired,
+  }).isRequired,
+  functionApi: PropTypes.func.isRequired,
+  cssbutton: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default ActionModalTextEditor;
