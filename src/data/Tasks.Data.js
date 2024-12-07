@@ -55,7 +55,17 @@ export const usePostTaskMutation = (queryClient) => {
 
 // * ---------------- UPDATE Task ----------------
 // AXIOS
-export const updateTaskById = async ({ pId, data }) => {
+export const updateTaskById = async (predata) => {
+  const data = {};
+  if (predata.title) data.title = predata.title;
+  if (predata.description) data.description = predata.description;
+  if (predata.assignedTo) data.users = predata.users.map(user => user._id);
+  if (predata.status) data.status = predata.status;
+  if (predata.teststatus) data.teststatus = predata.teststatus;
+  if (predata.priority) data.priority = predata.priority;
+
+  const pId = predata._id
+
   try {
     const response = await myAxios.put(`/v1/projects/task/${pId}`, data);
     const projects = response.data?.data || null;
