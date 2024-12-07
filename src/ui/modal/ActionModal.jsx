@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useForm } from '@tanstack/react-form';
 import Modal from './Modal';
-import { icons } from '../../../config/layout';
+import { icons, styles, variant } from '../../../config/layout';
 import { Icon } from '@iconify/react';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
@@ -287,7 +287,7 @@ DynamicField.propTypes = {
   parentName: PropTypes.string, // Nombre completo del campo (incluye prefijo del padre)
 };
 
-const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = null }) => {
+const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "primary" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -328,7 +328,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = nu
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className={cssbutton || "px-4 py-2 bg-primary text-white rounded-md flex items-center hover:bg-primary-darker transition-all"}>
+        className={`${variant[cssbutton]} ${styles.button}`}>
         {title}
         <Icon icon={icons.plus} className="inline-block ml-2" />
       </button>

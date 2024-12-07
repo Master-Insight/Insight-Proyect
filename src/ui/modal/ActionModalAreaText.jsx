@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
 import { useForm } from '@tanstack/react-form';
 import Modal from './Modal';
-import { BiSolidPlusSquare } from 'react-icons/bi';
+import { Icon } from '@iconify/react';
+import { icons } from '../../../config/layout';
+
 /**
  * ActionModalAreaText
  * Componente que abre un modal con campos dinámicos (como título y descripción) para rellenar,
@@ -46,9 +48,8 @@ const DynamicField = ({ field, form, parentName, actionButtons }) => {
           <textarea
             id={fieldName}
             value={field.state.value}
-            className={`w-full border p-2 rounded-md ${
-              field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'
-            } focus:outline-none focus:border-blue-500`}
+            className={`w-full border p-2 rounded-md ${field.state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'
+              } focus:outline-none focus:border-blue-500`}
             onChange={(e) => field.handleChange(e.target.value)}
           />
           <div className="flex flex-col gap-2 mt-6">
@@ -72,7 +73,7 @@ const DynamicField = ({ field, form, parentName, actionButtons }) => {
 
 
 
-const ActionModalAreaText = ({ title, fields, functionApi, actionButtons}) => {
+const ActionModalAreaText = ({ title, fields, functionApi, actionButtons }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Valores por defecto generados dinámicamente
@@ -82,38 +83,38 @@ const ActionModalAreaText = ({ title, fields, functionApi, actionButtons}) => {
     }
     return acc;
   }, {})
-  
+
   // Configuración de Tanstack Form
   const form = useForm({
     defaultValues: configDefaultValues,
-    onSubmit: ({value}) => {
+    onSubmit: ({ value }) => {
       //console.log(value);
-      
+
       functionApi && functionApi(value); // Llama a la API
       handleCloseModal();
     }
   })
 
   // Controlar apertura/cierre del modal
-  const handleEditClick  = () => setIsModalOpen(true);
+  const handleEditClick = () => setIsModalOpen(true);
   const handleCloseModal = () => { setIsModalOpen(false); form.reset(); };
 
   return (
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-          className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
-          {title}
-          <BiSolidPlusSquare className="ml-2" />
+        className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
+        {title}
+        <Icon icon={icons.plus} className="inline-block ml-2" />
       </button>
 
       {/* Modal con formulario dinámico */}
       <Modal isOpen={isModalOpen} onClose={handleCloseModal} title={title}>
-      <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
+        <form onSubmit={(e) => { e.preventDefault(); form.handleSubmit(); }}>
 
           {/* Renderizado de campos dinámicos */}
           {fields.map((fieldUnit) => (
-            <DynamicField key={fieldUnit.name} field={fieldUnit} form={form} actionButtons={actionButtons}/>
+            <DynamicField key={fieldUnit.name} field={fieldUnit} form={form} actionButtons={actionButtons} />
           ))}
 
           {/* Alertas Errores, Tanstack Form */}
@@ -131,11 +132,10 @@ const ActionModalAreaText = ({ title, fields, functionApi, actionButtons}) => {
                 <button
                   type="submit"
                   disabled={!canSubmit}
-                  className={`${
-                    !canSubmit
+                  className={`${!canSubmit
                       ? 'bg-gray-400'
                       : 'bg-indigo-600 hover:bg-indigo-700'
-                  } text-white font-bold py-2 px-4 rounded-md transition-all`}
+                    } text-white font-bold py-2 px-4 rounded-md transition-all`}
                 >
                   Guardar
                 </button>
