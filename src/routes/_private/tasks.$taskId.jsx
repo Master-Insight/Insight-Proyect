@@ -6,6 +6,9 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { alertMessage } from '../../ui/messages/alerts'
 import TextEditor from '../../modules/textEditor/TextEditor'
+import ActionModalTextEditor from '../../ui/modal/ActionModalTextEditor'
+import { z } from 'zod'
+import DOMPurify from 'dompurify';
 
 export const Route = createFileRoute('/_private/tasks/$taskId')({
   loader: async ({ context: { queryClient }, params: { taskId } }) => {
@@ -21,20 +24,15 @@ export const Route = createFileRoute('/_private/tasks/$taskId')({
 
 function RouteComponent() {
   const { currentUser, queryClient } = Route.useRouteContext()
-  console.log(currentUser);
-
   const taskId = Route.useParams().taskId
 
   const tasksQuery = useSuspenseQuery(taskByIdQueryOptions(taskId))
-  const task = tasksQuery.data
-
-  const [richText, setRichText] = useState(task.description);
-
   const commentsQuery = useSuspenseQuery(commentsQueryOptions(taskId))
+  const task = tasksQuery.data
   const comments = commentsQuery.data
-  const postCommentMutation = usePostCommentMutation(queryClient);
-  const [newComment, setNewComment] = useState('');
 
+  const [newComment, setNewComment] = useState('');
+  const postCommentMutation = usePostCommentMutation(queryClient);
   const handleAddComment = async () => {
     if (!newComment.trim()) return;
     try {
@@ -49,14 +47,50 @@ function RouteComponent() {
     }
   };
 
+  const [richText, setRichText] = useState(task.description);
+
+  const config = {
+    name: "description",
+    label: "Descripción",
+    icon: null,
+    default: richText,
+    validation: z.string().min(10, "La descripción debe tener al menos 10 caracteres")
+  }
+
+  const handleSaveDescription = async (value) => {
+    console.log("Saving new description:", value);
+    try {
+      // Simula la petición al backend
+      await new Promise((resolve) => setTimeout(resolve, 500)); // Simulación con delay
+      setRichText(value);
+      alertMessage("Descripción actualizada con éxito", "success", 2);
+    } catch (error) {
+      alertMessage("Error al actualizar la descripción", "error", 2);
+      console.error('Error al guardar la descripción:', error);
+    }
+  };
+
+  const sanitizeHtml = (html) => DOMPurify.sanitize(html);
+
+  console.log(currentUser);
   console.log("task: ", task);
   console.log("comments: ", comments);
 
   return (
     <Frame back={true} css={'w-full mx-5'}>
       <h2 className="text-3xl font-semibold mb-2">{task.title}</h2>
-      <p>{task.description || 'Aqui va la descripcion, que sera un texto enriquesido'}</p>
-      <TextEditor value={richText} onChange={setRichText} />
+      <div
+        className="mb-4"
+        dangerouslySetInnerHTML={{
+          __html: sanitizeHtml(richText || 'Aqui va la descripción'),
+        }}
+      ></div>
+      <ActionModalTextEditor
+        title="Modificar texto"
+        field={config}
+        functionApi={handleSaveDescription}
+      />
+      {/* <TextEditor value={richText} onChange={setRichText} /> */}
 
       {/* Detalle de estados y prioridad */}
       <div className="mt-4">
