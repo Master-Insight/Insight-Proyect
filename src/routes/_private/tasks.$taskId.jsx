@@ -5,6 +5,7 @@ import { commentsQueryOptions, usePostCommentMutation } from '../../data/Comment
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { alertMessage } from '../../ui/messages/alerts'
+import TextEditor from '../../modules/textEditor/TextEditor'
 
 export const Route = createFileRoute('/_private/tasks/$taskId')({
   loader: async ({ context: { queryClient }, params: { taskId } }) => {
@@ -26,9 +27,11 @@ function RouteComponent() {
 
   const tasksQuery = useSuspenseQuery(taskByIdQueryOptions(taskId))
   const task = tasksQuery.data
+
+  const [richText, setRichText] = useState(task.description);
+
   const commentsQuery = useSuspenseQuery(commentsQueryOptions(taskId))
   const comments = commentsQuery.data
-
   const postCommentMutation = usePostCommentMutation(queryClient);
   const [newComment, setNewComment] = useState('');
 
@@ -52,7 +55,8 @@ function RouteComponent() {
   return (
     <Frame back={true} css={'w-full mx-5'}>
       <h2 className="text-3xl font-semibold mb-2">{task.title}</h2>
-      <p>{task.description || ''}</p>
+      <p>{task.description || 'Aqui va la descripcion, que sera un texto enriquesido'}</p>
+      <TextEditor value={richText} onChange={setRichText} />
 
       {/* Detalle de estados y prioridad */}
       <div className="mt-4">
