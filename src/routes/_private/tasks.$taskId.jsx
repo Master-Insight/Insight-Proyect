@@ -102,6 +102,7 @@ function RouteComponent() {
           <ActionModalTextEditor title="Modificar descripción"
             field={configTextEditor}
             functionApi={handleSaveDescription}
+            default={task.description}
           >
             <Icon icon={icons.edit} />
           </ActionModalTextEditor>
