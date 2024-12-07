@@ -3,7 +3,40 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { imageHandler } from './imageHandler';
 
-const TextEditor = ({ value, onChange }) => {
+// Opciones de botones de la barra de herramientas
+const toolbar = {
+  full: [
+    [{ 'header': '1' }, { 'header': '2' }, { 'font': [] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'script': 'sub' }, { 'script': 'super' }],
+    [{ 'indent': '-1' }, { 'indent': '+1' }],
+    [{ 'direction': 'rtl' }],
+    [{ 'size': ['small', 'medium', 'large', 'huge'] }],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'align': [] }],
+    ['bold', 'italic', 'underline'],
+    ['link', 'image'],
+    ['clean']
+  ],
+  inline: [
+    ['bold', 'italic', 'underline', 'strike'],
+    ['link'],
+    ['image']
+  ],
+  simple: [
+    [{ 'font': [] }],
+    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+    [{ 'indent': '-1' }, { 'indent': '+1' }],
+    [{ 'size': ['small', 'medium', 'large', 'huge'] }],
+    [{ 'color': [] }, { 'background': [] }],
+    [{ 'align': [] }],
+    ['bold', 'italic', 'underline'],
+    ['link', 'image'],
+    ['clean']
+  ],
+}
+
+const TextEditor = ({ value, onChange, configuration = "simple" }) => {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
 
@@ -12,19 +45,7 @@ const TextEditor = ({ value, onChange }) => {
       quillRef.current = new Quill(editorRef.current, {
         theme: 'snow',
         modules: {
-          toolbar: [
-            [{ 'header': '1'}, { 'header': '2' }, { 'font': [] }],
-            [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-            [{ 'script': 'sub'}, { 'script': 'super' }],
-            [{ 'indent': '-1'}, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'size': ['small', 'medium', 'large', 'huge'] }],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'align': [] }],
-            ['bold', 'italic', 'underline'],
-            ['link', 'image'],
-            ['clean']
-          ]
+          toolbar: toolbar[configuration]
         },
         placeholder: 'Escribe aquí...',
         readOnly: false,

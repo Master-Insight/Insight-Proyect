@@ -4,7 +4,7 @@ export const imageHandler = () => {
   input.setAttribute('accept', 'image/*');
   input.onchange = () => {
     const file = input.files[0];
-    if (file && file.size <= 5 * 1024 * 1024) { // Limitar a 5 MB
+    if (file && file.size <= 2 * 1024 * 1024) { // Limitar a 2 MB
       const reader = new FileReader();
       reader.onload = () => {
         const range = quillRef.current.getSelection();
@@ -12,7 +12,7 @@ export const imageHandler = () => {
       };
       reader.readAsDataURL(file);
     } else {
-      alert('La imagen es demasiado grande. El tamaño máximo permitido es 5 MB.');
+      alert('La imagen es demasiado grande. El tamaño máximo permitido es 2 MB.');
     }
   };
   input.click();
