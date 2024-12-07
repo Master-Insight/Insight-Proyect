@@ -22,9 +22,10 @@ const config = {
 }
 
 export const icons = {
-  x: 'bx:x',
-  plus: 'ph:plus-fill',
-  addEle: 'fluent:stack-add-20-regular',
+  x: 'bx:x', // X de cerrar
+  addEle: 'fluent:stack-add-20-regular', // agregar Elemento
+  plus: 'ph:plus-fill', // agregar uno m+as +
+  edit: "mage:edit", // editar contenido
 }
 
 export const styles = {
