@@ -12,15 +12,17 @@ import {
 import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
 import SectionWFilters from '../../ui/sections/Section.Filter'
+import { usersListQueryOptions } from '../../data/Users.Data'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projects')({
   loader: async ({ context: { queryClient } }) => {
-    const [project, usersProject] = await Promise.all([
+    const [project, usersList, usersProject] = await Promise.all([
       queryClient.ensureQueryData(projectsQueryOptions),
+      queryClient.ensureQueryData(usersListQueryOptions),
       queryClient.ensureQueryData(usersProjectsQueryOptions),
     ])
-    return { project, usersProject }
+    return { project, usersList, usersProject }
   },
   component: RouteComponent,
 })
@@ -38,7 +40,7 @@ function RouteComponent() {
   const updateMutation = useUpdateProjectMutation(queryClient)
   const deleteMutation = useDeleteProjectMutation(queryClient)
 
-  // Carga de data USERS PROYECTS
+  // Carga de data USERS asigned PROYECTS
   const usersProjectsQuery = useSuspenseQuery(usersProjectsQueryOptions)
   const users = usersProjectsQuery.data
 
@@ -47,9 +49,11 @@ function RouteComponent() {
     value: user._id,
   }));
 
-  console.log("projects: ", projects);
-  console.log("userOptions: ", userOptions); // TODO obtiene lista de usuarios, usar para filtrar
+  // Carga de data USERS
+  const usersListQuery = useSuspenseQuery(usersListQueryOptions)
+  const usersList = usersListQuery.data
 
+  console.log("projects: ", projects);
 
   // Configuración del módulo
   const config = {
@@ -78,7 +82,8 @@ function RouteComponent() {
         name: 'title',
         label: 'Titulo',
         icon: 'mdi:bookmark-outline',
-        type: 'text',
+        type: 'generic',
+        itemType: 'text',
         validation: z
           .string()
           .min(5, 'El titulo debe tener al menos 5 caracteres'),
@@ -89,7 +94,7 @@ function RouteComponent() {
         label: 'Id Usuario',
         type: 'array',
         itemType: 'select',
-        noEditable: true, // Indica que este campo no se puede editar
+        // noEditable: true, // Indica que este campo no se puede editar
         enum: ['users'],
         default: [currentUser.data._id],
       },

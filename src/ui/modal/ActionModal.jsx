@@ -6,6 +6,13 @@ import { Icon } from '@iconify/react';
 import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import PropTypes from 'prop-types';
+import GenericField from './ActionModal/genericfield';
+import TextAreaField from './ActionModal/textarefield';
+import DOMPurify from 'dompurify';
+import SelectField from './ActionModal/selectField';
+import ArrayTextField from './ActionModal/arraytextfield';
+import ArraySelectField from './ActionModal/arrayselectfield';
+import ArrayObjectSelectField from './ActionModal/arrayobjectselectfield';
 
 /**
  * CreateModal Componente Boton que abre un modal con opciones para rellenar (titulo, descripcion, etc) y que al "guardar" ejecuta una función
@@ -22,250 +29,94 @@ icon: opcional (se puede omitir si no se requiere validación)
 validation: opcional (se puede omitir si no se requiere validación)
 
 const fields = [
-  * Campo genérico (text, number, date, etc.)
-  {
-    name: "title",
-    label: "Titulo",
-    icon: BiBookmark,
-    type: "text",  // Puede ser cualquier tipo básico como "text", "number", "date", etc.
-    default: "Aquí va un titulo",
-    validation: z.string().min(5, "El titulo debe tener al menos 5 caracteres")
-  },
-
-  * Campo Textarea
-  {
-    name: "description",
-    label: "Descripción",
-    icon: null,
-    type: "textarea",
-    default: "",
-    validation: z.string().min(10, "La descripción debe tener al menos 10 caracteres")
-  },
-
-  * Campo Select (opciones limitadas)
-  {
-    name: "languages",
-    label: "Lenguajes",
-    icon: BiCode,
-    type: "select",  // Select estático
-    itemType: "text",
-    enum: ["JavaScript", "Python", "TypeScript", "Go", "Ruby"],  // Opciones del select
-    default: "JavaScript",
-    validation: z.enum(["JavaScript", "Python", "TypeScript", "Go", "Ruby"])
-  },
-
-  * Campo Array (lista de valores)
-  {
-    name: "professions",
-    label: "Profesiones",
-    icon: BiBriefcase,
-    type: "array",  // Indica que es un array
-    itemType: "text",  // El tipo de cada ítem dentro del array (puede ser "text", "select", etc.)
-    default: ["Backend"],
-    validation: z.array(z.string()).min(1, "Debe haber al menos una profesión")
-  },
-
-  * Array de objetos (cada elemento tiene varios campos)
-  {
-    name: "socialLinks",
-    label: "Redes Sociales",
-    icon: BiLink,
-    type: "array",  // Es un array
-    itemType: "fields",  // Indica que cada ítem es un objeto con varios campos
-    fields: [  // Campos dentro de cada objeto del array
-      {
-        name: "platform",
-        label: "Plataforma",
-        type: "select",
-        enum: ["GitHub", "LinkedIn", "Twitter", "Facebook"],
-        validation: z.enum(["GitHub", "LinkedIn", "Twitter", "Facebook"])
-      },
-      {
-        name: "url",
-        label: "URL",
-        type: "text",
-        validation: z.string().url("Debe ser una URL válida")
-      }
-    ],
-    default: [{ platform: "GitHub", url: "https://github.com/usuario" }],
-    validation: z.array(
-      z.object({
-        platform: z.enum(["GitHub", "LinkedIn", "Twitter", "Facebook"]),
-        url: z.string().url()
-      })
-    ).min(1, "Debe haber al menos un enlace de red social")
-  }
-];
+  * Campo genérico (text, number, date, etc.)  -> GenericField
+  * Campo Textarea -> TextAreaField
+  * Campo Select (opciones limitadas) -> SelectField
+  * Campo Array (lista de valores) -> ArrayTextField
+  * Campo Array (lista de enum) -> ArraySelectField
+  * Campo Array (lista de objetos) -> ArrayObjectSelectField
+  * Array de objetos (cada elemento tiene varios campos) -> ...
 */
+
+const sanitizeHtml = (html) => DOMPurify.sanitize(html);
 
 /**
  * Subcomponente para renderizar los campos dinámicos del formulario.
 */
 const DynamicField = ({ field, form, parentName }) => {
+
   const { name, label, icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
 
   if (noEditable) { return }
 
   // Construir el nombre completo del campo con el prefijo del padre si existe
-  const fieldName = parentName ? `${parentName}.${name}` : name;
+  const idF = parentName ? `${parentName}.${name}` : name;
 
   // Renderiza el campo según el tipo definido
   return (
-    <form.Field key={fieldName} name={fieldName}>
-      {({ state, handleChange }) => {
-        //console.log({label, type, itemType, state})
-        return (
-          <div className="my-3">
-            <label htmlFor={fieldName} className="block mb-2 text-gray-700">
-              {icon && <Icon icon={icon} className="inline-block mr-2" />}
-              <span dangerouslySetInnerHTML={{ __html: label }} />:
-            </label>
+    <form.Field key={idF} name={idF}>
+      {({ state, handleChange }) => ( //{ //console.log({label, type, itemType, state}) return (
+        <div className="my-3">
+          <label htmlFor={idF} className="block mb-2 text-gray-700">
+            {icon && <Icon icon={icon} className="inline-block mr-2" />}
+            <span dangerouslySetInnerHTML={{ __html: sanitizeHtml(label) }} />:
+          </label>
 
-            {/* Textarea */}
-            {type === 'textarea' ? (
-              <textarea
-                id={fieldName}
-                value={state.value}
-                className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
-                onChange={(e) => handleChange(e.target.value)}
-              />
-            ) : /* Select */
-              type === 'select' ? (
-                <select
-                  id={fieldName}
-                  value={state.value || ""}
-                  className="w-full border p-2 rounded-md"
-                  onChange={(e) => handleChange(e.target.value)}
-                >
-                  {enumOptions.map((option, index) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  )
-                  )}
-                </select>
-              ) : /* Array de textos */
-                type === 'array' && itemType === 'text' ? (
-                  <div>
-                    {state.value.map((item, index) => (
-                      <div key={index} className="flex gap-2 my-2 items-center">
-                        <input
-                          type="text"
-                          value={item}
-                          className="w-full border p-2 rounded-md"
-                          onChange={(e) => {
-                            const newValue = [...state.value];
-                            newValue[index] = e.target.value;
-                            handleChange(newValue);
-                          }}
-                        />
-                        <button
-                          type="button"
-                          onClick={() => {
-                            const newValue = state.value.filter((_, i) => i !== index);
-                            handleChange(newValue);
-                          }}
-                          className="text-red-500 ml-2"
-                        >
-                          <Icon icon={icons.x} />
-                        </button>
-                      </div>
-                    ))}
-                    <button
-                      type="button"
-                      onClick={() => handleChange([...state.value, ''])}
-                      className="text-blue-500 mt-2"
-                    >
-                      Agregar <Icon icon={icons.addEle} className='inline-block' />
-                    </button>
-                  </div>
-                ) : /* Array de select */
-                  type === 'array' && itemType === 'select' ? (
-                    <div>
-                      {state.value.map((item, index) => (
-                        <div key={index} className="flex gap-2 my-2 items-center">
-                          <select
-                            value={item}
-                            className="w-full border p-2 rounded-md"
-                            onChange={(e) => {
-                              const newValue = [...state.value];
-                              newValue[index] = e.target.value;
-                              handleChange(newValue);
-                            }}
-                          >
-                            <option value="" disabled>Seleccionar</option>
-                            {enumOptions.map((option, idx) => (
-                              <option key={idx} value={option}>
-                                {option}
-                              </option>
-                            ))}
-                          </select>
-                          <button
-                            type="button"
-                            onClick={() => {
-                              const newValue = state.value.filter((_, i) => i !== index);
-                              handleChange(newValue);
-                            }}
-                            className="text-red-500 ml-2"
-                          >
-                            <Icon icon={icons.x} />
-                          </button>
-                        </div>
-                      ))}
-                      <button
-                        type="button"
-                        onClick={() => handleChange([...state.value, ''])}
-                        className="text-blue-500 mt-2"
-                      >
-                        Agregar <Icon icon={icons.addEle} className='inline-block' />
-                      </button>
-                    </div>
-                  ) : /* Array de fields (subcampos) */
-                    type === 'array' && itemType === 'fields' ? (
-                      <div>
-                        {state.value.map((item, index) => (
-                          <div key={index} className="my-3 border rounded-md p-2">
-                            <h4 className="font-semibold mb-2">Subgrupo {index + 1}</h4>
-                            {subFields.map((subField) => (
-                              <DynamicField
-                                key={`${index}-${subField.name}`}
-                                field={subField}
-                                form={form}
-                                parentName={`${fieldName}[${index}]`}
-                              />
-                            ))}
-                            <button
-                              type="button"
-                              onClick={() => {
-                                const newValue = state.value.filter((_, i) => i !== index);
-                                handleChange(newValue);
-                              }}
-                              className="text-red-500 mt-2 flex items-center"
-                            >
-                              <Icon icon={icons.x} /> Eliminar Subgrupo
-                            </button>
-                          </div>
-                        ))}
-                        <button
-                          type="button"
-                          onClick={() => handleChange([...state.value, {}])}
-                          className="text-blue-500 mt-2"
-                        >
-                          Agregar Subgrupo  <Icon icon={icons.addEle} className='inline-block' />
-                        </button>
-                      </div>
-                    ) : /* Campos básicos */
-                      (<input
-                        id={fieldName}
-                        type={type || 'text'}
-                        value={state.value}
-                        className={`w-full border p-2 rounded-md ${state.meta.errors.length > 0 ? 'border-red-500' : 'border-gray-300'} focus:outline-none focus:border-blue-500`}
-                        onChange={(e) => handleChange(e.target.value)}
-                      />
-                      )}
-          </div>
-        )
-      }}
+          {/* Renderizado dinámico según el tipo de campo */}
+          {/* Textarea */} {type === "textarea" && (<TextAreaField
+            id={idF} value={state.value} onChange={handleChange} />)}
+
+          {/* Select */} {type === "select" && (<SelectField
+            id={idF} value={state.value || ""} onChange={handleChange} error={state.meta.errors} options={enumOptions} />)}
+
+          {/* Array de textos */}{(type === 'array' && itemType === 'text') && (<ArrayTextField
+            id={idF} value={state.value} onChange={handleChange} error={state.meta.errors} />)}
+
+          {/* Array de select */}{(type === 'array' && itemType === 'select') && (<ArraySelectField
+            value={state.value} onChange={handleChange} options={enumOptions} />)}
+
+          {/* Array de select */}{(type === 'array' && itemType === 'object') && (<ArrayObjectSelectField
+            value={state.value} onChange={handleChange} options={enumOptions} displayField={"full_name"} valueField={"_id"} />)}
+
+          {/* Array de fields (subcampos) */}{(type === 'array' && itemType === 'fields') && (
+            <div>
+              {state.value.map((item, index) => (
+                <div key={index} className="my-3 border rounded-md p-2">
+                  <h4 className="font-semibold mb-2">Subgrupo {index + 1}</h4>
+                  {subFields.map((subField) => (
+                    <DynamicField
+                      key={`${index}-${subField.name}`}
+                      field={subField}
+                      form={form}
+                      parentName={`${idF}[${index}]`}
+                    />
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      const newValue = state.value.filter((_, i) => i !== index);
+                      handleChange(newValue);
+                    }}
+                    className="text-red-500 mt-2 flex items-center"
+                  >
+                    <Icon icon={icons.x} /> Eliminar Subgrupo
+                  </button>
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={() => handleChange([...state.value, {}])}
+                className="text-blue-500 mt-2"
+              >
+                Agregar Subgrupo  <Icon icon={icons.addEle} className='inline-block' />
+              </button>
+            </div>
+          )}
+
+          {/* Campos básicos */} {type === "generic" && (<GenericField
+            id={idF} type={itemType} value={state.value} onChange={handleChange} error={state.meta.errors} />)}
+        </div>
+      )}
     </form.Field>
   );
 };
@@ -313,10 +164,10 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
     defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
     onSubmit: ({ value }) => {
-      //console.log(value);
+      console.log(value);
 
-      functionApi && functionApi(value); // Llama a la API
-      handleCloseModal();
+      // functionApi && functionApi(value); // Llama a la API
+      // handleCloseModal();
     }
   })
 

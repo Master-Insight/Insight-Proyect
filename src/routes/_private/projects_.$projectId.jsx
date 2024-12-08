@@ -106,7 +106,8 @@ function RouteComponent() {
         name: 'title',
         label: 'Titulo',
         icon: 'mdi:bookmark-outline',
-        type: 'text',
+        type: 'generic',
+        itemType: 'text',
         validation: z
           .string()
           .min(5, 'El titulo debe tener al menos 5 caracteres'),
@@ -123,7 +124,8 @@ function RouteComponent() {
       {
         name: 'projectId',
         label: 'Id Proyecto',
-        type: 'text',
+        type: 'generic',
+        itemType: 'text',
         noEditable: true,
         default: projectId,
       },
