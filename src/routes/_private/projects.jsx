@@ -53,8 +53,6 @@ function RouteComponent() {
   const usersListQuery = useSuspenseQuery(usersListQueryOptions)
   const usersList = usersListQuery.data
 
-  console.log("projects: ", projects);
-
   // Configuración del módulo
   const config = {
     // ID del usuario actual
@@ -93,9 +91,11 @@ function RouteComponent() {
         name: 'users',
         label: 'Id Usuario',
         type: 'array',
-        itemType: 'select',
+        itemType: 'object',
         // noEditable: true, // Indica que este campo no se puede editar
-        enum: ['users'],
+        enum: usersList,
+        displayField: "full_name",
+        valueField: "_id",
         default: [currentUser.data._id],
       },
     ],
@@ -103,20 +103,9 @@ function RouteComponent() {
     card: CardProject,
     // Acciones disponibles para utilizar es Card
     actions: {
-      postApi: async function (value) {
-        await postMutation.mutateAsync(value)
-      },
-      putApi: async function (predata) {
-        const id = predata._id
-        const data = {}
-        if (predata.title) data.title = predata.title
-        if (predata.description) data.description = predata.description
-        if (predata.users) data.users = predata.users.map((user) => user._id)
-        await updateMutation.mutateAsync({ pId: id, data })
-      },
-      delApi: async function (id) {
-        await deleteMutation.mutateAsync(id)
-      },
+      postApi: async function (value) { await postMutation.mutateAsync(value) },
+      putApi: async function (predata) { await updateMutation.mutateAsync(predata) },
+      delApi: async function (id) { await deleteMutation.mutateAsync(id) },
     },
     // Extra data para ser usada en Cards
   }
