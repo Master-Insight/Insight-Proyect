@@ -3,7 +3,6 @@ import { queryOptions, useMutation } from '@tanstack/react-query';
 import { alertMessage } from '../ui/messages/alerts';
 
 // * ----------------  GETS Projects  ----------------
-
 // AXIOS
 export const getProjects = async () => {
   try {
@@ -25,7 +24,6 @@ export const projectsQueryOptions = queryOptions({
 })
 
 // * ---------------- POST Project ----------------
-
 // AXIOS
 export const postProject = async (newProject) => {
   try {
@@ -138,3 +136,24 @@ export const projectByIdQueryOptions = (projectId) => {
     queryFn: () => getProjectById(projectId)
   })
 }
+
+// * ----------------  GETS USERS asigned to Projects  ----------------
+// AXIOS
+export const getUsersProjects = async () => {
+  try {
+    const response = await myAxios.get(`/v1/projects/get/usersasigned`);
+    const projects = response.data?.data || null;
+    return projects;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};
+
+// TANSTACK QUERY
+export const usersProjectsQueryOptions = queryOptions({
+  queryKey: ['usersProjects'],
+  queryFn: () => getProjects()
+})

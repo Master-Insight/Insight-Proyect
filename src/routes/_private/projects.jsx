@@ -6,6 +6,7 @@ import {
   projectsQueryOptions,
   useDeleteProjectMutation,
   usePostProjectMutation,
+  usersProjectsQueryOptions,
   useUpdateProjectMutation,
 } from '../../data/Projects.Data'
 import CardProject from '../../modules/projects/Card.Projects'
@@ -14,8 +15,13 @@ import SectionWFilters from '../../ui/sections/Section.Filter'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projects')({
-  loader: async ({ context: { queryClient } }) =>
-    queryClient.ensureQueryData(projectsQueryOptions),
+  loader: async ({ context: { queryClient } }) => {
+    const [project, usersProject] = await Promise.all([
+      queryClient.ensureQueryData(projectsQueryOptions),
+      queryClient.ensureQueryData(usersProjectsQueryOptions),
+    ])
+    return { project, usersProject }
+  },
   component: RouteComponent,
 })
 
@@ -31,6 +37,16 @@ function RouteComponent() {
   const postMutation = usePostProjectMutation(queryClient)
   const updateMutation = useUpdateProjectMutation(queryClient)
   const deleteMutation = useDeleteProjectMutation(queryClient)
+
+  // Carga de data USERS PROYECTS
+  const usersProjectsQuery = useSuspenseQuery(usersProjectsQueryOptions)
+  const users = usersProjectsQuery.data
+  const userOptions = users.map((user) => ({
+    label: user.full_name,
+    value: user._id,
+  }));
+  console.log(userOptions); // TODO obtiene lista de usuarios, usar para filtrar
+
 
   // Configuración del módulo
   const config = {
