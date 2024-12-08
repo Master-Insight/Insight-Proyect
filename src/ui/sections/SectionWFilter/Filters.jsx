@@ -65,16 +65,16 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
                   value={
                     Array.isArray(activeFilters[filter.key])
                       ? activeFilters[filter.key]
-                      : activeFilters[filter.key] || ""
+                      : activeFilters[filter.key] || []
                   }
                   onChange={(e) => {
                     const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                    onFilterChange(filter.key, filter.allowMultiple ? selectedOptions : selectedOptions[0]);
+                    onFilterChange(filter.key, selectedOptions.length > 0 ? selectedOptions : null);
                   }}
                 >
-                  <option value="" disabled>
-                    -- Selecciona --
-                  </option>
+                  {!filter.allowMultiple && (
+                    <option value="">Por defecto</option>
+                  )}
                   {filter.options && renderOptions(filter.options)}
                 </select>
               )
