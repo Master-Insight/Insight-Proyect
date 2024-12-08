@@ -1,17 +1,16 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Icon } from '@iconify/react';
-import addIcon from '@iconify-icons/mdi/plus';
-import removeIcon from '@iconify-icons/mdi/close';
+import { amIcons as icons } from '../styles';
 
 /* EJEMPLO:
-  * Array de select
+  * Array de objetos (cada elemento tiene varios campos)
     {
       ....
       }
 */
 
-const ArraySelectField = ({ options, value, onChange }) => {
+const ArrayObjectSelectField = ({ options, value, onChange, displayField, valueField }) => {
   const [items, setItems] = useState(value || []);
 
   const handleAdd = () => {
@@ -43,8 +42,8 @@ const ArraySelectField = ({ options, value, onChange }) => {
           >
             <option value="" disabled>Seleccionar</option>
             {options.map((option, idx) => (
-              <option key={idx} value={option}>
-                {option}
+              <option key={idx} value={option[valueField]}>
+                {option[displayField]}
               </option>
             ))}
           </select>
@@ -53,7 +52,7 @@ const ArraySelectField = ({ options, value, onChange }) => {
             onClick={() => handleRemove(index)}
             className="text-red-500 ml-2"
           >
-            <Icon icon={removeIcon} />
+            <Icon icon={icons.x} />
           </button>
         </div>
       ))}
@@ -62,16 +61,18 @@ const ArraySelectField = ({ options, value, onChange }) => {
         onClick={handleAdd}
         className="text-blue-500 mt-2 flex items-center"
       >
-        Agregar <Icon icon={addIcon} className="ml-1" />
+        Agregar <Icon icon={icons.addEle} className="ml-1" />
       </button>
     </div>
   );
 };
 
-ArraySelectField.propTypes = {
-  options: PropTypes.arrayOf(PropTypes.string).isRequired,
+ArrayObjectSelectField.propTypes = {
+  options: PropTypes.arrayOf(PropTypes.object).isRequired,
   value: PropTypes.arrayOf(PropTypes.string),
   onChange: PropTypes.func.isRequired,
+  displayField: PropTypes.string.isRequired,
+  valueField: PropTypes.string.isRequired,
 };
 
-export default ArraySelectField;
+export default ArrayObjectSelectField;

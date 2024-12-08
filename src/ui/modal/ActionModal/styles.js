@@ -1,3 +1,5 @@
+import { icons } from "../../../../config/layout"
+
 const styles = {
   generic: ' w-full border p-2 rounded-md focus:outline-none focus:border-primary',
 
@@ -6,3 +8,5 @@ const styles = {
 }
 
 export default styles
+
+export const amIcons = icons
