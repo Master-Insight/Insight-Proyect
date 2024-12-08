@@ -168,7 +168,7 @@ ActionModal.propTypes = {
       icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]), // Icono del campo -- string de https://icon-sets.iconify.design/
       type: PropTypes.oneOf(['generic', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
       enum: PropTypes.arrayOf(PropTypes.any), // Opciones para selects
-      itemType: PropTypes.oneOf(['text', 'select']), // Tipo de ítem para arrays
+      itemType: PropTypes.oneOf(['text', 'select', 'object']), // Tipo de ítem para arrays
       fields: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
         label: PropTypes.string.isRequired,
