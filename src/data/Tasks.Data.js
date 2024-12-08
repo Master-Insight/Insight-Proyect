@@ -59,7 +59,7 @@ export const updateTaskById = async (predata) => {
   const data = {};
   if (predata.title) data.title = predata.title;
   if (predata.description) data.description = predata.description;
-  if (predata.assignedTo) data.users = predata.users.map(user => user._id);
+  if (predata.assignedTo) data.assignedTo = predata.assignedTo;
   if (predata.status) data.status = predata.status;
   if (predata.teststatus) data.teststatus = predata.teststatus;
   if (predata.priority) data.priority = predata.priority;
