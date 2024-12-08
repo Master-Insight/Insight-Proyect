@@ -185,6 +185,7 @@ function RouteComponent() {
         data={tasks}
         config={config}
         filter={true}
+        cssContainerCard='flex flex-wrap'
       />
     </Frame>
   )

@@ -118,7 +118,9 @@ function RouteComponent() {
         title={'Proyectos 📚'}
         data={projects}
         config={config}
+        cssContainerCard='flex flex-wrap'
       />
+      <p className='flex flex-wrap'></p>
     </Frame>
   )
 }
