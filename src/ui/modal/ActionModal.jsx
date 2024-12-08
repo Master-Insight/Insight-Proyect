@@ -91,10 +91,8 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
     defaultValues: defaultValues || configDefaultValues,
     validatorAdapter: zodValidator(dynamicSchema),
     onSubmit: ({ value }) => {
-      console.log(value);
-
-      // functionApi && functionApi(value); // Llama a la API
-      // handleCloseModal();
+      functionApi && functionApi(value); // Llama a la API
+      handleCloseModal();
     }
   })
 
@@ -169,7 +167,7 @@ ActionModal.propTypes = {
       label: PropTypes.string.isRequired, // Etiqueta del campo
       icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]), // Icono del campo -- string de https://icon-sets.iconify.design/
       type: PropTypes.oneOf(['generic', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
-      enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
+      enum: PropTypes.arrayOf(PropTypes.any), // Opciones para selects
       itemType: PropTypes.oneOf(['text', 'select']), // Tipo de ítem para arrays
       fields: PropTypes.arrayOf(PropTypes.shape({
         name: PropTypes.string.isRequired,
