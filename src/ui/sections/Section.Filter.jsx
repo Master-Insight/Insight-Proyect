@@ -22,7 +22,6 @@ const SectionWFilters = ({ title, data,
   // Estados de control
   const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos
   const [filteredData, setFilteredData] = useState(data); // Array de Datos filtrados
-  console.log("activeFilters:", activeFilters);
 
   // Handler de cambios en los filtros
   const handleFilterChange = (filterKey, filterValue) => {
