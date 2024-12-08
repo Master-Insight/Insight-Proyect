@@ -155,5 +155,5 @@ export const getUsersProjects = async () => {
 // TANSTACK QUERY
 export const usersProjectsQueryOptions = queryOptions({
   queryKey: ['usersProjects'],
-  queryFn: () => getProjects()
+  queryFn: () => getUsersProjects()
 })
