@@ -45,8 +45,6 @@ function RouteComponent() {
   // Variables, estados y handlers de TASKs
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
-  console.log("tasks: ", tasks);
-  console.log("project: ", project);
 
   // Mutaciones QUERY TASKs
   const postMutation = usePostTaskMutation(queryClient)
