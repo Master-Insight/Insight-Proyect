@@ -10,9 +10,7 @@ import SelectField from './fields/Select';
 
 const sanitizeHtml = (html) => DOMPurify.sanitize(html);
 
-/**
- * Subcomponente para renderizar los campos dinámicos del formulario.
-*/
+// Subcomponente para renderizar los campos dinámicos del formulario.
 const DynamicField = ({ field, form, parentName }) => {
 
   const {
@@ -59,7 +57,7 @@ const DynamicField = ({ field, form, parentName }) => {
             onChange={handleChange} />)}
 
           {/* Array de select */}{(type === 'array' && itemType === 'object') && (<ArrayObjectSelectField
-            value={state.value} options={enumOptions} displayField={"full_name"} valueField={"_id"}
+            value={state.value} options={enumOptions} displayField={displayField} valueField={valueField}
             onChange={handleChange} />)}
 
           {/* Array de fields (subcampos) */}{(type === 'array' && itemType === 'fields') && (null)}
