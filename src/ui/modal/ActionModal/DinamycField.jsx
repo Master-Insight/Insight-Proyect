@@ -76,7 +76,7 @@ DynamicField.propTypes = {
     default: PropTypes.any, // Valor por defecto
     type: PropTypes.oneOf(['generic', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
     itemType: PropTypes.oneOf(['text', 'select', 'object']), // Tipo de ítem para arrays
-    enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
+    enum: PropTypes.arrayOf(PropTypes.any), // Opciones para selects
     displayField: PropTypes.string, // Opciones para Objects array
     valueField: PropTypes.string, // Opciones para Objects array
     fields: PropTypes.array, // Subcampos (si aplica)
