@@ -69,7 +69,7 @@ const ArrayObjectSelectField = ({ options, value, onChange, displayField, valueF
 
 ArrayObjectSelectField.propTypes = {
   options: PropTypes.arrayOf(PropTypes.object).isRequired,
-  value: PropTypes.arrayOf(PropTypes.string),
+  value: PropTypes.arrayOf(PropTypes.any),
   onChange: PropTypes.func.isRequired,
   displayField: PropTypes.string.isRequired,
   valueField: PropTypes.string.isRequired,
