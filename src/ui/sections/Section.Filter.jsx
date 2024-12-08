@@ -17,7 +17,9 @@ const SectionWFilters = ({ title, data,
     filters: [],
     fields: [],
     actions: {}
-  }, }) => {
+  },
+  cssContainerCard = "flex flex-col",
+}) => {
 
   // Estados de control
   const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos
@@ -113,7 +115,7 @@ const SectionWFilters = ({ title, data,
         />
 
         {/* Mapeo de cards */}
-        <div className="w-4/5 p-4 flex flex-col gap-2">
+        <div className={`w-4/5 p-4 gap-2 ${cssContainerCard}`}>
           <ElementList data={filteredData} config={config} isPending={isElementPending} />
         </div>
       </div>
@@ -154,7 +156,8 @@ SectionWFilters.propTypes = {
       postApi: PropTypes.func, // Función API para agregar un nuevo elemento
     }),
   }).isRequired,
-  filter: PropTypes.bool // muestra o no los filtros
+  filter: PropTypes.bool, // muestra o no los filtros
+  cssContainerCard: PropTypes.string, // Styles a aplicar al contenedor de Cards
 };
 
 export default SectionWFilters;
