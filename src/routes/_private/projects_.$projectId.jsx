@@ -45,6 +45,8 @@ function RouteComponent() {
   // Variables, estados y handlers de TASKs
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
+  console.log("tasks: ", tasks);
+
 
   // Mutaciones QUERY TASKs
   const postMutation = usePostTaskMutation(queryClient)
@@ -68,6 +70,7 @@ function RouteComponent() {
         key: "status",
         label: "Estado",
         type: "select",
+        allowMultiple: true, // Permitir seleccionar múltiples opciones
         options: TASK_STATUS,
       },
       // Filtro por Prioridad
@@ -75,7 +78,6 @@ function RouteComponent() {
         key: "priority",
         label: "Prioridad",
         type: "select",
-        allowMultiple: true, // Permitir seleccionar múltiples opciones
         options: TASK_PRIORITY,
       },
       // Filtro por Usuario

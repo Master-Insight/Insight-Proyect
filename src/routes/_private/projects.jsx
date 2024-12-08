@@ -41,11 +41,14 @@ function RouteComponent() {
   // Carga de data USERS PROYECTS
   const usersProjectsQuery = useSuspenseQuery(usersProjectsQueryOptions)
   const users = usersProjectsQuery.data
+
   const userOptions = users.map((user) => ({
     label: user.full_name,
     value: user._id,
   }));
-  console.log(userOptions); // TODO obtiene lista de usuarios, usar para filtrar
+
+  console.log("projects: ", projects);
+  console.log("userOptions: ", userOptions); // TODO obtiene lista de usuarios, usar para filtrar
 
 
   // Configuración del módulo
@@ -53,7 +56,20 @@ function RouteComponent() {
     // ID del usuario actual
     currentUserId: currentUser._id,
     // Configuración de filtros (vacío para este ejemplo)
-    filters: [],
+    filters: [
+      // Filtro por titulo
+      {
+        key: "title",
+        label: "Título",
+        type: "text",
+      },
+      {
+        key: "users",
+        label: "Asignado a",
+        type: "select",
+        options: userOptions, // Opciones transformadas
+      },
+    ],
     // Filtro activo (por defecto vacío)
     activeFilter: {},
     // Fields muestra los campos para crear / editar
@@ -104,10 +120,10 @@ function RouteComponent() {
     <Frame css={'w-full mx-5'}>
       {/* Sección con filtros y listado de proyectos */}
       <SectionWFilters
+        filter={true}
         title={'Proyectos 📚'}
         data={projects}
         config={config}
-        filter={false}
       />
     </Frame>
   )
