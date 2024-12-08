@@ -33,7 +33,6 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
       )
     );
   };
-  console.log("activeFilters: ", activeFilters);
 
   if (active) return (
     <div className="w-1/5 p-4 border-r border-gray-200">
