@@ -35,6 +35,13 @@ function RouteComponent() {
   const projectId = Route.useParams().projectId
   const projectQuery = useSuspenseQuery(projectByIdQueryOptions(projectId))
   const project = projectQuery.data
+  console.log(project);
+
+  // Obtener Usuarios asignados en un formato válido para el filtro.
+  const userOptions = project.users.map((user) => ({
+    label: user.full_name,
+    value: user._id,
+  }));
 
   // Variables, estados y handlers de TASKs
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
@@ -70,18 +77,16 @@ function RouteComponent() {
         key: "priority",
         label: "Prioridad",
         type: "select",
+        allowMultiple: true, // Permitir seleccionar múltiples opciones
         options: TASK_PRIORITY,
       },
       // Filtro por Usuario
       {
         key: "assignedTo",
-        label: "Asignado a COMPLETAR",
+        label: "Asignado a",
         type: "select", // Filtro basado en un array de IDs de usuarios
-        options: [
-          { label: "Usuario 1", value: "userId1" },
-          { label: "Usuario 2", value: "userId2" },
-          // Cargar dinámicamente más opciones si es necesario.
-        ],
+        allowMultiple: true,
+        options: userOptions,
       },
       // Filtro por Fecha
       {
