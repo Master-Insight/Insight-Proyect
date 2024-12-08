@@ -56,28 +56,27 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
             )}
 
             {/* Campo de selección */}
-            {
-              filter.type === "select" && (
-                <select
-                  id={filter.key}
-                  className="w-full p-2 border border-gray-300 rounded"
-                  multiple={filter.allowMultiple} // Habilitar selección múltiple si se especifica
-                  value={
-                    Array.isArray(activeFilters[filter.key])
-                      ? activeFilters[filter.key]
-                      : activeFilters[filter.key] || []
-                  }
-                  onChange={(e) => {
-                    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                    onFilterChange(filter.key, selectedOptions.length > 0 ? selectedOptions : null);
-                  }}
-                >
-                  {!filter.allowMultiple && (
-                    <option value="">Por defecto</option>
-                  )}
-                  {filter.options && renderOptions(filter.options)}
-                </select>
-              )
+            {filter.type === "select" && (
+              <select
+                id={filter.key}
+                className="w-full p-2 border border-gray-300 rounded"
+                multiple={filter.allowMultiple} // Habilitar selección múltiple si se especifica
+                value={
+                  filter.allowMultiple
+                    ? activeFilters[filter.key] || []  // En caso de permitir múltiples, usa array
+                    : activeFilters[filter.key] || ""  // En caso de no permitir múltiples, usa un solo valor
+                }
+                onChange={(e) => {
+                  const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                  onFilterChange(filter.key, selectedOptions.length > 0 ? selectedOptions : null);
+                }}
+              >
+                {!filter.allowMultiple && (
+                  <option value="">Por defecto</option>
+                )}
+                {filter.options && renderOptions(filter.options)}
+              </select>
+            )
             }
           </div>
         ))}
