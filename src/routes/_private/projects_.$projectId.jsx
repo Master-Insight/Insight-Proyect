@@ -46,7 +46,7 @@ function RouteComponent() {
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
   console.log("tasks: ", tasks);
-
+  console.log("project: ", project);
 
   // Mutaciones QUERY TASKs
   const postMutation = usePostTaskMutation(queryClient)
@@ -133,9 +133,11 @@ function RouteComponent() {
         name: 'assignedTo',
         label: 'Asignado a',
         type: 'array',
-        itemType: 'select',
-        noEditable: true,
-        enum: ['users'],
+        itemType: 'object',
+        // noEditable: true,
+        enum: project.users,
+        displayField: "full_name",
+        valueField: "_id",
         default: [],
       },
       {
@@ -170,15 +172,9 @@ function RouteComponent() {
     card: CardTask,
     // Acciones disponibles para utilizar es Card
     actions: {
-      postApi: async function (value) {
-        await postMutation.mutateAsync(value)
-      },
-      putApi: async function (predata) {
-        await updateMutation.mutateAsync(predata)
-      },
-      delApi: async function (id) {
-        await deleteMutation.mutateAsync(id)
-      },
+      postApi: async function (value) { await postMutation.mutateAsync(value) },
+      putApi: async function (predata) { await updateMutation.mutateAsync(predata) },
+      delApi: async function (id) { await deleteMutation.mutateAsync(id) },
     },
     // Extra data para ser usada en Cards
   }
