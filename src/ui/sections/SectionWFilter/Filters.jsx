@@ -105,15 +105,7 @@ FilterSection.propTypes = {
       label: PropTypes.string.isRequired, // Etiqueta mostrada al usuario.
       type: PropTypes.oneOf(["text", "select"]).isRequired, // Tipo de filtro.
       allowMultiple: PropTypes.bool, // Permite múltiples selecciones.
-      options: PropTypes.arrayOf(
-        PropTypes.oneOfType([
-          PropTypes.string,
-          PropTypes.shape({
-            label: PropTypes.string.isRequired, // Nombre visible.
-            value: PropTypes.any.isRequired, // Valor asociado.
-          }),
-        ])
-      ), // Opciones para los select.
+      options: PropTypes.arrayOf(PropTypes.any), // Opciones para los select.
     })
   ).isRequired,
   onFilterChange: PropTypes.func.isRequired, // Función de manejo de cambio.
