@@ -10,7 +10,7 @@ const CardProject = ({ item, config }) => {
         <div className="mb-4 flex items-center">
           <h2 className="text-xl font-semibold mb-1">{item.title}</h2>
         </div>
-        <p className="text-sm italic text-gray-500">Autor: {item.users[0].full_name}</p>
+        <p className="text-sm italic text-gray-500">Participantes: {item.users[0].full_name}</p>
         <p className="text-sm text-gray-500">{item.description}</p>
       </div>
 
