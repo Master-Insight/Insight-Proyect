@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Icon } from '@iconify/react';
 import { useState, useEffect } from "react";
-import { icons, styles, variant } from "../../../config/layout";
+import { icons } from "../../../config/layout";
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
 import ActionModal from "../modal/ActionModal";
@@ -30,6 +30,11 @@ const SectionWFilters = ({ title, data,
       ...prevFilters,
       [filterKey]: filterValue,
     }));
+  };
+
+  // Handler que Reinicia todos los filtros activos
+  const handleResetFilter = () => {
+    setActiveFilters(config.activeFilter);
   };
 
   // useEffect que actualiza los datos cada vez que los filtros cambian
@@ -68,11 +73,6 @@ const SectionWFilters = ({ title, data,
     applyFilters();
   }, [activeFilters, data]);
 
-  // Handler que Reinicia todos los filtros activos
-  const handleResetFilter = () => {
-    setActiveFilters(config.activeFilter);
-  };
-
   return (
     <>
       {/* Encabezado (titulo y boton de agregar elemento)*/}
@@ -89,21 +89,13 @@ const SectionWFilters = ({ title, data,
       {/* Cuerpo ( filtros / mapero de card )*/}
       <div className="flex">
         {/* Filtros */}
-        {filter && (
-          <div className="w-1/5 p-4 border-r border-gray-200">
-            <FilterSection
-              filters={config.filters}
-              onFilterChange={handleFilterChange}
-              isPending={isFilterPending}
-            />
-            <button
-              onClick={handleResetFilter}
-              className={`${styles.button} ${variant.primary}`}>
-              Limpiar Filtro
-              <Icon icon={icons.reset} className="ml-2 inline-block" />
-            </button>
-          </div>
-        )}
+        <FilterSection
+          active={filter}
+          filters={config.filters}
+          onFilterChange={handleFilterChange}
+          isPending={isFilterPending}
+          onReset={handleResetFilter}
+        />
 
         {/* Mapeo de cards */}
         <div className="w-4/5 p-4 flex flex-col gap-2">

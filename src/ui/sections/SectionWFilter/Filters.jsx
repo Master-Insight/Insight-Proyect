@@ -1,4 +1,6 @@
+import { Icon } from "@iconify/react/dist/iconify.js";
 import PropTypes from "prop-types";
+import { icons, styles, variant } from "../../../../config/layout";
 
 /**
  * Componente que renderiza una sección de filtros.
@@ -10,7 +12,7 @@ import PropTypes from "prop-types";
  * @param {boolean} props.isPending - Indica si los filtros están cargando.
  */
 
-const FilterSection = ({ filters, onFilterChange, isPending }) => {
+const FilterSection = ({ active, filters, onFilterChange, onReset, isPending }) => {
 
   if (isPending) { return <div className="text-center text-gray-500">Cargando...</div>; }
 
@@ -29,43 +31,62 @@ const FilterSection = ({ filters, onFilterChange, isPending }) => {
     );
   };
 
-  return (
-    <div>
-      {filters.map((filter) => (
-        <div key={filter.key} className="mb-4">
+  if (active) return (
+    <div className="w-1/5 p-4 border-r border-gray-200">
+      <div>
+        {filters.map((filter) => (
+          <div key={filter.key} className="mb-4">
 
-          {/* Muestra la etiqueta del filtro */}
-          <label className="block mb-2">{filter.label}</label>
+            {/* Muestra la etiqueta del filtro */}
+            <label className="block mb-2">{filter.label}</label>
 
-          {/* Campo de texto */}
-          {filter.type === "text" && (
-            <input
-              id={filter.key}
-              type="text"
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder={`Ingresa ${filter.label.toLowerCase()}`}
-              onChange={(e) => onFilterChange(filter.key, e.target.value)}
-            />
-          )}
+            {/* Campo de texto */}
+            {filter.type === "text" && (
+              <input
+                id={filter.key}
+                type="text"
+                className="w-full p-2 border border-gray-300 rounded"
+                placeholder={`Ingresa ${filter.label.toLowerCase()}`}
+                onChange={(e) => onFilterChange(filter.key, e.target.value)}
+              />
+            )}
 
-          {/* Campo de selección */}
-          {filter.type === "select" && (
-            <select
-              id={filter.key}
-              className="w-full p-2 border border-gray-300 rounded"
-              onChange={(e) => onFilterChange(filter.key, e.target.value)}
-            >
-              <option value="">-- Selecciona --</option>
-              {filter.options && renderOptions(filter.options)}
-            </select>
-          )}
-        </div>
-      ))}
+            {/* Campo de selección */}
+            {
+              filter.type === "select" && (
+                <select
+                  id={filter.key}
+                  className="w-full p-2 border border-gray-300 rounded"
+                  multiple={filter.allowMultiple} // Habilitar selección múltiple si se especifica
+                  onChange={(e) => {
+                    const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
+                    onFilterChange(filter.key, filter.allowMultiple ? selectedOptions : selectedOptions[0]);
+                  }}
+                >
+                  <option value="" disabled>
+                    -- Selecciona --
+                  </option>
+                  {filter.options && renderOptions(filter.options)}
+                </select>
+              )
+            }
+          </div>
+        ))}
+      </div>
+      <button
+        onClick={onReset}
+        className={`${styles.button} ${variant.primary}`}>
+        Limpiar Filtro
+        <Icon icon={icons.reset} className="ml-2 inline-block" />
+      </button>
     </div>
   );
+
+  return null
 };
 
 FilterSection.propTypes = {
+  active: PropTypes.bool.isRequired, //Indica si se habilitan o no
   filters: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired, // Clave única del filtro.
@@ -83,6 +104,7 @@ FilterSection.propTypes = {
     })
   ).isRequired,
   onFilterChange: PropTypes.func.isRequired, // Función de manejo de cambio.
+  onReset: PropTypes.func.isRequired, // Función de manejo del reseteo.
   isPending: PropTypes.bool, // Indica si el estado de carga está activo.
 };
 
