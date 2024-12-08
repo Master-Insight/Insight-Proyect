@@ -61,12 +61,6 @@ const SectionWFilters = ({ title, data,
           });
         }
       });
-
-      // Filtro por defecto: excluir "completado" si no está en los filtros activos
-      if (!activeFilters.status || activeFilters.status.length === 0) {
-        filtered = filtered.filter((item) => item.status !== "completado");
-      }
-
       setFilteredData(filtered);
     };
 
@@ -91,6 +85,7 @@ const SectionWFilters = ({ title, data,
         {/* Filtros */}
         <FilterSection
           active={filter}
+          activeFilters={activeFilters}
           filters={config.filters}
           onFilterChange={handleFilterChange}
           isPending={isFilterPending}
