@@ -79,7 +79,7 @@ const CardTask = ({ item, config }) => {
 
 
   return (
-    <div className="flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
+    <div className="w-full flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
       {/* Header */}
       <div className="mb-4 w-4/5">
         <div className="mb-2 flex items-center">

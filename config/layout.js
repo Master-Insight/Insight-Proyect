@@ -26,6 +26,7 @@ export const icons = {
   addEle: 'fluent:stack-add-20-regular', // agregar Elemento
   plus: 'ph:plus-fill', // agregar uno m+as +
   edit: "mage:edit", // editar contenido
+  reset: "ix:reset", // resetear
 }
 
 export const styles = {

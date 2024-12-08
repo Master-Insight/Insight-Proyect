@@ -1,35 +1,30 @@
-import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-import { icons } from "../../../config/layout";
 import { Icon } from '@iconify/react';
-
-// Es una section que muestra "cards" y filtradas tipo "tienda online" y un boton para agregar mas elementos
-
-// Subcomponentes
+import { useState, useEffect } from "react";
+import { icons, styles, variant } from "../../../config/layout";
 import ElementList from "./SectionWFilter/Elements";
 import FilterSection from "./SectionWFilter/Filters";
 import ActionModal from "../modal/ActionModal";
 
-const SectionWFilters = ({
-  title,
-  data,
-  isFilterPending = false,
-  isElementPending = false,
+/**
+ * Componente principal que gestiona una sección con filtros y lista de elementos.
+ */
+
+const SectionWFilters = ({ title, data,
+  isFilterPending = false, isElementPending = false, filter = true,
   config = {
     activeFilter: {},
     filters: [],
     fields: [],
     actions: {}
-  },
-  filter = true,
-}) => {
+  }, }) => {
 
-  const [filteredData, setFilteredData] = useState(data);
-  const [activeFilters, setActiveFilters] = useState(config.activeFilter || {});
+  // Estados de control
+  const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos
+  const [filteredData, setFilteredData] = useState(data); // Array de Datos filtrados
+  console.log("activeFilters:", activeFilters);
 
-  //console.log("data: ",filteredData);
-  // console.log("activeFilters: ",activeFilters);
-  // Maneja cambios en los filtros
+  // Handler de cambios en los filtros
   const handleFilterChange = (filterKey, filterValue) => {
     setActiveFilters((prevFilters) => ({
       ...prevFilters,
@@ -37,40 +32,50 @@ const SectionWFilters = ({
     }));
   };
 
-  // Filtra los datos cada vez que los filtros cambian
+  // useEffect que actualiza los datos cada vez que los filtros cambian
   useEffect(() => {
     const applyFilters = () => {
-      let filtered = data;
+      // Copia de los datos originales
+      let filtered = [...data];
 
-      Object.keys(activeFilters).forEach((filterKey) => {
-        const filterValue = activeFilters[filterKey];
-
+      Object.entries(activeFilters).forEach(([filterKey, filterValue]) => {
         if (filterValue) {
           filtered = filtered.filter((item) => {
-            if (filterKey === "user") {
-              // Filtrar por el ID del usuario contribuyente
-              return item.contributedBy && item.contributedBy._id === filterValue;
+            const itemValue =
+              filterKey === "user"
+                ? item.contributedBy?._id
+                : item[filterKey];
+
+            if (Array.isArray(filterValue)) {
+              // Si el filtro es un array (multi-selección), verificamos si incluye el valor
+              return filterValue.includes(itemValue?.toString());
             } else {
-              // Filtrar por los demás campos
-              const itemValue = item[filterKey];
-              return itemValue && itemValue.includes(filterValue);
+              // Para filtros simples (string/number)
+              return itemValue?.toString().includes(filterValue.toString());
             }
           });
         }
       });
+
+      // Filtro por defecto: excluir "completado" si no está en los filtros activos
+      if (!activeFilters.status || activeFilters.status.length === 0) {
+        filtered = filtered.filter((item) => item.status !== "completado");
+      }
+
       setFilteredData(filtered);
     };
 
     applyFilters();
   }, [activeFilters, data]);
 
-  // Handler Reset Filter
+  // Handler que Reinicia todos los filtros activos
   const handleResetFilter = () => {
-    setActiveFilters({});
+    setActiveFilters(config.activeFilter);
   };
 
   return (
     <>
+      {/* Encabezado (titulo y boton de agregar elemento)*/}
       <div className="flex justify-between">
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
         <ActionModal
@@ -81,22 +86,27 @@ const SectionWFilters = ({
           Contribuir <Icon icon={icons.plus} className="ml-2" />
         </ActionModal>
       </div>
+      {/* Cuerpo ( filtros / mapero de card )*/}
       <div className="flex">
-        {/* Sección de filtros */}
-        {
-          filter && (
-            <div className="w-1/4 p-4 border-r border-gray-200">
-              <FilterSection filters={config.filters} onFilterChange={handleFilterChange} isPending={isFilterPending} />
-              <button onClick={handleResetFilter}
-                className="px-4 py-2 bg-blue-500 text-white rounded-md flex items-center hover:bg-blue-600 transition-all">
-                Limpiar Filtro <Icon icon={icons.plus} className="ml-2" />
-              </button>
-            </div>
-          )
-        }
+        {/* Filtros */}
+        {filter && (
+          <div className="w-1/5 p-4 border-r border-gray-200">
+            <FilterSection
+              filters={config.filters}
+              onFilterChange={handleFilterChange}
+              isPending={isFilterPending}
+            />
+            <button
+              onClick={handleResetFilter}
+              className={`${styles.button} ${variant.primary}`}>
+              Limpiar Filtro
+              <Icon icon={icons.reset} className="ml-2 inline-block" />
+            </button>
+          </div>
+        )}
 
-        {/* Sección de elementos */}
-        <div className="w-3/4 p-4">
+        {/* Mapeo de cards */}
+        <div className="w-4/5 p-4 flex flex-col gap-2">
           <ElementList data={filteredData} config={config} isPending={isElementPending} />
         </div>
       </div>
@@ -118,8 +128,18 @@ SectionWFilters.propTypes = {
     activeFilter: PropTypes.object, // Filtros activos
     filters: PropTypes.arrayOf(
       PropTypes.shape({
-        label: PropTypes.string,
-        key: PropTypes.string,
+        label: PropTypes.string.isRequired,
+        key: PropTypes.string.isRequired,
+        type: PropTypes.oneOf(["text", "select"]),
+        options: PropTypes.arrayOf(
+          PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.shape({
+              label: PropTypes.string,
+              value: PropTypes.any,
+            }),
+          ])
+        ),
       })
     ), // Configuración de los filtros
     fields: PropTypes.arrayOf(PropTypes.object), // Campos para el modal

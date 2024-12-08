@@ -9,7 +9,7 @@ import {
   useUpdateTaskMutation,
 } from '../../data/Tasks.Data'
 import { projectByIdQueryOptions } from '../../data/Projects.Data'
-import { TASK_PRIORITY, TASK_STATUS } from '../../modules/tasks/mapValues'
+import { TASK_PRIORITY, TASK_STATUS, TASK_STATUS_INITIAL } from '../../modules/tasks/mapValues'
 import Frame from '../../ui/Divs/Frame'
 import CardTask from '../../modules/tasks/Card.Tasks'
 import SectionWFilters from '../../ui/sections/Section.Filter'
@@ -39,6 +39,7 @@ function RouteComponent() {
   // Variables, estados y handlers de TASKs
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
+  console.log(tasks);
 
   // Mutaciones QUERY TASKs
   const postMutation = usePostTaskMutation(queryClient)
@@ -50,9 +51,50 @@ function RouteComponent() {
     // ID del usuario actual
     currentUserId: currentUser._id,
     // Configuración de filtros (vacío para este ejemplo)
-    filters: [],
+    filters: [
+      // Filtro por titulo
+      {
+        key: "title",
+        label: "Título",
+        type: "text",
+      },
+      // Filtro por estado
+      {
+        key: "status",
+        label: "Estado",
+        type: "select",
+        options: TASK_STATUS,
+      },
+      // Filtro por Prioridad
+      {
+        key: "priority",
+        label: "Prioridad",
+        type: "select",
+        options: TASK_PRIORITY,
+      },
+      // Filtro por Usuario
+      {
+        key: "assignedTo",
+        label: "Asignado a COMPLETAR",
+        type: "select", // Filtro basado en un array de IDs de usuarios
+        options: [
+          { label: "Usuario 1", value: "userId1" },
+          { label: "Usuario 2", value: "userId2" },
+          // Cargar dinámicamente más opciones si es necesario.
+        ],
+      },
+      // Filtro por Fecha
+      {
+        key: "created",
+        label: "Fecha de Creación",
+        type: "text",
+        placeholder: "YYYY-MM-DD",
+      },
+    ],
     // Filtro activo (por defecto vacío)
-    activeFilter: {},
+    activeFilter: {
+      status: TASK_STATUS_INITIAL,
+    },
     // Fields muestra los campos para crear / editar
     fields: [
       {
@@ -141,7 +183,7 @@ function RouteComponent() {
         title={`Proyecto 📔: ${project.title} - Tareas 📄`}
         data={tasks}
         config={config}
-        filter={false}
+        filter={true}
       />
     </Frame>
   )
