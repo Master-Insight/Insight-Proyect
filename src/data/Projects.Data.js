@@ -55,8 +55,14 @@ export const usePostProjectMutation = (queryClient) => {
 
 // * ---------------- UPDATE Project ----------------
 // AXIOS
-export const updateProjectById = async ({ pId, data }) => {
+export const updateProjectById = async (predata) => {
   try {
+    const pId = predata._id
+    const data = {}
+    if (predata.title) data.title = predata.title
+    if (predata.description) data.description = predata.description
+    if (predata.users) data.users = predata.users
+
     const response = await myAxios.put(`/v1/projects/id/${pId}`, data);
     const projects = response.data?.data || null;
     return projects;
