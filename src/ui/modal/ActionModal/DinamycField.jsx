@@ -15,9 +15,13 @@ const sanitizeHtml = (html) => DOMPurify.sanitize(html);
 */
 const DynamicField = ({ field, form, parentName }) => {
 
-  const { name, label, icon, type, enum: enumOptions, itemType, fields: subFields, noEditable } = field;
-
-  if (noEditable) { return }
+  const {
+    name, label, icon, // opciones label
+    type, itemType, // typo de campos
+    enum: enumOptions, // Select options
+    displayField, valueField, // Object options (array de objetcs)
+    fields: subFields, // Components options (array de fields)
+  } = field;
 
   // Construir el nombre completo del campo con el prefijo del padre si existe
   const idF = parentName ? `${parentName}.${name}` : name;
@@ -33,25 +37,33 @@ const DynamicField = ({ field, form, parentName }) => {
           </label>
 
           {/* Renderizado dinámico según el tipo de campo */}
+
+          {/* Campos básicos */} {type === "generic" && (<GenericField
+            value={state.value} type={itemType}
+            id={idF} onChange={handleChange} error={state.meta.errors} />)}
+
           {/* Textarea */} {type === "textarea" && (<TextAreaField
-            id={idF} value={state.value} onChange={handleChange} />)}
+            value={state.value}
+            id={idF} onChange={handleChange} />)}
 
           {/* Select */} {type === "select" && (<SelectField
-            id={idF} value={state.value || ""} onChange={handleChange} error={state.meta.errors} options={enumOptions} />)}
+            value={state.value} options={enumOptions}
+            id={idF} onChange={handleChange} error={state.meta.errors} />)}
 
           {/* Array de textos */}{(type === 'array' && itemType === 'text') && (<ArrayTextField
-            id={idF} value={state.value} onChange={handleChange} error={state.meta.errors} />)}
+            value={state.value}
+            id={idF} onChange={handleChange} error={state.meta.errors} />)}
 
           {/* Array de select */}{(type === 'array' && itemType === 'select') && (<ArraySelectField
-            value={state.value} onChange={handleChange} options={enumOptions} />)}
+            value={state.value} options={enumOptions}
+            onChange={handleChange} />)}
 
           {/* Array de select */}{(type === 'array' && itemType === 'object') && (<ArrayObjectSelectField
-            value={state.value} onChange={handleChange} options={enumOptions} displayField={"full_name"} valueField={"_id"} />)}
+            value={state.value} options={enumOptions} displayField={"full_name"} valueField={"_id"}
+            onChange={handleChange} />)}
 
           {/* Array de fields (subcampos) */}{(type === 'array' && itemType === 'fields') && (null)}
 
-          {/* Campos básicos */} {type === "generic" && (<GenericField
-            id={idF} type={itemType} value={state.value} onChange={handleChange} error={state.meta.errors} />)}
         </div>
       )}
     </form.Field>
@@ -63,16 +75,16 @@ DynamicField.propTypes = {
     name: PropTypes.string.isRequired, // Nombre del campo
     label: PropTypes.string.isRequired, // Etiqueta del campo
     icon: PropTypes.oneOfType([PropTypes.object, PropTypes.string]), // Icono del campo
-    type: PropTypes.oneOf(['generic', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
-    enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
-    itemType: PropTypes.oneOf(['text', 'select', 'object']), // Tipo de ítem para arrays
-    fields: PropTypes.array, // Subcampos (si aplica)
     default: PropTypes.any, // Valor por defecto
-    noEditable: PropTypes.bool, // Indica si el campo no es editable
+    type: PropTypes.oneOf(['generic', 'textarea', 'select', 'array', 'fields']).isRequired, // Tipo de campo
+    itemType: PropTypes.oneOf(['text', 'select', 'object']), // Tipo de ítem para arrays
+    enum: PropTypes.arrayOf(PropTypes.string), // Opciones para selects
+    displayField: PropTypes.string, // Opciones para Objects array
+    valueField: PropTypes.string, // Opciones para Objects array
+    fields: PropTypes.array, // Subcampos (si aplica)
   }).isRequired,
   form: PropTypes.object.isRequired, // Instancia del formulario
   parentName: PropTypes.string, // Nombre del campo padre (opcional)
 };
-
 
 export default DynamicField;
