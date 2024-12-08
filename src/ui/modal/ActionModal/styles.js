@@ -1,12 +1,15 @@
-import { icons } from "../../../../config/layout"
+import { icons, styles, variant } from "../../../../config/layout"
 
-const styles = {
+
+const amStyles = {
+  ...styles,
   generic: ' w-full border p-2 rounded-md focus:outline-none focus:border-primary',
 
   ok: ' border-gray-300',
   error: ' border-red-500',
 }
 
-export default styles
+export default amStyles
 
 export const amIcons = icons
+export const amVariant = variant

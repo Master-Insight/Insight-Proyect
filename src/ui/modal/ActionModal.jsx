@@ -4,7 +4,7 @@ import { useForm } from '@tanstack/react-form';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import { z } from 'zod';
 import { Icon } from '@iconify/react';
-import { icons, styles, variant } from '../../../config/layout';
+import amStyles, { amIcons, amVariant } from './ActionModal/styles';
 import Modal from './Modal';
 import DynamicField from './ActionModal/DinamycField';
 
@@ -26,6 +26,44 @@ const fields = [
   * Array de objetos (cada elemento tiene varios campos) -> ...
 */
 
+// ? Ejemplo
+/* const config = [
+  {
+    name: 'username',
+    label: 'Nombre de usuario',
+    icon: icons.user,
+    type: 'text',
+    default: '',
+    validation: z.string().min(1, 'El nombre de usuario es requerido').max(50, 'Máximo 50 caracteres'),
+  },
+  {
+    name: 'email',
+    label: 'Correo electrónico',
+    icon: icons.email,
+    type: 'text',
+    default: '',
+    validation: z.string().email('Debe ser un correo electrónico válido'),
+  },
+  {
+    name: 'role',
+    label: 'Rol',
+    icon: icons.role,
+    type: 'select',
+    enum: ['admin', 'editor', 'viewer'],
+    default: 'viewer',
+    validation: z.enum(['admin', 'editor', 'viewer']),
+  },
+  {
+    name: 'tags',
+    label: 'Etiquetas',
+    icon: icons.tags,
+    type: 'array',
+    itemType: 'text',
+    default: [],
+    validation: z.array(z.string()).max(10, 'Máximo 10 etiquetas'),
+  },
+];
+*/
 
 const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "primary" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -68,9 +106,9 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className={`${variant[cssbutton]} ${styles.button}`}>
+        className={`${amVariant[cssbutton]} ${amStyles.button}`}>
         {title}
-        <Icon icon={icons.plus} className="inline-block ml-2" />
+        <Icon icon={amIcons.plus} className="inline-block ml-2" />
       </button>
 
       {/* Modal con formulario dinámico */}
@@ -79,18 +117,22 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
 
           {/* Renderizado de campos dinámicos */}
           {fields.map((fieldUnit) => (
-            <DynamicField key={fieldUnit.name} field={fieldUnit} form={form} />
+            fieldUnit.noEditable ? null : <DynamicField key={fieldUnit.name} field={fieldUnit} form={form} />
           ))}
+
           {/* Alertas Errores, Tanstack Form */}
           <form.Subscribe selector={(state) => state.errors}
+            // eslint-disable-next-line react/no-children-prop
             children={(errors) =>
               errors.length > 0 && (
                 <p className="text-red-500 text-sm mt-2">{errors}</p>
               )
             }
           />
+
           {/* Botones de acción, Tanstack Form */}
           <form.Subscribe selector={(state) => [state.canSubmit]}
+            // eslint-disable-next-line react/no-children-prop
             children={([canSubmit]) => (
               <div className="flex items-center justify-between mt-6">
                 <button
