@@ -35,7 +35,6 @@ function RouteComponent() {
   const projectId = Route.useParams().projectId
   const projectQuery = useSuspenseQuery(projectByIdQueryOptions(projectId))
   const project = projectQuery.data
-  console.log(project);
 
   // Obtener Usuarios asignados en un formato válido para el filtro.
   const userOptions = project.users.map((user) => ({
@@ -46,7 +45,6 @@ function RouteComponent() {
   // Variables, estados y handlers de TASKs
   const tasksQuery = useSuspenseQuery(tasksQueryOptions(projectId))
   const tasks = tasksQuery.data
-  console.log(tasks);
 
   // Mutaciones QUERY TASKs
   const postMutation = usePostTaskMutation(queryClient)
