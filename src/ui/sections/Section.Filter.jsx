@@ -45,11 +45,29 @@ const SectionWFilters = ({ title, data,
       Object.entries(activeFilters).forEach(([filterKey, filterValue]) => {
         if (filterValue) {
           filtered = filtered.filter((item) => {
-            const itemValue =
-              filterKey === "user"
-                ? item.contributedBy?._id
-                : item[filterKey];
+            // Condición especial para el filtro de "users"
+            if (filterKey === "users") {
+              // Si el filtro es un array (selección múltiple)
+              if (Array.isArray(filterValue)) {
+                // Comprobar si al menos uno de los usuarios del item está en los seleccionados
+                return item.users.some(user => filterValue.includes(user._id));
+              }
+              // Si el filtro no es un array, comparar directamente con un único valor
+              return item.users.some(user => user._id === filterValue);
+            }
 
+            if (filterKey === "assignedTo") {
+              // Si el filtro es un array (selección múltiple)
+              if (Array.isArray(filterValue)) {
+                // Comprobar si al menos uno de los usuarios del item está en los seleccionados
+                return item.assignedTo.some(user => filterValue.includes(user._id));
+              }
+              // Si el filtro no es un array, comparar directamente con un único valor
+              return item.assignedTo.some(user => user._id === filterValue);
+            }
+
+            // Para filtros simples (como texto o selección única)
+            const itemValue = item[filterKey];
             if (Array.isArray(filterValue)) {
               // Si el filtro es un array (multi-selección), verificamos si incluye el valor
               return filterValue.includes(itemValue?.toString());
@@ -60,11 +78,14 @@ const SectionWFilters = ({ title, data,
           });
         }
       });
+
+      // Establecer los datos filtrados
       setFilteredData(filtered);
     };
 
     applyFilters();
   }, [activeFilters, data]);
+
 
   return (
     <>

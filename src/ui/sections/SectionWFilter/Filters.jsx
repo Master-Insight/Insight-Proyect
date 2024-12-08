@@ -33,6 +33,7 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
       )
     );
   };
+  console.log("activeFilters: ", activeFilters);
 
   if (active) return (
     <div className="w-1/5 p-4 border-r border-gray-200">
@@ -68,7 +69,7 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
                 }
                 onChange={(e) => {
                   const selectedOptions = Array.from(e.target.selectedOptions, (option) => option.value);
-                  onFilterChange(filter.key, selectedOptions.length > 0 ? selectedOptions : null);
+                  onFilterChange(filter.key, filter.allowMultiple ? selectedOptions : selectedOptions[0] || "");
                 }}
               >
                 {!filter.allowMultiple && (
