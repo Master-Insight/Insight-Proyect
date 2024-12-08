@@ -3,21 +3,48 @@ import { Link } from '@tanstack/react-router'
 import ActionModal from '../../ui/modal/ActionModal';
 
 const CardProject = ({ item, config }) => {
+  const {
+    _id,
+    title,
+    users,
+    description,
+  } = item;
+
+  // Helper para obtener los nombres de los asignados
+  const renderAssignedToButtons = () => {
+    if (!users || users.length === 0) {
+      return (
+        <span className="px-3 py-1 bg-gray-200 text-gray-600 rounded-md text-xs ">
+          No asignado
+        </span>
+      );
+    }
+
+    return users.map((person, index) => (
+      <span
+        key={index}
+        className="inline-block px-3 py-1 bg-green-200 text-green-800 rounded-md text-sm mr-2 mb-2"
+      >
+        {person.full_name || 'Nombre no disponible'}
+      </span>
+    ));
+  };
+
   return (
     <div className="w-full p-4 bg-white rounded shadow-lg mx-auto">
       {/* Area Header */}
       <div className="mb-4">
         <div className="mb-4 flex items-center">
-          <h2 className="text-xl font-semibold mb-1">{item.title}</h2>
+          <h2 className="text-xl font-semibold mb-1">{title}</h2>
         </div>
-        <p className="text-sm italic text-gray-500">Participantes: {item.users[0].full_name}</p>
-        <p className="text-sm text-gray-500">{item.description}</p>
+        <div className="flex flex-wrap items-center gap-2 mt-2 italic">Participantes: {renderAssignedToButtons()}</div>
+        {description && <p className="text-sm text-gray-500">{description}</p>}
       </div>
 
       {/* Area de Botones*/}
       <div className="flex space-x-4 mb-4">
         {/* Botónes abrir*/}
-        <Link to={`/projects/${item._id}`} rel="noopener noreferrer" className="px-4 py-2 bg-primary hover:bg-primary-darker text-white rounded-md transition-all">
+        <Link to={`/projects/${_id}`} rel="noopener noreferrer" className="px-4 py-2 bg-primary hover:bg-primary-darker text-white rounded-md transition-all">
           Ver proyecto
         </Link>
 
@@ -30,7 +57,7 @@ const CardProject = ({ item, config }) => {
         />
 
         {/* Botónes eliminar*/}
-        <button onClick={() => config.actions.delApi(item._id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
+        <button onClick={() => config.actions.delApi(_id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
           Eliminar
         </button>
       </div>
@@ -51,8 +78,5 @@ CardProject.propTypes = {
   }).isRequired,
   config: PropTypes.object,
 };
-
-// Valor por defecto
-// CardProject.defaultProps = {};
 
 export default CardProject
