@@ -16,9 +16,9 @@ const loginSchema = z.object({
 // Configuración de opciones del formulario
 const formOpts = formOptions({
   defaultValues: {
-    email: 'gustavo.sirtori@gmail.com',
-    password: '123456',
-  },
+    email: '',
+    password: '',
+  }, // email: 'gustavo.sirtori@gmail.com', password: '123456',
   resolver: zodValidator(loginSchema),
 });
 
@@ -37,7 +37,7 @@ function FieldInfo({ field }) {
 }
 
 // Componente para el formulario de login
-export default function Login({navigate}) {
+export default function Login({ navigate }) {
   const { error, setError, login } = useAuthApi()
 
   const form = useForm({
@@ -82,7 +82,7 @@ export default function Login({navigate}) {
                     id={field.name}
                     name={field.name}
                     type="email"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary-dark sm:text-sm"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -102,7 +102,7 @@ export default function Login({navigate}) {
                     id={field.name}
                     name={field.name}
                     type="password"
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-primary focus:border-primary-dark sm:text-sm"
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
@@ -121,7 +121,7 @@ export default function Login({navigate}) {
                   disabled={!canSubmit}
                   className={`${!canSubmit
                     ? 'bg-gray-400'
-                    : 'bg-indigo-600 hover:bg-indigo-700'
+                    : 'bg-primary hover:bg-primary-dark'
                     } text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`}
                 >
                   {isSubmitting ? 'Enviando...' : 'Ingresar'}
@@ -129,7 +129,7 @@ export default function Login({navigate}) {
                 <button
                   type="reset"
                   onClick={() => form.reset()}
-                  className="text-indigo-600 hover:underline"
+                  className="text-primary hover:underline"
                 >
                   Restablecer
                 </button>
