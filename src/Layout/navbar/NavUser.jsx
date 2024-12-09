@@ -25,9 +25,10 @@ export default function NavUser() {
         </span>
       }
 
-      <span className="text-primary font-medium">
-        {currentUser?.full_name || null}
-      </span>
+      <div className="flex flex-col items-center justify-center">
+        <span className="text-primary font-medium"> {currentUser?.full_name || null} </span>
+        <span className="text-primary-darker font-bold"> {currentUser?.role || null} </span>
+      </div>
     </div>
   );
 }
