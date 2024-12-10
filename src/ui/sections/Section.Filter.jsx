@@ -21,7 +21,6 @@ const SectionWFilters = ({ title, data,
   },
   cssContainerCard = "flex flex-col",
 }) => {
-  console.log(config.blockEdit);
 
   // Estados de control
   const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos

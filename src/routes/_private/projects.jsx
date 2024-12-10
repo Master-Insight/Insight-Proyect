@@ -53,9 +53,6 @@ function RouteComponent() {
   const usersListQuery = useSuspenseQuery(usersListQueryOptions)
   const usersList = usersListQuery.data
 
-  console.log("projects: ", projects);
-  console.log("currentUser: ", currentUser.data);
-
   const isUser = currentUser.data.role === 'User'
   const filtersAllow = isUser ? [
     // Filtro por titulo
