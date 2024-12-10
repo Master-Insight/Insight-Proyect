@@ -93,7 +93,7 @@ const SectionWFilters = ({ title, data,
   return (
     <>
       {/* Encabezado (titulo y boton de agregar elemento)*/}
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row sm:justify-between">
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
         {!config.blockEdit && <ActionModal
           title={"Agregar nuevo elemento"}
@@ -104,7 +104,7 @@ const SectionWFilters = ({ title, data,
         </ActionModal>}
       </div>
       {/* Cuerpo ( filtros / mapero de card )*/}
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         {/* Filtros */}
         <FilterSection
           active={filter}
@@ -116,7 +116,7 @@ const SectionWFilters = ({ title, data,
         />
 
         {/* Mapeo de cards */}
-        <div className={`w-4/5 p-4 gap-2 ${cssContainerCard}`}>
+        <div className={`w-full lg:w-4/5 p-4 gap-2 ${cssContainerCard}`}>
           <ElementList data={filteredData} config={config} isPending={isElementPending} />
         </div>
       </div>
