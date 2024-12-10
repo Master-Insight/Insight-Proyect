@@ -104,7 +104,7 @@ const SectionWFilters = ({ title, data,
         </ActionModal>}
       </div>
       {/* Cuerpo ( filtros / mapero de card )*/}
-      <div className="flex">
+      <div className="flex flex-col lg:flex-row">
         {/* Filtros */}
         <FilterSection
           active={filter}
