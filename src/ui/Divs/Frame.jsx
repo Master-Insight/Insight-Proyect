@@ -9,7 +9,7 @@ const Frame = ({
   title,
 }) => {
 
-  css = back ? (css + " pt-18 p-6 mt-1") : (css + " p-6 mt-1")
+  css = back ? (css + " pt-18 py-6 sm:px-6 mt-1") : (css + " py-6 sm:px-6 mt-1")
 
   return (
     <div className={`relative min-h-screen bg-gray-50 ${css}`} >
