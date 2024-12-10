@@ -53,27 +53,43 @@ function RouteComponent() {
   const usersListQuery = useSuspenseQuery(usersListQueryOptions)
   const usersList = usersListQuery.data
 
+  console.log("projects: ", projects);
+  console.log("currentUser: ", currentUser.data);
+
+  const isUser = currentUser.data.role === 'User'
+  const filtersAllow = isUser ? [
+    // Filtro por titulo
+    {
+      key: "title",
+      label: "Título",
+      type: "text",
+    },
+  ] : [
+    // Filtro por titulo
+    {
+      key: "title",
+      label: "Título",
+      type: "text",
+    },
+    // Filtro por usuario
+    {
+      key: "users",
+      label: "Asignado a",
+      type: "select",
+      options: userOptions, // Opciones transformadas
+    },
+  ]
+
   // Configuración del módulo
   const config = {
     // ID del usuario actual
-    currentUserId: currentUser._id,
-    // Configuración de filtros (vacío para este ejemplo)
-    filters: [
-      // Filtro por titulo
-      {
-        key: "title",
-        label: "Título",
-        type: "text",
-      },
-      {
-        key: "users",
-        label: "Asignado a",
-        type: "select",
-        options: userOptions, // Opciones transformadas
-      },
-    ],
+    currentUserId: currentUser.data._id,
+    // Configuración de filtros - varia segun el rol
+    filters: filtersAllow,
     // Filtro activo (por defecto vacío)
-    activeFilter: {},
+    activeFilter: {
+      users: currentUser.data._id,
+    },
     // Fields muestra los campos para crear / editar
     fields: [
       {
@@ -92,7 +108,6 @@ function RouteComponent() {
         label: 'Id Usuario',
         type: 'array',
         itemType: 'object',
-        // noEditable: true, // Indica que este campo no se puede editar
         enum: usersList,
         displayField: "full_name",
         valueField: "_id",
@@ -107,6 +122,8 @@ function RouteComponent() {
       putApi: async function (predata) { await updateMutation.mutateAsync(predata) },
       delApi: async function (id) { await deleteMutation.mutateAsync(id) },
     },
+    // blockEdit esta pensado para bloquear Crear / Editar / Eliminar
+    blockEdit: isUser,
     // Extra data para ser usada en Cards
   }
 

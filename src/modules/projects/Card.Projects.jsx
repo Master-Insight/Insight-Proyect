@@ -49,17 +49,17 @@ const CardProject = ({ item, config }) => {
         </Link>
 
         {/* Botónes editar*/}
-        <ActionModal
+        {!config.blockEdit && <ActionModal
           title={"Editar"}
           fields={config.fields}
           functionApi={config.actions.putApi}
           defaultValues={item}
-        />
+        />}
 
         {/* Botónes eliminar*/}
-        <button onClick={() => config.actions.delApi(_id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
+        {!config.blockEdit && <button onClick={() => config.actions.delApi(_id)} className="px-4 py-2 bg-red-700 hover:bg-red-900 text-white rounded-md transition-all">
           Eliminar
-        </button>
+        </button>}
       </div>
     </div>
   )
