@@ -16,10 +16,12 @@ const SectionWFilters = ({ title, data,
     activeFilter: {},
     filters: [],
     fields: [],
-    actions: {}
+    actions: {},
+    blockEdit: false,
   },
   cssContainerCard = "flex flex-col",
 }) => {
+  console.log(config.blockEdit);
 
   // Estados de control
   const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos
@@ -94,13 +96,13 @@ const SectionWFilters = ({ title, data,
       {/* Encabezado (titulo y boton de agregar elemento)*/}
       <div className="flex justify-between">
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
-        <ActionModal
+        {!config.blockEdit && <ActionModal
           title={"Agregar nuevo elemento"}
           fields={config.fields}
           functionApi={config.actions.postApi}
         >
           Contribuir <Icon icon={icons.plus} className="ml-2" />
-        </ActionModal>
+        </ActionModal>}
       </div>
       {/* Cuerpo ( filtros / mapero de card )*/}
       <div className="flex">
@@ -134,6 +136,7 @@ SectionWFilters.propTypes = {
   isFilterPending: PropTypes.bool, // Indica si los filtros están cargando
   isElementPending: PropTypes.bool, // Indica si los elementos están cargando
   config: PropTypes.shape({
+    blockEdit: PropTypes.bool, // Indica si se debe bloquear los editables ( post, put, delete)
     activeFilter: PropTypes.object, // Filtros activos
     filters: PropTypes.arrayOf(
       PropTypes.shape({
