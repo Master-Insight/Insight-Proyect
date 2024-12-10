@@ -116,7 +116,7 @@ const SectionWFilters = ({ title, data,
         />
 
         {/* Mapeo de cards */}
-        <div className={`w-4/5 p-4 gap-2 ${cssContainerCard}`}>
+        <div className={`w-full lg:w-4/5 p-4 gap-2 ${cssContainerCard}`}>
           <ElementList data={filteredData} config={config} isPending={isElementPending} />
         </div>
       </div>
