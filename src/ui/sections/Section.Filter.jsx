@@ -93,7 +93,7 @@ const SectionWFilters = ({ title, data,
   return (
     <>
       {/* Encabezado (titulo y boton de agregar elemento)*/}
-      <div className="flex justify-between">
+      <div className="flex flex-col sm:flex-row sm:justify-between">
         <h2 className="text-3xl font-semibold mb-2">{title}</h2>
         {!config.blockEdit && <ActionModal
           title={"Agregar nuevo elemento"}

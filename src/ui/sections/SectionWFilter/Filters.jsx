@@ -35,8 +35,10 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
   };
 
   if (active) return (
-    <div className="w-1/5 p-4 border-r border-gray-200">
+    <div className="w-full lg:w-1/5 p-4 border-r border-gray-200">
       <div>
+        <h3 className="text-lg font-semibold mb-4">Filtros</h3>
+
         {filters.map((filter) => (
           <div key={filter.key} className="mb-4">
 
@@ -83,13 +85,15 @@ const FilterSection = ({ active = true, activeFilters, filters, onFilterChange, 
       </div>
 
       {/* Botón para resetear los filtros */}
-      <button
-        onClick={onReset}
-        className={`${styles.button} ${variant.primary}`}
-      >
-        Limpiar Filtro
-        <Icon icon={icons.reset} className="ml-2 inline-block" />
-      </button>
+      <div className="flex justify-center items-center">
+        <button
+          onClick={onReset}
+          className={`${styles.button} ${variant.primary} w-full sm:w-auto`}
+        >
+          Limpiar Filtro
+          <Icon icon={icons.reset} className="ml-2 inline-block " />
+        </button>
+      </div>
     </div>
   );
 
