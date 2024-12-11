@@ -79,7 +79,7 @@ const CardTask = ({ item, config }) => {
 
 
   return (
-    <div className="w-full lg:w-5/12 flex justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
+    <div className="w-full lg:w-5/12 flex flex-col md:flex-row justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
       {/* Header */}
       <div className="mb-4 w-4/5">
         <div className="mb-2 flex items-center">
@@ -165,12 +165,12 @@ const CardTask = ({ item, config }) => {
       </div>
 
       {/* Botones*/}
-      <div className="w-28 flex flex-col mb-4  gap-1">
+      <div className="md:w-28 flex md:flex-col justify-between mb-4 gap-1">
         {/* Botón abrir*/}
         <Link
           to={`/tasks/${item._id}`}
           rel="noopener noreferrer"
-          className={styles.button + variant.primary + cStyles.button}>
+          className={styles.button + variant.primary + cStyles.button + " flex items-center justify-center"}>
           Ver tarea
         </Link>
 

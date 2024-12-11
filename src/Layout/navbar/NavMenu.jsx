@@ -13,8 +13,8 @@ function NavMenu({ layout = 'desktop', navLinks }) {
   // Vista para dispositivos desktop
   if (layout === 'desktop') {
     return (
-      <div className="hidden sm:block sm:ml-6">
-        <div className="flex space-x-4">
+      <div className="hidden sm:block sm:ml-6 h-12">
+        <div className="flex space-x-4 h-12 items-center">
           {navLinks.map((item, index) => (
             <Link
               key={index}
@@ -32,7 +32,7 @@ function NavMenu({ layout = 'desktop', navLinks }) {
   // Vista para dispositivos móviles
   if (layout === 'mobile') {
     return (
-      <div className="sm:hidden" id="mobile-menu">
+      <div className="sm:hidden x-2 pt-2 pb-3 space-y-1" id="mobile-menu ">
         <div className="px-2 pt-2 pb-3 space-y-1">
           {navLinks.map((item, index) => (
             <Link

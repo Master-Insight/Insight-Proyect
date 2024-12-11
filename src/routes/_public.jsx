@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_public')({
 function RouteComponent() {
   return (
     <>
-      <NavBar navLinks={config.navbar.default} />
+      <NavBar config={company} navLinks={config.navbar.default} />
       <Outlet />
       <Footer01 config={company} />
     </>

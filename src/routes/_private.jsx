@@ -27,7 +27,7 @@ function RouteComponent() {
 
   return (
     <>
-      <NavBar navLinks={navLinks} />
+      <NavBar config={company} navLinks={navLinks} />
       <Outlet />
       <Footer01 config={company} />
     </>
