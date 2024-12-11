@@ -165,12 +165,12 @@ const CardTask = ({ item, config }) => {
       </div>
 
       {/* Botones*/}
-      <div className="md:w-28 flex md:flex-col justify-between mb-4  gap-1">
+      <div className="md:w-28 flex md:flex-col justify-between mb-4 gap-1">
         {/* Botón abrir*/}
         <Link
           to={`/tasks/${item._id}`}
           rel="noopener noreferrer"
-          className={styles.button + variant.primary + cStyles.button}>
+          className={styles.button + variant.primary + cStyles.button + " flex items-center justify-center"}>
           Ver tarea
         </Link>
 
