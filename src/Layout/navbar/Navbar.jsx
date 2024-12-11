@@ -3,7 +3,7 @@ import NavMenu from "./NavMenu";
 import PropTypes from 'prop-types';
 import NavUser from "./NavUser";
 
-function NavBar({ type = 'public', navLinks }) {
+function NavBar({ type = 'public', navLinks, config }) {
   // console.log("NavBar: ", navLinks);
   return (
     <nav className="bg-white shadow-md w-full">
@@ -46,7 +46,10 @@ function NavBar({ type = 'public', navLinks }) {
 
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
-              <h1 className="text-xl font-bold text-primary">MiApp {type}</h1>
+              <img
+                src={config.images.logo[0]}
+                alt="Logo Insight"
+                className="w-auto h-12" />
             </div>
             {/* Menu para dispositivos desktop */}
             <NavMenu type={type} navLinks={navLinks} layout="desktop" />
@@ -69,7 +72,10 @@ NavBar.propTypes = {
   navLinks: PropTypes.arrayOf(PropTypes.shape({
     name: PropTypes.string.isRequired,
     path: PropTypes.string.isRequired,
-  })).isRequired
+  })).isRequired,
+  config: PropTypes.shape({
+    images: PropTypes.any,
+  })
 }
 
 export default NavBar
