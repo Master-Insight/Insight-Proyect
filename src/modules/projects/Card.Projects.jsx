@@ -31,7 +31,7 @@ const CardProject = ({ item, config }) => {
   };
 
   return (
-    <div className="w-full lg:w-5/12 p-4 bg-white rounded shadow-lg mx-auto">
+    <div className="w-full lg:w-5/12 p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
       {/* Area Header */}
       <div className="mb-4">
         <div className="mb-4 flex items-center">
