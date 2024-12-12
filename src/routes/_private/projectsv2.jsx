@@ -11,7 +11,7 @@ import {
 } from '../../data/Projects.Data'
 import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
-import SectionWFiltersV2 from '../../ui/sections/Section.FilterV2jsx'
+import SectionWFiltersV2 from '../../ui/sections/Section.FilterV2.jsx'
 import { usersListQueryOptions } from '../../data/Users.Data'
 
 // Definición de la ruta
