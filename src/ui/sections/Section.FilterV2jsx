@@ -15,7 +15,7 @@ const SectionWFiltersV2 = ({ title
 
 };
 
-SectionWFilters.propTypes = {
+SectionWFiltersV2.propTypes = {
   // Genericos
   title: PropTypes.string.isRequired, // El título de la sección
 

@@ -11,7 +11,7 @@ import {
 } from '../../data/Projects.Data'
 import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
-import SectionWFilters from '../../ui/sections/Section.Filter'
+import SectionWFiltersV2 from '../../ui/sections/Section.FilterV2jsx'
 import { usersListQueryOptions } from '../../data/Users.Data'
 
 // Definición de la ruta
@@ -127,7 +127,7 @@ function RouteComponent() {
   return (
     <Frame css={'w-full mx-5'}>
       {/* Sección con filtros y listado de proyectos */}
-      <SectionWFilters
+      <SectionWFiltersV2
         filter={true}
         title={'Proyectos 📚'}
         data={projects}
