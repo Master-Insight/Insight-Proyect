@@ -110,6 +110,26 @@ function RouteComponent() {
         valueField: "_id",
         default: [currentUser.data._id],
       },
+      {
+        name: 'deploy',
+        label: 'URL Deploy',
+        icon: 'eos-icons:deploy',
+        type: 'generic',
+        itemType: 'text',
+        validation: z
+          .string()
+          .url(),
+      },
+      {
+        name: 'repository',
+        label: 'Titulo',
+        icon: 'mdi:bookmark-outline',
+        type: 'generic',
+        itemType: 'text',
+        validation: z
+          .string()
+          .url(),
+      },
     ],
     // Componente CARD para renderizar los proyectos
     card: CardProject,
