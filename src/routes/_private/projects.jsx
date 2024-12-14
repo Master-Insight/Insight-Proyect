@@ -119,16 +119,18 @@ function RouteComponent() {
         validation: z
           .string()
           .url(),
+        default: '',
       },
       {
         name: 'repository',
-        label: 'Titulo',
+        label: 'Repositorio',
         icon: 'mdi:bookmark-outline',
         type: 'generic',
         itemType: 'text',
         validation: z
           .string()
           .url(),
+        default: '',
       },
     ],
     // Componente CARD para renderizar los proyectos
