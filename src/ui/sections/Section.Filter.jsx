@@ -128,7 +128,7 @@ const SectionWFilters = ({ title, data,
 };
 
 SectionWFilters.propTypes = {
-  title: PropTypes.string.isRequired, // El título de la sección
+  title: PropTypes.string, // El título de la sección
   data: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired, // ID único de cada elemento
