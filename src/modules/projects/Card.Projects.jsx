@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { Link } from '@tanstack/react-router'
 import ActionModal from '../../ui/modal/ActionModal';
+import { icons } from '../../../config/layout';
+import { Icon } from '@iconify/react/dist/iconify.js';
 
 const CardProject = ({ item, config }) => {
   const {
@@ -29,13 +31,28 @@ const CardProject = ({ item, config }) => {
       </span>
     ));
   };
+  console.log(item);
 
   return (
     <div className="w-full lg:w-5/12 p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
       {/* Area Header */}
       <div className="mb-4">
-        <div className="mb-4 flex items-center">
-          <h2 className="text-xl font-semibold mb-1">{title}</h2>
+        <div className="mb-4 flex justify-between">
+          <h2 className="text-xl font-semibold mb-1 text-primary-darker">{title}</h2>
+          <div className='flex items-center text-primary-light'>
+            {item.deploy
+              ? <Link to={item.deploy} title={`Deploy: ${item.deploy}`} target="_blank" >
+                <Icon icon={icons.deploy} className=' size-6 ' />
+              </Link>
+              : null
+            }
+            {item.repository
+              ? <Link to={item.repository} title={`Repository: ${item.repository}`} target="_blank" >
+                <Icon icon={icons.repository} className=' size-6 ' />
+              </Link>
+              : null
+            }
+          </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 mt-2 italic">Participantes: {renderAssignedToButtons()}</div>
         {description && <p className="text-sm text-gray-500">{description}</p>}
@@ -69,6 +86,8 @@ CardProject.propTypes = {
   item: PropTypes.shape({
     _id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    deploy: PropTypes.string,
+    repository: PropTypes.string,
     description: PropTypes.string,
     users: PropTypes.arrayOf(
       PropTypes.shape({

@@ -13,6 +13,7 @@ import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
 import SectionWFilters from '../../ui/sections/Section.Filter'
 import { usersListQueryOptions } from '../../data/Users.Data'
+import { icons } from '../../../config/layout'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projects')({
@@ -113,7 +114,7 @@ function RouteComponent() {
       {
         name: 'deploy',
         label: 'URL Deploy',
-        icon: 'eos-icons:deploy',
+        icon: icons.deploy,
         type: 'generic',
         itemType: 'text',
         validation: z
@@ -124,7 +125,7 @@ function RouteComponent() {
       {
         name: 'repository',
         label: 'Repositorio',
-        icon: 'mdi:bookmark-outline',
+        icon: icons.repository,
         type: 'generic',
         itemType: 'text',
         validation: z
