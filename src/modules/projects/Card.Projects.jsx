@@ -31,8 +31,6 @@ const CardProject = ({ item, config }) => {
       </span>
     ));
   };
-  console.log(item);
-
   return (
     <div className="w-full lg:w-5/12 p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
       {/* Area Header */}
