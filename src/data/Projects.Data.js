@@ -62,8 +62,8 @@ export const updateProjectById = async (predata) => {
     if (predata.title) data.title = predata.title
     if (predata.description) data.description = predata.description
     if (predata.users) data.users = predata.users
-    if (predata.deploy) data.deploy = predata.deploy
-    if (predata.repository) data.repository = predata.repository
+    if (predata.deploy && predata.deploy != '') data.deploy = predata.deploy
+    if (predata.repository && predata.repository != '') data.repository = predata.repository
 
     const response = await myAxios.put(`/v1/projects/id/${pId}`, data);
     const projects = response.data?.data || null;
