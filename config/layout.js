@@ -27,6 +27,8 @@ export const icons = {
   plus: 'ph:plus-fill', // agregar uno m+as +
   edit: "mage:edit", // editar contenido
   reset: "ix:reset", // resetear
+  deploy: 'eos-icons:deploy', // deploy
+  repository: 'mdi:bookmark-outline',
 }
 
 export const styles = {

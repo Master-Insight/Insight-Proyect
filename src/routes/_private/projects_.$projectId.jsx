@@ -177,6 +177,8 @@ function RouteComponent() {
     // Extra data para ser usada en Cards
   }
 
+  console.log(project);
+
   return (
     <Frame back={true} css={'w-full mx-5'}>
       {/* Sección con filtros y listado de proyectos */}
@@ -186,7 +188,9 @@ function RouteComponent() {
         config={config}
         filter={true}
         cssContainerCard='flex flex-wrap'
-      />
+      >
+        <div>a</div>
+      </SectionWFilters>
     </Frame>
   )
 }

@@ -1,5 +1,5 @@
 // Importaciones necesarias
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import {
@@ -11,12 +11,11 @@ import {
 } from '../../data/Projects.Data'
 import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
-import SectionWFilters from '../../ui/sections/Section.Filter'
+import SectionWFiltersV2 from '../../ui/sections/Section.FilterV2.jsx'
 import { usersListQueryOptions } from '../../data/Users.Data'
-import { icons } from '../../../config/layout'
 
 // Definición de la ruta
-export const Route = createFileRoute('/_private/projects')({
+export const Route = createFileRoute('/_private/projectsv2')({
   loader: async ({ context: { queryClient } }) => {
     const [project, usersList, usersProject] = await Promise.all([
       queryClient.ensureQueryData(projectsQueryOptions),
@@ -111,28 +110,6 @@ function RouteComponent() {
         valueField: "_id",
         default: [currentUser.data._id],
       },
-      {
-        name: 'deploy',
-        label: 'URL Deploy',
-        icon: icons.deploy,
-        type: 'generic',
-        itemType: 'text',
-        validation: z
-          .string()
-          .url(),
-        default: '',
-      },
-      {
-        name: 'repository',
-        label: 'Repositorio',
-        icon: icons.repository,
-        type: 'generic',
-        itemType: 'text',
-        validation: z
-          .string()
-          .url(),
-        default: '',
-      },
     ],
     // Componente CARD para renderizar los proyectos
     card: CardProject,
@@ -149,12 +126,8 @@ function RouteComponent() {
 
   return (
     <Frame css={'w-full mx-5'}>
-      {isUser ? null : <Link to={'/projectsv2'} className='p2 text-primary underline' >
-        Projects Version 2
-      </Link>}
-
       {/* Sección con filtros y listado de proyectos */}
-      <SectionWFilters
+      <SectionWFiltersV2
         filter={true}
         title={'Proyectos 📚'}
         data={projects}
@@ -165,3 +138,4 @@ function RouteComponent() {
     </Frame>
   )
 }
+

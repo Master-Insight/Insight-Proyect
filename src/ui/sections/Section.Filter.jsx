@@ -20,6 +20,7 @@ const SectionWFilters = ({ title, data,
     blockEdit: false,
   },
   cssContainerCard = "flex flex-col",
+  children
 }) => {
 
   // Estados de control
@@ -119,6 +120,8 @@ const SectionWFilters = ({ title, data,
         <div className={`w-full lg:w-4/5 p-4 gap-2 ${cssContainerCard}`}>
           <ElementList data={filteredData} config={config} isPending={isElementPending} />
         </div>
+
+        {children}
       </div>
     </>
   );
