@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { zodValidator } from '@tanstack/zod-form-adapter';
 import useAuthApi from './hooks/useAuthApi';
 import Frame from '../../ui/Divs/Frame';
-import AuthLinkedIn from './authLinkedIn';
+import AuthLinkedIn from './auth.linkedin';
 
 // Definición del esquema de validación usando Zod
 const loginSchema = z.object({
