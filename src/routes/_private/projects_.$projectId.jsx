@@ -204,7 +204,13 @@ function RouteComponent() {
         filter={true}
         cssContainerCard='flex flex-wrap'
       >
-        <div>a</div>
+        {project.description
+          ? <div className='flex flex-col w-full lg:w-1/5'>
+            <p className='text-lg font-bold mt-4'>Descripción:</p>
+            <hr />
+            <p className='text-sm mt-4'>{project.description}</p>
+          </div>
+          : null}
       </SectionWFilters>
     </Frame>
   )

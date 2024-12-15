@@ -133,6 +133,15 @@ function RouteComponent() {
           .url(),
         default: '',
       },
+      {
+        name: 'description',
+        label: 'Descripción',
+        type: 'textarea',
+        validation: z
+          .string()
+          .min(5, 'El titulo debe tener al menos 5 caracteres'),
+        default: "",
+      },
     ],
     // Componente CARD para renderizar los proyectos
     card: CardProject,
