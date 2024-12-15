@@ -53,7 +53,7 @@ const CardProject = ({ item, config }) => {
           </div>
         </div>
         <div className="flex flex-wrap items-center gap-2 mt-2 italic">Participantes: {renderAssignedToButtons()}</div>
-        {description && <p className="text-sm text-gray-500">{description}</p>}
+        {description && <p className="mt-4 text-sm text-gray-500 italic">{description}</p>}
       </div>
 
       {/* Area de Botones*/}
