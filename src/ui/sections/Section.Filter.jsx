@@ -128,7 +128,7 @@ const SectionWFilters = ({ title, data,
 };
 
 SectionWFilters.propTypes = {
-  title: PropTypes.string.isRequired, // El título de la sección
+  title: PropTypes.string, // El título de la sección
   data: PropTypes.arrayOf(
     PropTypes.shape({
       _id: PropTypes.string.isRequired, // ID único de cada elemento
@@ -163,6 +163,7 @@ SectionWFilters.propTypes = {
   }).isRequired,
   filter: PropTypes.bool, // muestra o no los filtros
   cssContainerCard: PropTypes.string, // Styles a aplicar al contenedor de Cards
+  children: PropTypes.node, // Cualquier contenido extra a renderizar en el cuerpo de la sección
 };
 
 export default SectionWFilters;

@@ -1,5 +1,5 @@
 // Importaciones necesarias
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { z } from 'zod'
 import {
@@ -13,6 +13,8 @@ import { TASK_PRIORITY, TASK_STATUS, TASK_STATUS_INITIAL } from '../../modules/t
 import Frame from '../../ui/Divs/Frame'
 import CardTask from '../../modules/tasks/Card.Tasks'
 import SectionWFilters from '../../ui/sections/Section.Filter'
+import { icons } from '../../../config/layout'
+import { Icon } from '@iconify/react/dist/iconify.js'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projects_/$projectId')({
@@ -177,19 +179,38 @@ function RouteComponent() {
     // Extra data para ser usada en Cards
   }
 
-  console.log(project);
-
   return (
     <Frame back={true} css={'w-full mx-5'}>
       {/* Sección con filtros y listado de proyectos */}
+      <div className='flex text-primary-dark items-center'>
+        <h2 className="text-3xl font-semibold mb-2 ">Proyecto 📔: {project.title} </h2>
+        {project.deploy
+          ? <Link to={project.deploy} title={`Deploy: ${project.deploy}`} target="_blank" className='ml-4 text-complementary-darker'>
+            <Icon icon={icons.deploy} className=' size-9' />
+          </Link>
+          : null
+        }
+        {project.repository
+          ? <Link to={project.repository} title={`Repository: ${project.repository}`} target="_blank" className='ml-4 text-secondary-darker'>
+            <Icon icon={icons.repository} className=' size-9' />
+          </Link>
+          : null
+        }
+      </div>
       <SectionWFilters
-        title={`Proyecto 📔: ${project.title} - Tareas 📄`}
+        // title={`Proyecto 📔: ${project.title} - Tareas 📄`}
         data={tasks}
         config={config}
         filter={true}
         cssContainerCard='flex flex-wrap'
       >
-        <div>a</div>
+        {project.description
+          ? <div className='flex flex-col w-full lg:w-1/5'>
+            <p className='text-lg font-bold mt-4'>Descripción:</p>
+            <hr />
+            <p className='text-sm mt-4'>{project.description}</p>
+          </div>
+          : null}
       </SectionWFilters>
     </Frame>
   )

@@ -13,6 +13,7 @@ import CardProject from '../../modules/projects/Card.Projects'
 import Frame from '../../ui/Divs/Frame'
 import SectionWFilters from '../../ui/sections/Section.Filter'
 import { usersListQueryOptions } from '../../data/Users.Data'
+import { icons } from '../../../config/layout'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projects')({
@@ -113,22 +114,33 @@ function RouteComponent() {
       {
         name: 'deploy',
         label: 'URL Deploy',
-        icon: 'eos-icons:deploy',
+        icon: icons.deploy,
         type: 'generic',
         itemType: 'text',
         validation: z
           .string()
           .url(),
+        default: '',
       },
       {
         name: 'repository',
-        label: 'Titulo',
-        icon: 'mdi:bookmark-outline',
+        label: 'Repositorio',
+        icon: icons.repository,
         type: 'generic',
         itemType: 'text',
         validation: z
           .string()
           .url(),
+        default: '',
+      },
+      {
+        name: 'description',
+        label: 'Descripción',
+        type: 'textarea',
+        validation: z
+          .string()
+          .min(5, 'El titulo debe tener al menos 5 caracteres'),
+        default: "",
       },
     ],
     // Componente CARD para renderizar los proyectos
