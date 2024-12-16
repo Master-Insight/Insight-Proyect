@@ -65,7 +65,7 @@ const fields = [
 ];
 */
 
-const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "primary" }) => {
+const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "primary", extraCssbutton = "" }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Esquema de validación generado dinámicamente
@@ -104,7 +104,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className={`${amVariant[cssbutton]} ${amStyles.button}`}>
+        className={`${amVariant[cssbutton]} ${amStyles.button} ${extraCssbutton}`}>
         {title}
         <Icon icon={amIcons.plus} className="inline-block ml-2" />
       </button>
