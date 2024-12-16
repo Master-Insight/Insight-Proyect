@@ -43,7 +43,7 @@ const company = {
   ],
   images: {
     logo: [
-      "/img/logo.jpeg"
+      "/logos/Insight_hor.png"
     ],
   }
 }
