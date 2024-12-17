@@ -17,7 +17,7 @@ const Footer01 = ({ config }) => {
               <img
                 src={config.images.logo[0]}
                 alt="Logo Insight"
-                className="w-auto" />
+                className="w-1/3" />
             </div>
             {/* Descripcion */}
             <p className="mt-6 max-w-md text-center leading-relaxed text-gray-500 sm:max-w-xs sm:text-left">

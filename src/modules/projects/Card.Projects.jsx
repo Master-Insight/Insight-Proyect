@@ -32,7 +32,7 @@ const CardProject = ({ item, config }) => {
     ));
   };
   return (
-    <div className="w-full lg:w-5/12 p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
+    <div className="w-full md:w-5/12 p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
       {/* Area Header */}
       <div className="mb-4">
         <div className="mb-4 flex justify-between">
@@ -57,7 +57,7 @@ const CardProject = ({ item, config }) => {
       </div>
 
       {/* Area de Botones*/}
-      <div className="flex space-x-4 mb-4">
+      <div className="flex space-x-4 mb-4 justify-center">
         {/* Botónes abrir*/}
         <Link to={`/projects/${_id}`} rel="noopener noreferrer" className="px-4 py-2 bg-primary hover:bg-primary-darker text-white rounded-md transition-all">
           Ver proyecto

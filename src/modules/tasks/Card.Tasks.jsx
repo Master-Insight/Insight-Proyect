@@ -79,14 +79,14 @@ const CardTask = ({ item, config }) => {
 
 
   return (
-    <div className="w-full lg:w-5/12 flex flex-col md:flex-row justify-between p-4 bg-white rounded-lg shadow-md mx-auto">
+    <div className="w-full md:w-5/12 flex flex-col justify-between p-4 bg-white rounded-lg shadow-md ">
       {/* Header */}
       <div className="mb-4 w-4/5">
         <div className="mb-2 flex items-center">
           <h2 className="text-l font-semibold text-primary-darker">{title}</h2>
         </div>
         <div className=''>
-          <div className='flex text-xs justify-between gap-2'>
+          <div className='flex flex-wrap text-xs justify-between gap-2'>
 
             {/* Prioridad */}
             <div className="flex items-center gap-4">
@@ -165,12 +165,12 @@ const CardTask = ({ item, config }) => {
       </div>
 
       {/* Botones*/}
-      <div className="md:w-28 flex md:flex-col justify-between mb-4 gap-1">
+      <div className="flex self-center w-1/2 md:w-full justify-center mb-4 gap-4">
         {/* Botón abrir*/}
         <Link
           to={`/tasks/${item._id}`}
           rel="noopener noreferrer"
-          className={styles.button + variant.primary + cStyles.button + " flex items-center justify-center"}>
+          className={styles.button + variant.primary + cStyles.button + " w-1/3 flex items-center justify-center"}>
           Ver tarea
         </Link>
 
@@ -180,13 +180,14 @@ const CardTask = ({ item, config }) => {
           fields={config.fields}
           functionApi={config.actions.putApi}
           defaultValues={item}
-          cssbutton={styles.button + " " + variant.primary + cStyles.button}
+          cssbutton={"primary"}
+          extraCssbutton={cStyles.button + " w-1/3"}
         />
 
         {/* Botón eliminar*/}
         <button
           onClick={() => config.actions.delApi(item._id)}
-          className={styles.button + variant.danger + cStyles.button}>
+          className={styles.button + variant.danger + cStyles.button + " w-1/3"}>
           Eliminar
         </button>
       </div>
