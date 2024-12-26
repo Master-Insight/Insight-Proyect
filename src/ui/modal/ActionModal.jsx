@@ -104,7 +104,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
     <>
       {/* Botón para abrir el modal */}
       <button onClick={handleEditClick}
-        className={`${amVariant[cssbutton]} ${amStyles.button} ${extraCssbutton}`}>
+        className={extraCssbutton ? extraCssbutton : `${amVariant[cssbutton]} ${amStyles.button}`}>
         {title}
         <Icon icon={amIcons.plus} className="inline-block ml-2" />
       </button>
@@ -160,7 +160,7 @@ const ActionModal = ({ title, fields, functionApi, defaultValues, cssbutton = "p
 };
 
 ActionModal.propTypes = {
-  title: PropTypes.string.isRequired, // Título del modal
+  title: PropTypes.string, // Título del modal
   fields: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired, // Nombre del campo
