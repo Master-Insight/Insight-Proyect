@@ -48,15 +48,8 @@ const CardProject = ({ item, config }) => {
 
   // Renderizado componente
   return (
-    <div className="w-full p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
-      <div className="flex justify-between">
-        <h2 className="text-xl font-semibold mb-1 text-primary-darker">{title}</h2>
-
-        {/* Participantes */}
-        <div className="flex flex-wrap items-center gap-2 italic">
-          {renderAssignedToButtons()}
-        </div>
-
+    <div className="w-full px-4 py-2 bg-white rounded shadow-lg mx-auto flex flex-col">
+      <div className="w-full grid grid-cols-12 grid-rows-1 gap-4">
         {/* Links */}
         <div className='flex items-center text-primary-light'>
           {item.deploy
@@ -73,8 +66,17 @@ const CardProject = ({ item, config }) => {
           }
         </div>
 
+        {/* Titulo Col*2 */}
+        <h2 className="col-span-5 text-xl font-semibold mb-1 text-primary-darker">{title}</h2>
+
+
+        {/* Participantes */}
+        <div className="col-span-3 flex flex-wrap justify-end items-center gap-2 italic">
+          {renderAssignedToButtons()}
+        </div>
+
         {/* Area de Botones*/}
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="col-span-3 flex flex-wrap justify-end gap-2">
           {/* Botónes abrir*/}
           <Link
             to={`/projects/${_id}`} rel="noopener noreferrer"

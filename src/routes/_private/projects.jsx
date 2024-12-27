@@ -158,9 +158,9 @@ function RouteComponent() {
 
   return (
     <Frame css={'w-full mx-5'}>
-      {/* {isUser ? null : <Link to={'/projectsv2'} className='p2 text-primary underline' >
+      {isUser ? null : <Link to={'/projectsv2'} className='p2 text-primary underline' >
         Projects Version 2
-      </Link>} */}
+      </Link>}
 
       {/* Sección con filtros y listado de proyectos */}
       <SectionWFilters
