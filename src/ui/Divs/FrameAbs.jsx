@@ -6,7 +6,7 @@ const FrameAbs = ({
 }) => {
 
   return (
-    <div className="min-h-screen mt-2 pt-2 bg-white " >
+    <div className="w-full min-h-screen mt-2 p-4 bg-white " >
       {children}
     </div >
   )
