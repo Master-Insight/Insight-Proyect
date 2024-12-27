@@ -49,7 +49,7 @@ const CardProject = ({ item, config }) => {
   // Renderizado componente
   return (
     <div className="w-full p-4 bg-white rounded shadow-lg mx-auto flex flex-col">
-      <div className="mb-4 flex justify-between">
+      <div className="flex justify-between">
         <h2 className="text-xl font-semibold mb-1 text-primary-darker">{title}</h2>
 
         {/* Participantes */}
