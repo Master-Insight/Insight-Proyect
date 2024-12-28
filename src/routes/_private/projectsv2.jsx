@@ -10,9 +10,15 @@ import {
   useUpdateProjectMutation,
 } from '../../data/Projects.Data'
 import CardProject from '../../modules/projects/Card.Projects'
-import Frame from '../../ui/Divs/Frame'
-import SectionWFiltersV2 from '../../ui/sections/Section.FilterV2.jsx'
 import { usersListQueryOptions } from '../../data/Users.Data'
+import ActionModal from '../../ui/modal/ActionModal'
+import { Icon } from '@iconify/react/dist/iconify.js'
+import { icons } from '../../../config/layout'
+import BackButton from '../../ui/buttons/BackButton2'
+import FrameAbs from '../../ui/Divs/FrameAbs'
+import ElementList from '../../ui/sections/SectionWFilter/Elements'
+import { useState } from 'react'
+import FilterSection from '../../ui/sections/SectionWFilter/Filters'
 
 // Definición de la ruta
 export const Route = createFileRoute('/_private/projectsv2')({
@@ -32,8 +38,8 @@ function RouteComponent() {
   const { currentUser, queryClient } = Route.useRouteContext()
 
   // Carga de data PROYECTS
-  const projectsQuery = useSuspenseQuery(projectsQueryOptions)
-  const projects = projectsQuery.data
+  const { data: projects, isLoading } = useSuspenseQuery(projectsQueryOptions)
+
 
   // Mutaciones QUERY PROJECTS
   const postMutation = usePostProjectMutation(queryClient)
@@ -124,18 +130,54 @@ function RouteComponent() {
     // Extra data para ser usada en Cards
   }
 
+  // FILTROS ----------------------------------------------------------
+
+
+  // ELEMENTOS ----------------------------------------------------------
+  // Estados de control
+  const [activeFilters, setActiveFilters] = useState(config.activeFilter || {}); // Objeto con Filtros activos
+  const [filteredData, setFilteredData] = useState(projects); // Array de Datos filtrados
+
   return (
-    <Frame css={'w-full mx-5'}>
-      {/* Sección con filtros y listado de proyectos */}
-      <SectionWFiltersV2
-        filter={true}
-        title={'Proyectos 📚'}
-        data={projects}
-        config={config}
-        cssContainerCard='flex flex-wrap'
-      />
-      <p className='flex flex-wrap'></p>
-    </Frame>
+    <FrameAbs>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:justify-between">
+        <div className='flex'>
+          <BackButton />
+          <h2 className="text-3xl font-semibold ml-2">Proyectos</h2>
+        </div>
+        <ActionModal
+          title={"Agregar nuevo elemento"}
+          fields={config.fields}
+          functionApi={config.actions.postApi}
+        >
+          Contribuir <Icon icon={icons.plus} className="ml-2" />
+        </ActionModal>
+      </div>
+
+      {/* <section className="w-full flex mt-4 flex-col lg:flex-row"> */}
+      <section className="w-full flex mt-4 flex-row">
+
+
+        {/* Filtros */}
+        {/* <FilterSection
+          active={true}
+          activeFilters={activeFilters}
+          filters={config.filters}
+          onFilterChange={handleFilterChange}
+          isPending={isFilterPending}
+          onReset={handleResetFilter}
+        /> */}
+
+
+        {/* ------------ ELEMENTOS ------------ */}
+        <div className="w-full justify-center lg:w-4/5 p-4 gap-2 flex flex-col">
+          <ElementList data={filteredData} config={config} isPending={isLoading} />
+        </div>
+      </section>
+
+
+    </FrameAbs>
   )
 }
 
