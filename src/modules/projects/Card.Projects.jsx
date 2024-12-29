@@ -51,7 +51,7 @@ const CardProject = ({ item, config }) => {
     <div className="w-full px-4 py-2 bg-white rounded shadow-lg mx-auto flex flex-col">
       <div className="w-full grid grid-cols-12 grid-rows-1 gap-4">
         {/* Links */}
-        <div className='flex items-center text-primary-light'>
+        <div className='flex items-center justify-end text-primary-light'>
           {item.deploy
             ? <Link to={item.deploy} title={`Deploy: ${item.deploy}`} target="_blank" >
               <Icon icon={icons.deploy} className=' size-6 ' />
@@ -66,8 +66,12 @@ const CardProject = ({ item, config }) => {
           }
         </div>
 
-        {/* Titulo Col*2 */}
-        <h2 className="col-span-5 text-xl font-semibold mb-1 text-primary-darker">{title}</h2>
+        {/* Titulo y Abrir Col*2 */}
+        <Link
+          to={`/projects/${_id}`} rel="noopener noreferrer"
+          className="col-span-6 text-xl font-semibold mb-1 text-primary-darker">
+          <h2 >{title}</h2>
+        </Link>
 
 
         {/* Participantes */}
@@ -76,13 +80,7 @@ const CardProject = ({ item, config }) => {
         </div>
 
         {/* Area de Botones*/}
-        <div className="col-span-3 flex flex-wrap justify-end gap-2">
-          {/* Botónes abrir*/}
-          <Link
-            to={`/projects/${_id}`} rel="noopener noreferrer"
-            className="px-3 py-1 bg-primary hover:bg-primary-darker text-white rounded-md text-xs transition-all">
-            <Icon icon={"icon-park-outline:eyes"} className=' size-4 ' />
-          </Link>
+        <div className="col-span-2 flex flex-wrap justify-start gap-2">
 
           {/* Botónes editar*/}
           {!config.blockEdit && <ActionModal

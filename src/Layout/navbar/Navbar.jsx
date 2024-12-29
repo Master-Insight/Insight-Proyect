@@ -2,8 +2,11 @@
 import NavMenu from "./NavMenu";
 import PropTypes from 'prop-types';
 import NavUser from "./NavUser";
+import { useState } from "react";
 
 function NavBar({ type = 'public', navLinks, config }) {
+  const [isVisible, setIsVisible] = useState(false); // Estado para controlar visibilidad en Mobile
+
   // console.log("NavBar: ", navLinks);
   return (
     <nav className="bg-white shadow-md w-full">
@@ -14,11 +17,12 @@ function NavBar({ type = 'public', navLinks, config }) {
           <div className="absolute inset-y-0 left-0 flex items-center sm:hidden">
             <button
               type="button"
+              onClick={() => setIsVisible(!isVisible)}
               className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
               aria-controls="mobile-menu"
               aria-expanded="false"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Abrir Menu</span>
               {/* Icon when menu is closed */}
               <svg
                 className="block h-6 w-6"
@@ -44,6 +48,7 @@ function NavBar({ type = 'public', navLinks, config }) {
             </button>
           </div>
 
+          {/* Logo + Menu */}
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex-shrink-0">
               <img
@@ -51,8 +56,11 @@ function NavBar({ type = 'public', navLinks, config }) {
                 alt="Logo Insight"
                 className="w-auto h-12" />
             </div>
-            {/* Menu para dispositivos desktop */}
-            <NavMenu type={type} navLinks={navLinks} layout="desktop" />
+            {/* Menu */}
+            <NavMenu
+              layout="desktop"
+              navLinks={navLinks}
+            />
           </div>
 
           {/* Componente del usuario logueado */}
@@ -62,7 +70,11 @@ function NavBar({ type = 'public', navLinks, config }) {
       </div>
 
       {/* Menu para dispositivos móviles */}
-      <NavMenu type={type} navLinks={navLinks} layout="mobile" />
+      <NavMenu
+        layout="mobile"
+        navLinks={navLinks}
+        displayMobile={isVisible}
+      />
     </nav>
   );
 }
