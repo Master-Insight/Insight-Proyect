@@ -71,7 +71,7 @@ function RouteComponent() {
   return (
     <FrameAbs>
       {/* ------------ HEADER ------------ */}
-      <div className="flex flex-col sm:flex-row sm:justify-between">
+      <div className="flex flex-col sm:flex-row sm:justify-between gap-4">
         <div className="flex">
           <BackButton />
           <h2 className="text-3xl font-semibold ml-2">Proyectos 📚</h2>
@@ -85,7 +85,7 @@ function RouteComponent() {
         </ActionModal>
       </div>
 
-      <section className="w-full flex mt-4 flex-row">
+      <section className="w-full flex mt-4 flex-col md:flex-row ">
         {/* ------------ FILTROS ------------ */}
         <FilterSection
           active={true}
@@ -131,16 +131,16 @@ function getConfig(
         ...(isUser
           ? []
           : [
-              {
-                key: 'users',
-                label: 'Asignado a',
-                type: 'select',
-                options: usersList.map((user) => ({
-                  label: user.full_name,
-                  value: user._id,
-                })),
-              },
-            ]),
+            {
+              key: 'users',
+              label: 'Asignado a',
+              type: 'select',
+              options: usersList.map((user) => ({
+                label: user.full_name,
+                value: user._id,
+              })),
+            },
+          ]),
       ],
     },
 
