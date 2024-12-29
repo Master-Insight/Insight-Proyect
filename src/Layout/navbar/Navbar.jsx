@@ -6,8 +6,6 @@ import { useState } from "react";
 
 function NavBar({ type = 'public', navLinks, config }) {
   const [isVisible, setIsVisible] = useState(false); // Estado para controlar visibilidad en Mobile
-  console.log(isVisible);
-
 
   // console.log("NavBar: ", navLinks);
   return (
