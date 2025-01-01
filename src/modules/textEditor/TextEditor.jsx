@@ -3,6 +3,8 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { imageHandler } from './imageHandler';
 
+// TODO ver compativilidad con React 19 o reemplazar esto
+
 // Opciones de botones de la barra de herramientas
 const toolbar = {
   full: [
