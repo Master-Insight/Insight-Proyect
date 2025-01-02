@@ -6,6 +6,9 @@ const config = {
     ],
     private: [
       { name: 'Proyectos', path: '/projects' },
+      { name: 'Recursos', path: '/resources' },
+      { name: 'Code', path: '/codes' },
+      { name: 'Clientes', path: '/clients' },
       { name: 'Logout', path: '/logout' },
     ],
   },

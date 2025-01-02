@@ -16,8 +16,11 @@ import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as PublicTaskImport } from './routes/_public/task'
 import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PrivateResourcesImport } from './routes/_private/resources'
 import { Route as PrivateProjectsImport } from './routes/_private/projects'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
+import { Route as PrivateCodesImport } from './routes/_private/codes'
+import { Route as PrivateClientsImport } from './routes/_private/clients'
 import { Route as PrivateTasksTaskIdImport } from './routes/_private/tasks.$taskId'
 import { Route as PrivateProjectsProjectIdImport } from './routes/_private/projects_.$projectId'
 
@@ -51,6 +54,12 @@ const PublicLoginRoute = PublicLoginImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const PrivateResourcesRoute = PrivateResourcesImport.update({
+  id: '/resources',
+  path: '/resources',
+  getParentRoute: () => PrivateRoute,
+} as any)
+
 const PrivateProjectsRoute = PrivateProjectsImport.update({
   id: '/projects',
   path: '/projects',
@@ -60,6 +69,18 @@ const PrivateProjectsRoute = PrivateProjectsImport.update({
 const PrivateLogoutRoute = PrivateLogoutImport.update({
   id: '/logout',
   path: '/logout',
+  getParentRoute: () => PrivateRoute,
+} as any)
+
+const PrivateCodesRoute = PrivateCodesImport.update({
+  id: '/codes',
+  path: '/codes',
+  getParentRoute: () => PrivateRoute,
+} as any)
+
+const PrivateClientsRoute = PrivateClientsImport.update({
+  id: '/clients',
+  path: '/clients',
   getParentRoute: () => PrivateRoute,
 } as any)
 
@@ -93,6 +114,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
+    '/_private/clients': {
+      id: '/_private/clients'
+      path: '/clients'
+      fullPath: '/clients'
+      preLoaderRoute: typeof PrivateClientsImport
+      parentRoute: typeof PrivateImport
+    }
+    '/_private/codes': {
+      id: '/_private/codes'
+      path: '/codes'
+      fullPath: '/codes'
+      preLoaderRoute: typeof PrivateCodesImport
+      parentRoute: typeof PrivateImport
+    }
     '/_private/logout': {
       id: '/_private/logout'
       path: '/logout'
@@ -105,6 +140,13 @@ declare module '@tanstack/react-router' {
       path: '/projects'
       fullPath: '/projects'
       preLoaderRoute: typeof PrivateProjectsImport
+      parentRoute: typeof PrivateImport
+    }
+    '/_private/resources': {
+      id: '/_private/resources'
+      path: '/resources'
+      fullPath: '/resources'
+      preLoaderRoute: typeof PrivateResourcesImport
       parentRoute: typeof PrivateImport
     }
     '/_public/login': {
@@ -148,15 +190,21 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 interface PrivateRouteChildren {
+  PrivateClientsRoute: typeof PrivateClientsRoute
+  PrivateCodesRoute: typeof PrivateCodesRoute
   PrivateLogoutRoute: typeof PrivateLogoutRoute
   PrivateProjectsRoute: typeof PrivateProjectsRoute
+  PrivateResourcesRoute: typeof PrivateResourcesRoute
   PrivateProjectsProjectIdRoute: typeof PrivateProjectsProjectIdRoute
   PrivateTasksTaskIdRoute: typeof PrivateTasksTaskIdRoute
 }
 
 const PrivateRouteChildren: PrivateRouteChildren = {
+  PrivateClientsRoute: PrivateClientsRoute,
+  PrivateCodesRoute: PrivateCodesRoute,
   PrivateLogoutRoute: PrivateLogoutRoute,
   PrivateProjectsRoute: PrivateProjectsRoute,
+  PrivateResourcesRoute: PrivateResourcesRoute,
   PrivateProjectsProjectIdRoute: PrivateProjectsProjectIdRoute,
   PrivateTasksTaskIdRoute: PrivateTasksTaskIdRoute,
 }
@@ -181,8 +229,11 @@ const PublicRouteWithChildren =
 
 export interface FileRoutesByFullPath {
   '': typeof PublicRouteWithChildren
+  '/clients': typeof PrivateClientsRoute
+  '/codes': typeof PrivateCodesRoute
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
+  '/resources': typeof PrivateResourcesRoute
   '/login': typeof PublicLoginRoute
   '/task': typeof PublicTaskRoute
   '/': typeof PublicIndexRoute
@@ -192,8 +243,11 @@ export interface FileRoutesByFullPath {
 
 export interface FileRoutesByTo {
   '': typeof PrivateRouteWithChildren
+  '/clients': typeof PrivateClientsRoute
+  '/codes': typeof PrivateCodesRoute
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
+  '/resources': typeof PrivateResourcesRoute
   '/login': typeof PublicLoginRoute
   '/task': typeof PublicTaskRoute
   '/': typeof PublicIndexRoute
@@ -205,8 +259,11 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_private': typeof PrivateRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/_private/clients': typeof PrivateClientsRoute
+  '/_private/codes': typeof PrivateCodesRoute
   '/_private/logout': typeof PrivateLogoutRoute
   '/_private/projects': typeof PrivateProjectsRoute
+  '/_private/resources': typeof PrivateResourcesRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/task': typeof PublicTaskRoute
   '/_public/': typeof PublicIndexRoute
@@ -218,8 +275,11 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | ''
+    | '/clients'
+    | '/codes'
     | '/logout'
     | '/projects'
+    | '/resources'
     | '/login'
     | '/task'
     | '/'
@@ -228,8 +288,11 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
+    | '/clients'
+    | '/codes'
     | '/logout'
     | '/projects'
+    | '/resources'
     | '/login'
     | '/task'
     | '/'
@@ -239,8 +302,11 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_private'
     | '/_public'
+    | '/_private/clients'
+    | '/_private/codes'
     | '/_private/logout'
     | '/_private/projects'
+    | '/_private/resources'
     | '/_public/login'
     | '/_public/task'
     | '/_public/'
@@ -276,8 +342,11 @@ export const routeTree = rootRoute
     "/_private": {
       "filePath": "_private.jsx",
       "children": [
+        "/_private/clients",
+        "/_private/codes",
         "/_private/logout",
         "/_private/projects",
+        "/_private/resources",
         "/_private/projects_/$projectId",
         "/_private/tasks/$taskId"
       ]
@@ -290,12 +359,24 @@ export const routeTree = rootRoute
         "/_public/"
       ]
     },
+    "/_private/clients": {
+      "filePath": "_private/clients.jsx",
+      "parent": "/_private"
+    },
+    "/_private/codes": {
+      "filePath": "_private/codes.jsx",
+      "parent": "/_private"
+    },
     "/_private/logout": {
       "filePath": "_private/logout.jsx",
       "parent": "/_private"
     },
     "/_private/projects": {
       "filePath": "_private/projects.jsx",
+      "parent": "/_private"
+    },
+    "/_private/resources": {
+      "filePath": "_private/resources.jsx",
       "parent": "/_private"
     },
     "/_public/login": {
