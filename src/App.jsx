@@ -13,7 +13,7 @@ import useFetchCurrentUser from './modules/auth/hooks/useFetchCurrentUser'
 const queryClient = new QueryClient()
 
 function App() {
-  const { currentUser, setCurrentUser } = useFetchCurrentUser(); // hook que maneja estado Current User
+  const { currentUser, setCurrentUser, isLoading } = useFetchCurrentUser(); // hook que maneja estado Current User
 
   const router = useMemo(
     () =>
@@ -31,7 +31,7 @@ function App() {
     [currentUser, setCurrentUser]
   )
 
-  if (!router) {
+  if (!router || isLoading) {
     return <div className={`p-2 text-2xl`}>Cargando... <Spinner /></div>
   }
   return (

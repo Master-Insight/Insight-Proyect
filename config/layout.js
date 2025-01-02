@@ -9,6 +9,12 @@ const config = {
       { name: 'Logout', path: '/logout' },
     ],
   },
+  idleUser: {
+    data: {
+      given_name: 'idle', // Este dato se verifica en private
+      full_name: 'Iniciando Usuario'
+    }
+  },
   publicUser: {
     data: {
       given_name: 'public', // Este dato se verifica en private
