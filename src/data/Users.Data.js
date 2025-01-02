@@ -22,3 +22,25 @@ export const usersListQueryOptions = queryOptions({
   queryKey: ['usersList'],
   queryFn: () => getUserList()
 })
+
+
+// * ----------------  GETS Detail Users List ----------------
+// AXIOS
+export const getDetailUserList = async () => {
+  try {
+    const response = await myAxios.get(`/v1/users/associates`);
+    const users = response.data?.data || null;
+    return users;
+  } catch (error) {
+    throw new Response('Error al cargar los datos', {
+      status: 500,
+      statusText: error.message,
+    });
+  }
+};
+
+// TANSTACK QUERY
+export const detailUsersListQueryOptions = queryOptions({
+  queryKey: ['detailUsersList'],
+  queryFn: () => getDetailUserList()
+})
