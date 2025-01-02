@@ -8,6 +8,7 @@ const config = {
       { name: 'Proyectos', path: '/projects' },
       { name: 'Recursos', path: '/resources' },
       { name: 'Code', path: '/codes' },
+      { name: 'Asociados', path: '/asociates' },
       { name: 'Clientes', path: '/clients' },
       { name: 'Logout', path: '/logout' },
     ],
