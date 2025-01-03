@@ -22,7 +22,8 @@ const config = {
   publicUser: {
     data: {
       given_name: 'public', // Este dato se verifica en private
-      full_name: 'Usuario no logueado'
+      full_name: 'Usuario no logueado',
+      role: 'public',
     }
   },
   path: {
