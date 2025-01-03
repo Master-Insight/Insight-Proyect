@@ -15,6 +15,7 @@ import { Route as PublicImport } from './routes/_public'
 import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as PublicTaskImport } from './routes/_public/task'
+import { Route as PublicServicesImport } from './routes/_public/services'
 import { Route as PublicLoginImport } from './routes/_public/login'
 import { Route as PrivateResourcesImport } from './routes/_private/resources'
 import { Route as PrivateProjectsImport } from './routes/_private/projects'
@@ -47,6 +48,12 @@ const PublicIndexRoute = PublicIndexImport.update({
 const PublicTaskRoute = PublicTaskImport.update({
   id: '/task',
   path: '/task',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicServicesRoute = PublicServicesImport.update({
+  id: '/services',
+  path: '/services',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -177,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicLoginImport
       parentRoute: typeof PublicImport
     }
+    '/_public/services': {
+      id: '/_public/services'
+      path: '/services'
+      fullPath: '/services'
+      preLoaderRoute: typeof PublicServicesImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/task': {
       id: '/_public/task'
       path: '/task'
@@ -246,12 +260,14 @@ const PrivateRouteWithChildren =
 
 interface PublicRouteChildren {
   PublicLoginRoute: typeof PublicLoginRoute
+  PublicServicesRoute: typeof PublicServicesRoute
   PublicTaskRoute: typeof PublicTaskRoute
   PublicIndexRoute: typeof PublicIndexRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
   PublicLoginRoute: PublicLoginRoute,
+  PublicServicesRoute: PublicServicesRoute,
   PublicTaskRoute: PublicTaskRoute,
   PublicIndexRoute: PublicIndexRoute,
 }
@@ -268,6 +284,7 @@ export interface FileRoutesByFullPath {
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
   '/login': typeof PublicLoginRoute
+  '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
@@ -284,6 +301,7 @@ export interface FileRoutesByTo {
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
   '/login': typeof PublicLoginRoute
+  '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
@@ -302,6 +320,7 @@ export interface FileRoutesById {
   '/_private/projects': typeof PrivateProjectsRoute
   '/_private/resources': typeof PrivateResourcesRoute
   '/_public/login': typeof PublicLoginRoute
+  '/_public/services': typeof PublicServicesRoute
   '/_public/task': typeof PublicTaskRoute
   '/_public/': typeof PublicIndexRoute
   '/_private/projects_/$projectId': typeof PrivateProjectsProjectIdRoute
@@ -320,6 +339,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resources'
     | '/login'
+    | '/services'
     | '/task'
     | '/'
     | '/projects/$projectId'
@@ -335,6 +355,7 @@ export interface FileRouteTypes {
     | '/projects'
     | '/resources'
     | '/login'
+    | '/services'
     | '/task'
     | '/'
     | '/projects/$projectId'
@@ -351,6 +372,7 @@ export interface FileRouteTypes {
     | '/_private/projects'
     | '/_private/resources'
     | '/_public/login'
+    | '/_public/services'
     | '/_public/task'
     | '/_public/'
     | '/_private/projects_/$projectId'
@@ -401,6 +423,7 @@ export const routeTree = rootRoute
       "filePath": "_public.jsx",
       "children": [
         "/_public/login",
+        "/_public/services",
         "/_public/task",
         "/_public/"
       ]
@@ -431,6 +454,10 @@ export const routeTree = rootRoute
     },
     "/_public/login": {
       "filePath": "_public/login.jsx",
+      "parent": "/_public"
+    },
+    "/_public/services": {
+      "filePath": "_public/services.jsx",
       "parent": "/_public"
     },
     "/_public/task": {

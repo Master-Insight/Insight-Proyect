@@ -2,6 +2,7 @@ const config = {
   navbar: {
     default: [
       { name: 'Home', path: '/' },
+      { name: 'Servicios', path: '/services' },
       { name: 'Login', path: '/login' },
     ],
     private: [
