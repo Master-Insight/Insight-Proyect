@@ -21,4 +21,20 @@ myAxios.interceptors.request.use((config) => {
   return Promise.reject(error);
 });
 
+// Interceptor de respuestas
+myAxios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // console.log("Error interceptor");
+    // console.log(error);
+
+    if (error.response && error.response.status === 401) {
+      // Redirige al login si no está autenticado
+      localStorage.clear()
+      window.location.href = '/login';
+    }
+    return Promise.reject(error);
+  }
+);
+
 export default myAxios;

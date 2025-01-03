@@ -2,17 +2,29 @@ const config = {
   navbar: {
     default: [
       { name: 'Home', path: '/' },
+      { name: 'Servicios', path: '/services' },
       { name: 'Login', path: '/login' },
     ],
     private: [
       { name: 'Proyectos', path: '/projects' },
+      { name: 'Recursos', path: '/resources' },
+      { name: 'Code', path: '/codes' },
+      { name: 'Asociados', path: '/asociates' },
+      { name: 'Clientes', path: '/clients' },
       { name: 'Logout', path: '/logout' },
     ],
+  },
+  idleUser: {
+    data: {
+      given_name: 'idle', // Este dato se verifica en private
+      full_name: 'Iniciando Usuario'
+    }
   },
   publicUser: {
     data: {
       given_name: 'public', // Este dato se verifica en private
-      full_name: 'Usuario no logueado'
+      full_name: 'Usuario no logueado',
+      role: 'public',
     }
   },
   path: {
