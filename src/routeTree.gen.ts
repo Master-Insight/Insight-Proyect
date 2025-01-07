@@ -17,6 +17,7 @@ import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as PublicTaskImport } from './routes/_public/task'
 import { Route as PublicServicesImport } from './routes/_public/services'
 import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PublicAboutImport } from './routes/_public/about'
 import { Route as PrivateResourcesImport } from './routes/_private/resources'
 import { Route as PrivateProjectsImport } from './routes/_private/projects'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
@@ -60,6 +61,12 @@ const PublicServicesRoute = PublicServicesImport.update({
 const PublicLoginRoute = PublicLoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicAboutRoute = PublicAboutImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -177,6 +184,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateResourcesImport
       parentRoute: typeof PrivateImport
     }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/login': {
       id: '/_public/login'
       path: '/login'
@@ -259,6 +273,7 @@ const PrivateRouteWithChildren =
   PrivateRoute._addFileChildren(PrivateRouteChildren)
 
 interface PublicRouteChildren {
+  PublicAboutRoute: typeof PublicAboutRoute
   PublicLoginRoute: typeof PublicLoginRoute
   PublicServicesRoute: typeof PublicServicesRoute
   PublicTaskRoute: typeof PublicTaskRoute
@@ -266,6 +281,7 @@ interface PublicRouteChildren {
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicAboutRoute: PublicAboutRoute,
   PublicLoginRoute: PublicLoginRoute,
   PublicServicesRoute: PublicServicesRoute,
   PublicTaskRoute: PublicTaskRoute,
@@ -283,6 +299,7 @@ export interface FileRoutesByFullPath {
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
+  '/about': typeof PublicAboutRoute
   '/login': typeof PublicLoginRoute
   '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
@@ -300,6 +317,7 @@ export interface FileRoutesByTo {
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
+  '/about': typeof PublicAboutRoute
   '/login': typeof PublicLoginRoute
   '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
@@ -319,6 +337,7 @@ export interface FileRoutesById {
   '/_private/logout': typeof PrivateLogoutRoute
   '/_private/projects': typeof PrivateProjectsRoute
   '/_private/resources': typeof PrivateResourcesRoute
+  '/_public/about': typeof PublicAboutRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/services': typeof PublicServicesRoute
   '/_public/task': typeof PublicTaskRoute
@@ -338,6 +357,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/projects'
     | '/resources'
+    | '/about'
     | '/login'
     | '/services'
     | '/task'
@@ -354,6 +374,7 @@ export interface FileRouteTypes {
     | '/logout'
     | '/projects'
     | '/resources'
+    | '/about'
     | '/login'
     | '/services'
     | '/task'
@@ -371,6 +392,7 @@ export interface FileRouteTypes {
     | '/_private/logout'
     | '/_private/projects'
     | '/_private/resources'
+    | '/_public/about'
     | '/_public/login'
     | '/_public/services'
     | '/_public/task'
@@ -422,6 +444,7 @@ export const routeTree = rootRoute
     "/_public": {
       "filePath": "_public.jsx",
       "children": [
+        "/_public/about",
         "/_public/login",
         "/_public/services",
         "/_public/task",
@@ -451,6 +474,10 @@ export const routeTree = rootRoute
     "/_private/resources": {
       "filePath": "_private/resources.jsx",
       "parent": "/_private"
+    },
+    "/_public/about": {
+      "filePath": "_public/about.jsx",
+      "parent": "/_public"
     },
     "/_public/login": {
       "filePath": "_public/login.jsx",

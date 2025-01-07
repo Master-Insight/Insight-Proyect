@@ -3,6 +3,7 @@ const config = {
     default: [
       { name: 'Home', path: '/' },
       { name: 'Servicios', path: '/services' },
+      { name: 'Conocenos', path: '/about' },
       { name: 'Login', path: '/login' },
     ],
     private: [
