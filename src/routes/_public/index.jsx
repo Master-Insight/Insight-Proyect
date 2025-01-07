@@ -9,16 +9,16 @@ export const Route = createFileRoute('/_public/')({
 function RouteComponent() {
   return (
     <FrameAbs>
-      <div className="bg-gradient-to-r from-primary-dark via-primary via-20% to-white
-      text-white text-center py-16 rounded-3xl flex items-center">
-        <div className='w-1/3'>
-          <img src="/logos/Insight_blanco.png" className='h-60 p-8 m-auto' alt="Logo Insight" />
+      <div className="bg-gradient-to-r from-gray-200 via-gray-100 via-20% to-white
+      text-white text-center py-16 rounded-3xl flex items-center flex-col">
+        <div className="w-full">
+          <img src="/img/Fondo1.webp" className="w-full h-60 object-cover rounded-3xl" alt="Fondo Insight" />
         </div>
-        <div className="w-1/3 flex flex-col max-w-2xl mx-auto">
-          <h1 className="text-4xl font-bold mb-4 text-left">
+        <div className="w-2/3 flex flex-col max-w-2xl mx-auto mt-8">
+          <h1 className="text-4xl text-primary font-bold mb-4">
             Bienvenido a Insight
           </h1>
-          <p className="mb-6  text-left">
+          <p className="mb-6 text-primary">
             Transformamos ideas en soluciones digitales. Únete a nosotros o
             descubre cómo podemos llevar tu negocio al siguiente nivel.
           </p>
@@ -31,17 +31,17 @@ function RouteComponent() {
             </button>
           </div>
         </div>
-        <div className='w-1/3'></div>
       </div>
 
       {/* Sección Home */}
       <section id="home" className="text-center py-16">
         <h2 className="text-3xl font-bold mb-4">Por qué elegir Insight</h2>
         <p className="mb-6">
-          Somos un equipo de expertos en tecnología, diseño y marketing
-          digital, dedicados a crear soluciones que impulsen tu negocio.
+          Somos un equipo de expertos en tecnología dedicados a crear soluciones que impulsen tu negocio.
+          Y como nos tomamos muy en serio tu necesidad y tu tiempo, queremos hacer las soluciones más simples y efectivas para superar tus expectativas.
         </p>
-        <img src="/assets/innovation.jpg" alt="Innovación Insight" className="mx-auto rounded-lg shadow-lg" />
+        <p>Redoblemos la apuesta juntos.</p>
+        <img src="/img/maxim-hopman-8vn4KvfU640-unsplash.jpg" alt="Innovación Insight" className="mx-auto w-1/3 rounded-lg shadow-lg" />
       </section>
 
       {/* Sección Servicios */}
