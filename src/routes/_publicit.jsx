@@ -14,14 +14,14 @@ function RouteComponent() {
   const { currentUser, isLoading } = Route.useRouteContext()
   // console.log("Public: ", currentUser);
 
-  const navigate = Route.useNavigate();
+  // const navigate = Route.useNavigate();
 
-  useEffect(() => {
-    if (!isLoading && currentUser?.data.role !== 'public') {
-      // Si no es público, redirigir al privado
-      navigate({ to: config.path.login });
-    }
-  }, [currentUser, isLoading, navigate])
+  // useEffect(() => {
+  //   if (!isLoading && currentUser?.data.role !== 'public') {
+  //     // Si no es público, redirigir al privado
+  //     navigate({ to: config.path.login });
+  //   }
+  // }, [currentUser, isLoading, navigate])
 
   if (isLoading) {
     return <div className={`p-2 text-2xl`}>Cargando... <Spinner /></div>
