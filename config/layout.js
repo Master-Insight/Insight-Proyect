@@ -3,6 +3,13 @@ const config = {
     default: [
       { name: 'Home', path: '/' },
       { name: 'Servicios', path: '/services' },
+      { name: 'Conocenos', path: '/about' },
+      { name: 'Login', path: '/login' },
+    ],
+    public_It: [
+      { name: 'Home', path: '/introit' },
+      { name: 'Servicios', path: '/servicesit' },
+      { name: 'Conocenos', path: '/aboutit' },
       { name: 'Login', path: '/login' },
     ],
     private: [

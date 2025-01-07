@@ -11,12 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as PublicitImport } from './routes/_publicit'
 import { Route as PublicImport } from './routes/_public'
 import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicIndexImport } from './routes/_public/index'
+import { Route as PublicitServicesitImport } from './routes/_publicit/servicesit'
+import { Route as PublicitIntroitImport } from './routes/_publicit/introit'
+import { Route as PublicitAboutitImport } from './routes/_publicit/aboutit'
 import { Route as PublicTaskImport } from './routes/_public/task'
 import { Route as PublicServicesImport } from './routes/_public/services'
 import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PublicAboutImport } from './routes/_public/about'
 import { Route as PrivateResourcesImport } from './routes/_private/resources'
 import { Route as PrivateProjectsImport } from './routes/_private/projects'
 import { Route as PrivateLogoutImport } from './routes/_private/logout'
@@ -28,6 +33,11 @@ import { Route as PrivateTasksTaskIdImport } from './routes/_private/tasks.$task
 import { Route as PrivateProjectsProjectIdImport } from './routes/_private/projects_.$projectId'
 
 // Create/Update Routes
+
+const PublicitRoute = PublicitImport.update({
+  id: '/_publicit',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PublicRoute = PublicImport.update({
   id: '/_public',
@@ -45,6 +55,24 @@ const PublicIndexRoute = PublicIndexImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const PublicitServicesitRoute = PublicitServicesitImport.update({
+  id: '/servicesit',
+  path: '/servicesit',
+  getParentRoute: () => PublicitRoute,
+} as any)
+
+const PublicitIntroitRoute = PublicitIntroitImport.update({
+  id: '/introit',
+  path: '/introit',
+  getParentRoute: () => PublicitRoute,
+} as any)
+
+const PublicitAboutitRoute = PublicitAboutitImport.update({
+  id: '/aboutit',
+  path: '/aboutit',
+  getParentRoute: () => PublicitRoute,
+} as any)
+
 const PublicTaskRoute = PublicTaskImport.update({
   id: '/task',
   path: '/task',
@@ -60,6 +88,12 @@ const PublicServicesRoute = PublicServicesImport.update({
 const PublicLoginRoute = PublicLoginImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicAboutRoute = PublicAboutImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => PublicRoute,
 } as any)
 
@@ -135,6 +169,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
+    '/_publicit': {
+      id: '/_publicit'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PublicitImport
+      parentRoute: typeof rootRoute
+    }
     '/_private/asociates': {
       id: '/_private/asociates'
       path: '/asociates'
@@ -177,6 +218,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateResourcesImport
       parentRoute: typeof PrivateImport
     }
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/login': {
       id: '/_public/login'
       path: '/login'
@@ -197,6 +245,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/task'
       preLoaderRoute: typeof PublicTaskImport
       parentRoute: typeof PublicImport
+    }
+    '/_publicit/aboutit': {
+      id: '/_publicit/aboutit'
+      path: '/aboutit'
+      fullPath: '/aboutit'
+      preLoaderRoute: typeof PublicitAboutitImport
+      parentRoute: typeof PublicitImport
+    }
+    '/_publicit/introit': {
+      id: '/_publicit/introit'
+      path: '/introit'
+      fullPath: '/introit'
+      preLoaderRoute: typeof PublicitIntroitImport
+      parentRoute: typeof PublicitImport
+    }
+    '/_publicit/servicesit': {
+      id: '/_publicit/servicesit'
+      path: '/servicesit'
+      fullPath: '/servicesit'
+      preLoaderRoute: typeof PublicitServicesitImport
+      parentRoute: typeof PublicitImport
     }
     '/_public/': {
       id: '/_public/'
@@ -259,6 +328,7 @@ const PrivateRouteWithChildren =
   PrivateRoute._addFileChildren(PrivateRouteChildren)
 
 interface PublicRouteChildren {
+  PublicAboutRoute: typeof PublicAboutRoute
   PublicLoginRoute: typeof PublicLoginRoute
   PublicServicesRoute: typeof PublicServicesRoute
   PublicTaskRoute: typeof PublicTaskRoute
@@ -266,6 +336,7 @@ interface PublicRouteChildren {
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
+  PublicAboutRoute: PublicAboutRoute,
   PublicLoginRoute: PublicLoginRoute,
   PublicServicesRoute: PublicServicesRoute,
   PublicTaskRoute: PublicTaskRoute,
@@ -275,17 +346,37 @@ const PublicRouteChildren: PublicRouteChildren = {
 const PublicRouteWithChildren =
   PublicRoute._addFileChildren(PublicRouteChildren)
 
+interface PublicitRouteChildren {
+  PublicitAboutitRoute: typeof PublicitAboutitRoute
+  PublicitIntroitRoute: typeof PublicitIntroitRoute
+  PublicitServicesitRoute: typeof PublicitServicesitRoute
+}
+
+const PublicitRouteChildren: PublicitRouteChildren = {
+  PublicitAboutitRoute: PublicitAboutitRoute,
+  PublicitIntroitRoute: PublicitIntroitRoute,
+  PublicitServicesitRoute: PublicitServicesitRoute,
+}
+
+const PublicitRouteWithChildren = PublicitRoute._addFileChildren(
+  PublicitRouteChildren,
+)
+
 export interface FileRoutesByFullPath {
-  '': typeof PublicRouteWithChildren
+  '': typeof PublicitRouteWithChildren
   '/asociates': typeof PrivateAsociatesRoute
   '/clients': typeof PrivateClientsRoute
   '/codes': typeof PrivateCodesRoute
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
+  '/about': typeof PublicAboutRoute
   '/login': typeof PublicLoginRoute
   '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
+  '/aboutit': typeof PublicitAboutitRoute
+  '/introit': typeof PublicitIntroitRoute
+  '/servicesit': typeof PublicitServicesitRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -293,16 +384,20 @@ export interface FileRoutesByFullPath {
 }
 
 export interface FileRoutesByTo {
-  '': typeof PrivateRouteWithChildren
+  '': typeof PublicitRouteWithChildren
   '/asociates': typeof PrivateAsociatesRoute
   '/clients': typeof PrivateClientsRoute
   '/codes': typeof PrivateCodesRoute
   '/logout': typeof PrivateLogoutRoute
   '/projects': typeof PrivateProjectsRoute
   '/resources': typeof PrivateResourcesRoute
+  '/about': typeof PublicAboutRoute
   '/login': typeof PublicLoginRoute
   '/services': typeof PublicServicesRoute
   '/task': typeof PublicTaskRoute
+  '/aboutit': typeof PublicitAboutitRoute
+  '/introit': typeof PublicitIntroitRoute
+  '/servicesit': typeof PublicitServicesitRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -313,15 +408,20 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_private': typeof PrivateRouteWithChildren
   '/_public': typeof PublicRouteWithChildren
+  '/_publicit': typeof PublicitRouteWithChildren
   '/_private/asociates': typeof PrivateAsociatesRoute
   '/_private/clients': typeof PrivateClientsRoute
   '/_private/codes': typeof PrivateCodesRoute
   '/_private/logout': typeof PrivateLogoutRoute
   '/_private/projects': typeof PrivateProjectsRoute
   '/_private/resources': typeof PrivateResourcesRoute
+  '/_public/about': typeof PublicAboutRoute
   '/_public/login': typeof PublicLoginRoute
   '/_public/services': typeof PublicServicesRoute
   '/_public/task': typeof PublicTaskRoute
+  '/_publicit/aboutit': typeof PublicitAboutitRoute
+  '/_publicit/introit': typeof PublicitIntroitRoute
+  '/_publicit/servicesit': typeof PublicitServicesitRoute
   '/_public/': typeof PublicIndexRoute
   '/_private/projects_/$projectId': typeof PrivateProjectsProjectIdRoute
   '/_private/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -338,9 +438,13 @@ export interface FileRouteTypes {
     | '/logout'
     | '/projects'
     | '/resources'
+    | '/about'
     | '/login'
     | '/services'
     | '/task'
+    | '/aboutit'
+    | '/introit'
+    | '/servicesit'
     | '/'
     | '/projects/$projectId'
     | '/tasks/$taskId'
@@ -354,9 +458,13 @@ export interface FileRouteTypes {
     | '/logout'
     | '/projects'
     | '/resources'
+    | '/about'
     | '/login'
     | '/services'
     | '/task'
+    | '/aboutit'
+    | '/introit'
+    | '/servicesit'
     | '/'
     | '/projects/$projectId'
     | '/tasks/$taskId'
@@ -365,15 +473,20 @@ export interface FileRouteTypes {
     | '__root__'
     | '/_private'
     | '/_public'
+    | '/_publicit'
     | '/_private/asociates'
     | '/_private/clients'
     | '/_private/codes'
     | '/_private/logout'
     | '/_private/projects'
     | '/_private/resources'
+    | '/_public/about'
     | '/_public/login'
     | '/_public/services'
     | '/_public/task'
+    | '/_publicit/aboutit'
+    | '/_publicit/introit'
+    | '/_publicit/servicesit'
     | '/_public/'
     | '/_private/projects_/$projectId'
     | '/_private/tasks/$taskId'
@@ -384,11 +497,13 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   PrivateRoute: typeof PrivateRouteWithChildren
   PublicRoute: typeof PublicRouteWithChildren
+  PublicitRoute: typeof PublicitRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
   PrivateRoute: PrivateRouteWithChildren,
   PublicRoute: PublicRouteWithChildren,
+  PublicitRoute: PublicitRouteWithChildren,
 }
 
 export const routeTree = rootRoute
@@ -402,7 +517,8 @@ export const routeTree = rootRoute
       "filePath": "__root.jsx",
       "children": [
         "/_private",
-        "/_public"
+        "/_public",
+        "/_publicit"
       ]
     },
     "/_private": {
@@ -422,10 +538,19 @@ export const routeTree = rootRoute
     "/_public": {
       "filePath": "_public.jsx",
       "children": [
+        "/_public/about",
         "/_public/login",
         "/_public/services",
         "/_public/task",
         "/_public/"
+      ]
+    },
+    "/_publicit": {
+      "filePath": "_publicit.jsx",
+      "children": [
+        "/_publicit/aboutit",
+        "/_publicit/introit",
+        "/_publicit/servicesit"
       ]
     },
     "/_private/asociates": {
@@ -452,6 +577,10 @@ export const routeTree = rootRoute
       "filePath": "_private/resources.jsx",
       "parent": "/_private"
     },
+    "/_public/about": {
+      "filePath": "_public/about.jsx",
+      "parent": "/_public"
+    },
     "/_public/login": {
       "filePath": "_public/login.jsx",
       "parent": "/_public"
@@ -463,6 +592,18 @@ export const routeTree = rootRoute
     "/_public/task": {
       "filePath": "_public/task.jsx",
       "parent": "/_public"
+    },
+    "/_publicit/aboutit": {
+      "filePath": "_publicit/aboutit.jsx",
+      "parent": "/_publicit"
+    },
+    "/_publicit/introit": {
+      "filePath": "_publicit/introit.jsx",
+      "parent": "/_publicit"
+    },
+    "/_publicit/servicesit": {
+      "filePath": "_publicit/servicesit.jsx",
+      "parent": "/_publicit"
     },
     "/_public/": {
       "filePath": "_public/index.jsx",
