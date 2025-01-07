@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { createFileRoute } from '@tanstack/react-router'
+import { createFileRoute, Link } from '@tanstack/react-router'
 import FrameAbs from '../../ui/Divs/FrameAbs'
 
 export const Route = createFileRoute('/_public/')({
@@ -26,9 +26,9 @@ function RouteComponent() {
             <button className="bg-primary hover:bg-primary-darker text-white py-2 px-4 rounded">
               Descubre nuestros servicios
             </button>
-            <button className="bg-tertiary hover:bg-tertiary-darker text-white py-2 px-4 rounded">
+            <Link to="/introit" className="bg-tertiary hover:bg-tertiary-darker text-white py-2 px-4 rounded">
               Únete como Desarrollador IT
-            </button>
+            </Link>
           </div>
         </div>
       </div>

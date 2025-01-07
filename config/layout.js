@@ -6,6 +6,12 @@ const config = {
       { name: 'Conocenos', path: '/about' },
       { name: 'Login', path: '/login' },
     ],
+    public_It: [
+      { name: 'Home', path: '/introit' },
+      { name: 'Servicios', path: '/servicesit' },
+      { name: 'Conocenos', path: '/aboutit' },
+      { name: 'Login', path: '/login' },
+    ],
     private: [
       { name: 'Proyectos', path: '/projects' },
       { name: 'Recursos', path: '/resources' },
