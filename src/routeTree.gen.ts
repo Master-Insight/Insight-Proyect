@@ -28,6 +28,7 @@ import { Route as PrivateLogoutImport } from './routes/_private/logout'
 import { Route as PrivateCodesImport } from './routes/_private/codes'
 import { Route as PrivateClientsImport } from './routes/_private/clients'
 import { Route as PrivateAsociatesImport } from './routes/_private/asociates'
+import { Route as PublicServicesSlugImport } from './routes/_public/services_.$slug'
 import { Route as PrivateUserIdImport } from './routes/_private/user_.$id'
 import { Route as PrivateTasksTaskIdImport } from './routes/_private/tasks.$taskId'
 import { Route as PrivateProjectsProjectIdImport } from './routes/_private/projects_.$projectId'
@@ -131,6 +132,12 @@ const PrivateAsociatesRoute = PrivateAsociatesImport.update({
   id: '/asociates',
   path: '/asociates',
   getParentRoute: () => PrivateRoute,
+} as any)
+
+const PublicServicesSlugRoute = PublicServicesSlugImport.update({
+  id: '/services_/$slug',
+  path: '/services/$slug',
+  getParentRoute: () => PublicRoute,
 } as any)
 
 const PrivateUserIdRoute = PrivateUserIdImport.update({
@@ -295,6 +302,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PrivateUserIdImport
       parentRoute: typeof PrivateImport
     }
+    '/_public/services_/$slug': {
+      id: '/_public/services_/$slug'
+      path: '/services/$slug'
+      fullPath: '/services/$slug'
+      preLoaderRoute: typeof PublicServicesSlugImport
+      parentRoute: typeof PublicImport
+    }
   }
 }
 
@@ -333,6 +347,7 @@ interface PublicRouteChildren {
   PublicServicesRoute: typeof PublicServicesRoute
   PublicTaskRoute: typeof PublicTaskRoute
   PublicIndexRoute: typeof PublicIndexRoute
+  PublicServicesSlugRoute: typeof PublicServicesSlugRoute
 }
 
 const PublicRouteChildren: PublicRouteChildren = {
@@ -341,6 +356,7 @@ const PublicRouteChildren: PublicRouteChildren = {
   PublicServicesRoute: PublicServicesRoute,
   PublicTaskRoute: PublicTaskRoute,
   PublicIndexRoute: PublicIndexRoute,
+  PublicServicesSlugRoute: PublicServicesSlugRoute,
 }
 
 const PublicRouteWithChildren =
@@ -381,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
   '/user/$id': typeof PrivateUserIdRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
 }
 
 export interface FileRoutesByTo {
@@ -402,6 +419,7 @@ export interface FileRoutesByTo {
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
   '/user/$id': typeof PrivateUserIdRoute
+  '/services/$slug': typeof PublicServicesSlugRoute
 }
 
 export interface FileRoutesById {
@@ -426,6 +444,7 @@ export interface FileRoutesById {
   '/_private/projects_/$projectId': typeof PrivateProjectsProjectIdRoute
   '/_private/tasks/$taskId': typeof PrivateTasksTaskIdRoute
   '/_private/user_/$id': typeof PrivateUserIdRoute
+  '/_public/services_/$slug': typeof PublicServicesSlugRoute
 }
 
 export interface FileRouteTypes {
@@ -449,6 +468,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId'
     | '/tasks/$taskId'
     | '/user/$id'
+    | '/services/$slug'
   fileRoutesByTo: FileRoutesByTo
   to:
     | ''
@@ -469,6 +489,7 @@ export interface FileRouteTypes {
     | '/projects/$projectId'
     | '/tasks/$taskId'
     | '/user/$id'
+    | '/services/$slug'
   id:
     | '__root__'
     | '/_private'
@@ -491,6 +512,7 @@ export interface FileRouteTypes {
     | '/_private/projects_/$projectId'
     | '/_private/tasks/$taskId'
     | '/_private/user_/$id'
+    | '/_public/services_/$slug'
   fileRoutesById: FileRoutesById
 }
 
@@ -542,7 +564,8 @@ export const routeTree = rootRoute
         "/_public/login",
         "/_public/services",
         "/_public/task",
-        "/_public/"
+        "/_public/",
+        "/_public/services_/$slug"
       ]
     },
     "/_publicit": {
@@ -620,6 +643,10 @@ export const routeTree = rootRoute
     "/_private/user_/$id": {
       "filePath": "_private/user_.$id.jsx",
       "parent": "/_private"
+    },
+    "/_public/services_/$slug": {
+      "filePath": "_public/services_.$slug.jsx",
+      "parent": "/_public"
     }
   }
 }
