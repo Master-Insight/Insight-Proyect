@@ -1,4 +1,4 @@
-import dayjs from "dayjs";
+import { Link } from "@tanstack/react-router";
 
 const CardService = ({ item, config }) => {
   const {
@@ -6,7 +6,6 @@ const CardService = ({ item, config }) => {
     title,
     description,
     image,
-    price,
     characteristics,
     tags,
   } = item;
@@ -18,7 +17,7 @@ const CardService = ({ item, config }) => {
       <img
         src={image}
         alt={`Imagen de ${title}`}
-        className="h-32 w-32 sm:h-40 sm:w-40 object-cover rounded"
+        className="h-32 w-32 sm:h-60 sm:w-60 object-cover rounded"
       />
 
       {/* Información del servicio */}
@@ -50,11 +49,14 @@ const CardService = ({ item, config }) => {
           </div>
         </div>
 
-        {/* Precio */}
+        {/* Botón para más detalles */}
         <div className="mt-4 sm:mt-0">
-          <p className="text-lg font-semibold text-green-600">
-            Precio: ${price.toLocaleString()} ➡️ (esto luego ocultar)
-          </p>
+          <Link
+            to={`/services/${slug}`}
+            className="px-4 py-2 bg-primary text-white font-semibold rounded hover:bg-primary-dark transition-colors"
+          >
+            Ver Detalles
+          </Link>
         </div>
       </div>
     </div>
