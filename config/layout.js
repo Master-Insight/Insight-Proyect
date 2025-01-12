@@ -8,7 +8,7 @@ const config = {
     ],
     public_It: [
       { name: 'Home', path: '/introit' },
-      { name: 'Servicios', path: '/servicesit' },
+      { name: 'Participa', path: '/participa' },
       { name: 'Conocenos', path: '/aboutit' },
       { name: 'Login', path: '/login' },
     ],
