@@ -9,6 +9,7 @@ export const Route = createFileRoute('/_public/')({
 function RouteComponent() {
   return (
     <FrameAbs>
+      {/* Hero inicial */}
       <div className="bg-gradient-to-r from-gray-200 via-gray-100 via-20% to-white
       text-white text-center py-16 rounded-3xl flex items-center flex-col">
         <div className="w-full">
@@ -23,9 +24,9 @@ function RouteComponent() {
             descubre cómo podemos llevar tu negocio al siguiente nivel.
           </p>
           <div className="flex justify-center gap-4">
-            <button className="bg-primary hover:bg-primary-darker text-white py-2 px-4 rounded">
+            <Link to="/services" className="bg-primary hover:bg-primary-darker text-white py-2 px-4 rounded">
               Descubre nuestros servicios
-            </button>
+            </Link>
             <Link to="/introit" className="bg-tertiary hover:bg-tertiary-darker text-white py-2 px-4 rounded">
               Únete como Desarrollador IT
             </Link>
@@ -33,7 +34,7 @@ function RouteComponent() {
         </div>
       </div>
 
-      {/* Sección Home */}
+      {/* 2da Sección */}
       <section id="home" className="text-center py-16">
         <h2 className="text-3xl font-bold mb-4">Por qué elegir Insight</h2>
         <p className="mb-6">

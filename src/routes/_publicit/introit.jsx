@@ -28,7 +28,7 @@ function RouteComponent() {
           </p>
           <div className="flex justify-center gap-4">
             <Link
-              to="/apply"
+              to="/participa"
               className="bg-primary hover:bg-primary-darker text-white py-2 px-4 rounded"
             >
               Aplica Ahora

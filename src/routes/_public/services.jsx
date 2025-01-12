@@ -21,7 +21,6 @@ function RouteComponent() {
   const isUser = currentUser.data.role === 'User'
 
   const { data: services, isLoading } = useSuspenseQuery(servicesListQueryOptions) // SERVICES
-  console.log(services);
 
   // Configuración inicial
   const configElements = {
