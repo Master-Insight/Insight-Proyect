@@ -15,6 +15,7 @@ import { Route as PublicitImport } from './routes/_publicit'
 import { Route as PublicImport } from './routes/_public'
 import { Route as PrivateImport } from './routes/_private'
 import { Route as PublicIndexImport } from './routes/_public/index'
+import { Route as PublicitReglasImport } from './routes/_publicit/reglas'
 import { Route as PublicitParticipaImport } from './routes/_publicit/participa'
 import { Route as PublicitIntroitImport } from './routes/_publicit/introit'
 import { Route as PublicitAboutitImport } from './routes/_publicit/aboutit'
@@ -54,6 +55,12 @@ const PublicIndexRoute = PublicIndexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => PublicRoute,
+} as any)
+
+const PublicitReglasRoute = PublicitReglasImport.update({
+  id: '/reglas',
+  path: '/reglas',
+  getParentRoute: () => PublicitRoute,
 } as any)
 
 const PublicitParticipaRoute = PublicitParticipaImport.update({
@@ -274,6 +281,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicitParticipaImport
       parentRoute: typeof PublicitImport
     }
+    '/_publicit/reglas': {
+      id: '/_publicit/reglas'
+      path: '/reglas'
+      fullPath: '/reglas'
+      preLoaderRoute: typeof PublicitReglasImport
+      parentRoute: typeof PublicitImport
+    }
     '/_public/': {
       id: '/_public/'
       path: '/'
@@ -366,12 +380,14 @@ interface PublicitRouteChildren {
   PublicitAboutitRoute: typeof PublicitAboutitRoute
   PublicitIntroitRoute: typeof PublicitIntroitRoute
   PublicitParticipaRoute: typeof PublicitParticipaRoute
+  PublicitReglasRoute: typeof PublicitReglasRoute
 }
 
 const PublicitRouteChildren: PublicitRouteChildren = {
   PublicitAboutitRoute: PublicitAboutitRoute,
   PublicitIntroitRoute: PublicitIntroitRoute,
   PublicitParticipaRoute: PublicitParticipaRoute,
+  PublicitReglasRoute: PublicitReglasRoute,
 }
 
 const PublicitRouteWithChildren = PublicitRoute._addFileChildren(
@@ -393,6 +409,7 @@ export interface FileRoutesByFullPath {
   '/aboutit': typeof PublicitAboutitRoute
   '/introit': typeof PublicitIntroitRoute
   '/participa': typeof PublicitParticipaRoute
+  '/reglas': typeof PublicitReglasRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -415,6 +432,7 @@ export interface FileRoutesByTo {
   '/aboutit': typeof PublicitAboutitRoute
   '/introit': typeof PublicitIntroitRoute
   '/participa': typeof PublicitParticipaRoute
+  '/reglas': typeof PublicitReglasRoute
   '/': typeof PublicIndexRoute
   '/projects/$projectId': typeof PrivateProjectsProjectIdRoute
   '/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -440,6 +458,7 @@ export interface FileRoutesById {
   '/_publicit/aboutit': typeof PublicitAboutitRoute
   '/_publicit/introit': typeof PublicitIntroitRoute
   '/_publicit/participa': typeof PublicitParticipaRoute
+  '/_publicit/reglas': typeof PublicitReglasRoute
   '/_public/': typeof PublicIndexRoute
   '/_private/projects_/$projectId': typeof PrivateProjectsProjectIdRoute
   '/_private/tasks/$taskId': typeof PrivateTasksTaskIdRoute
@@ -464,6 +483,7 @@ export interface FileRouteTypes {
     | '/aboutit'
     | '/introit'
     | '/participa'
+    | '/reglas'
     | '/'
     | '/projects/$projectId'
     | '/tasks/$taskId'
@@ -485,6 +505,7 @@ export interface FileRouteTypes {
     | '/aboutit'
     | '/introit'
     | '/participa'
+    | '/reglas'
     | '/'
     | '/projects/$projectId'
     | '/tasks/$taskId'
@@ -508,6 +529,7 @@ export interface FileRouteTypes {
     | '/_publicit/aboutit'
     | '/_publicit/introit'
     | '/_publicit/participa'
+    | '/_publicit/reglas'
     | '/_public/'
     | '/_private/projects_/$projectId'
     | '/_private/tasks/$taskId'
@@ -573,7 +595,8 @@ export const routeTree = rootRoute
       "children": [
         "/_publicit/aboutit",
         "/_publicit/introit",
-        "/_publicit/participa"
+        "/_publicit/participa",
+        "/_publicit/reglas"
       ]
     },
     "/_private/asociates": {
@@ -626,6 +649,10 @@ export const routeTree = rootRoute
     },
     "/_publicit/participa": {
       "filePath": "_publicit/participa.jsx",
+      "parent": "/_publicit"
+    },
+    "/_publicit/reglas": {
+      "filePath": "_publicit/reglas.jsx",
       "parent": "/_publicit"
     },
     "/_public/": {
