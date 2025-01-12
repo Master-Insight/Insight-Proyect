@@ -3,6 +3,7 @@ import NavMenu from "./NavMenu";
 import PropTypes from 'prop-types';
 import NavUser from "./NavUser";
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
 
 function NavBar({ type = 'public', navLinks, config }) {
   const [isVisible, setIsVisible] = useState(false); // Estado para controlar visibilidad en Mobile
@@ -50,12 +51,12 @@ function NavBar({ type = 'public', navLinks, config }) {
 
           {/* Logo + Menu */}
           <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
-            <div className="flex-shrink-0">
+            <Link to="" className="flex-shrink-0">
               <img
                 src={config.images.logo[0]}
                 alt="Logo Insight"
                 className="w-auto h-12" />
-            </div>
+            </Link>
             {/* Menu */}
             <NavMenu
               layout="desktop"
