@@ -10,6 +10,7 @@ const config = {
       { name: 'Home', path: '/introit' },
       { name: 'Participa', path: '/participa' },
       { name: 'Conocenos', path: '/aboutit' },
+      { name: 'Reglas', path: '/reglas' },
       { name: 'Login', path: '/login' },
     ],
     private: [

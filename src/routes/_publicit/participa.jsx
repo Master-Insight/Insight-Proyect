@@ -1,4 +1,4 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import FrameAbs from '../../ui/Divs/FrameAbs';
 import BackButton from '../../ui/buttons/BackButton2';
 import { useState } from 'react';
@@ -49,9 +49,14 @@ function RouteComponent() {
 
         {/* Despedida */}
         <div className="mt-8">
-          <button className="px-8 py-4 text-lg font-semibold text-white bg-blue-600 rounded-md shadow-md hover:bg-blue-700">
+          <a
+            href="https://forms.gle/P4PvKjpNs5NN7wFDA"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 text-lg font-semibold text-white bg-primary rounded-md shadow-md hover:bg-primary-darker"
+          >
             ¡Únete ahora y transforma tu carrera!
-          </button>
+          </a>
         </div>
       </div>
     </FrameAbs>
